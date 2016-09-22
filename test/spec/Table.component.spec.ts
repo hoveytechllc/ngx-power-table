@@ -50,7 +50,7 @@ describe('TableComponent tests', function () {
     });
 
     var el = createComponent('<table pt-table=""></table>');
-
+    
     var table1 = <TableComponent>el.children[0].injector.get(TableComponent);
     var table2 = <TableComponent>el.children[0].injector.get(TableComponent);
     expect(table1).toEqual(table2);
