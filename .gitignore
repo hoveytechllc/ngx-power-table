@@ -4,3 +4,5 @@ bower_components
 coverage
 .DS_Store
 _test-output
+typings
+test/.output
