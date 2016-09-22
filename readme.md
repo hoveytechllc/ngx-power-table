@@ -10,9 +10,9 @@ Run `npm install` then `npm run test`
 
 ## License
 
-Smart Table module is under MIT license:
+Power Table module is under MIT license:
 
-> Copyright (C) 2016 Laurent Renard.
+> Copyright (C) 2016 Hovey Tech LLC.
 >
 > Permission is hereby granted, free of charge, to any person
 > obtaining a copy of this software and associated documentation files
