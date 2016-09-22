@@ -4,9 +4,8 @@ node_js:
 
 
 before_script:
-  - npm install -g gulp bower
+  - npm install -g ntypescript typings
   - npm install
-  - bower install
 
 script:
-  - gulp build
+  - npm run test
