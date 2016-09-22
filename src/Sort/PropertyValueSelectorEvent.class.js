@@ -5,4 +5,4 @@ var PropertyValueSelectorEvent = (function () {
     return PropertyValueSelectorEvent;
 }());
 exports.PropertyValueSelectorEvent = PropertyValueSelectorEvent;
-//# sourceMappingURL=sort.selector.class.js.map
+//# sourceMappingURL=PropertyValueSelectorEvent.class.js.map

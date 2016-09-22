@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var Table_component_1 = require("./Table.component");
+var Table_directive_1 = require("./../Table/Table.directive");
 var PipeComponent = (function () {
     /**
      *
@@ -20,7 +20,7 @@ var PipeComponent = (function () {
     }
     __decorate([
         core_1.Input(), 
-        __metadata('design:type', Table_component_1.TableComponent)
+        __metadata('design:type', Table_directive_1.TableDirective)
     ], PipeComponent.prototype, "table", void 0);
     __decorate([
         core_1.Output(), 

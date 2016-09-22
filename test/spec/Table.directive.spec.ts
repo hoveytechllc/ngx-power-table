@@ -2,9 +2,9 @@ import { Provider, Type, DebugElement, Component } from "@angular/core";
 import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angular/core/testing';
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 
-import { TableComponent } from "./../../src/Table.component";
-import { SortOrder, SortComponent } from "./../../src/Sort/Sort.component";
-import { ITableState} from './../../src/ITableState.interface';
+import { TableDirective } from "./../../src/Table/Table.directive";
+import { SortOrder, SortDirective } from "./../../src/Sort/Sort.directive";
+import { ITableState} from './../../src/TableState/ITableState.interface';
  
 class TestObject {
 
@@ -17,7 +17,7 @@ class TestObject {
   selector: 'my-test-component',
   template: "<div></div>"
 })
-class TestTableComponent {
+class TestTableDirective {
   public originalData: Array<TestObject>;
   public displayData: Array<TestObject>;
   public tableState: ITableState;
@@ -31,28 +31,28 @@ class TestTableComponent {
   }
 }
 
-describe('TableComponent tests', function () {
+describe('TableDirective tests', function () {
 
-  beforeEach(() => TestBed.configureTestingModule({ declarations: [TestTableComponent, TestComp] }));
+  beforeEach(() => TestBed.configureTestingModule({ declarations: [TestTableDirective, TestComp] }));
 
   it('should be created when [pt-table] on element', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent]
+      declarations: [TableDirective]
     });
 
     var el = createComponent('<table ptTable=""></table>');
-    expect(el.children[0].injector.get(TableComponent)).toBeDefined();
+    expect(el.children[0].injector.get(TableDirective)).toBeDefined();
   });
 
   it('should inject same table instance', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent]
+      declarations: [TableDirective]
     });
 
     var el = createComponent('<table ptTable=""></table>');
 
-    var table1 = <TableComponent>el.children[0].injector.get(TableComponent);
-    var table2 = <TableComponent>el.children[0].injector.get(TableComponent);
+    var table1 = <TableDirective>el.children[0].injector.get(TableDirective);
+    var table2 = <TableDirective>el.children[0].injector.get(TableDirective);
     expect(table1).toEqual(table2);
     table1.tableState.pagination.start = 1;
     expect(table2.tableState.pagination.start).toBe(1);
@@ -60,12 +60,12 @@ describe('TableComponent tests', function () {
 
   it('should initialize tableState when created', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent]
+      declarations: [TableDirective]
     });
 
     var el = createComponent('<table ptTable=""></table>');
 
-    var table = <TableComponent>el.children[0].injector.get(TableComponent);
+    var table = <TableDirective>el.children[0].injector.get(TableDirective);
     var tableState = table.tableState;
     expect(tableState).toBeDefined();
     expect(tableState.pagination.start).toBe(0);
@@ -73,24 +73,24 @@ describe('TableComponent tests', function () {
 
   it('originalArray is populated from parentComponent', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent]
+      declarations: [TableDirective]
     });
 
-    var el = createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableComponent);
+    var el = createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableDirective);
 
-    var table = <TableComponent>el.debugElement.children[0].injector.get(TableComponent);
+    var table = <TableDirective>el.debugElement.children[0].injector.get(TableDirective);
     expect(table.originalArray).toBeDefined();
   });
 
   it('can update tableState from parent controller', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent]
+      declarations: [TableDirective]
     });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState" (ptDisplayData)="displayData"></table>`;
-    var fix = createComponentFixture(template, [], TestTableComponent);
+    var fix = createComponentFixture(template, [], TestTableDirective);
 
-    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
 
     fix.componentInstance.originalData =  new Array<TestObject>();
     fix.detectChanges();
@@ -101,13 +101,13 @@ describe('TableComponent tests', function () {
 
   it('displayArray is set by directive when data sorted', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent, SortComponent]
+      declarations: [TableDirective, SortDirective]
     });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData">
       <thead><tr><th ptSort="id">Header 1</th></tr></thead>
       <tbody><tr><td>Row 1</td></tr></tbody></table>`;
-    var fix = createComponentFixture(template, [], TestTableComponent);
+    var fix = createComponentFixture(template, [], TestTableDirective);
 
     var original = new Array<TestObject>();
     original.push(new TestObject(2, "Name 2"));
@@ -116,10 +116,10 @@ describe('TableComponent tests', function () {
     fix.componentInstance.originalData = original;
     fix.detectChanges();
   
-    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
     var sortIdEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
     
-    var sortIdDirective = <SortComponent>sortIdEl.injector.get(SortComponent);
+    var sortIdDirective = <SortDirective>sortIdEl.injector.get(SortDirective);
 
     tableEl.tableState.sort.predicate = "id";
     tableEl.tableState.sort.order = SortOrder.Ascending;

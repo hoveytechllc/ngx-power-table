@@ -1,13 +1,13 @@
 import { Directive, EventEmitter, Output, Input, SimpleChange, OnChanges, ChangeDetectorRef, DoCheck } from "@angular/core";
-import { ITableState } from "./ITableState.interface";
-import { DefaultTableState } from "./DefaultTableState.class";
-import { PropertyValueSelectorEvent } from './Sort/sort.selector.class';
-import { SortOrder } from './Sort/Sort.component';
+import { ITableState } from "./../TableState/ITableState.interface";
+import { DefaultTableState } from "./../TableState/DefaultTableState.class";
+import { PropertyValueSelectorEvent } from './../Sort/PropertyValueSelectorEvent.class';
+import { SortOrder } from './../Sort/Sort.directive';
 
 @Directive({
     selector: "[ptTable]"
 })
-export class TableComponent {
+export class TableDirective {
     public customPipe: Function;
 
     @Input('ptTable')

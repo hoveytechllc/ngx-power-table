@@ -19,4 +19,4 @@ var PowerTableModule = (function () {
     return PowerTableModule;
 }());
 exports.PowerTableModule = PowerTableModule;
-//# sourceMappingURL=power-table.module.js.map
+//# sourceMappingURL=index.js.map

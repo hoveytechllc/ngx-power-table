@@ -1,5 +1,5 @@
 import { EventEmitter } from "@angular/core";
-import { SortOrder } from './Sort/Sort.component';
+import { SortOrder } from './../Sort/Sort.directive';
 
 export interface ITableStateSearch {
 

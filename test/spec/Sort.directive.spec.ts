@@ -3,10 +3,10 @@ import { TestBed, inject, ComponentFixture, TestComponentRenderer, tick, fakeAsy
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
 
-import { SortOrder, SortComponent } from "./../../src/Sort/Sort.component";
-import { TableComponent } from "./../../src/Table.component";
-import { PropertyValueSelectorEvent } from './../../src/Sort/sort.selector.class';
-import { ITableState } from './../../src/ITableState.interface';
+import { SortOrder, SortDirective } from "./../../src/Sort/Sort.directive";
+import { TableDirective } from "./../../src/Table/Table.directive";
+import { PropertyValueSelectorEvent } from './../../src/Sort/PropertyValueSelectorEvent.class';
+import { ITableState } from './../../src/TableState/ITableState.interface';
 
 class TestObject {
 
@@ -29,29 +29,29 @@ class TestTableComponent {
   }
 }
 
-describe('SortComponent tests', function () {
+describe('SortDirective tests', function () {
 
   beforeEach(() => TestBed.configureTestingModule({ declarations: [TestTableComponent, TestComp] }));
 
   it('should not be created', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     expect(() => {
       var el = createComponent('<table><thead><tr><th ptSort>Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
-    }).toThrowError(/No provider for TableComponent!/)
+    }).toThrowError(/No provider for TableDirective!/)
   });
 
   it('should be created', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var el = createComponent('<table ptTable=""><thead><tr><th ptSort>Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
     //             table         thead      <tr>       <th>
-    var table = el.children[0].injector.get(TableComponent);
-    var sort = el.children[0].children[0].children[0].children[0].injector.get(SortComponent);
+    var table = el.children[0].injector.get(TableDirective);
+    var sort = el.children[0].children[0].children[0].children[0].injector.get(SortDirective);
 
     expect(table).toBeDefined();
     expect(sort).toBeDefined();
@@ -59,37 +59,37 @@ describe('SortComponent tests', function () {
 
   it('predicate is set on directive', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
     var el = createComponent('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
     var sortEl = el.children[0].children[0].children[0].children[0];
-    var directive = <SortComponent>sortEl.injector.get(SortComponent);
+    var directive = <SortDirective>sortEl.injector.get(SortDirective);
 
     expect(directive.predicate).toBe("id");
   });
 
   it('initial sort is "NotSet"', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var fix = createComponentFixture('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
     var el = fix.debugElement;
     var sortEl = el.children[0].children[0].children[0].children[0];
-    var directive = <SortComponent>sortEl.injector.get(SortComponent);
+    var directive = <SortDirective>sortEl.injector.get(SortDirective);
 
     expect(directive.order).toBe(SortOrder.NotSet);
   });
 
   it('on click does increment index', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var fix = createComponentFixture('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
     var el = fix.debugElement;
     var sortEl = el.children[0].children[0].children[0].children[0];
-    var directive = <SortComponent>sortEl.injector.get(SortComponent);
+    var directive = <SortDirective>sortEl.injector.get(SortDirective);
 
     sortEl.nativeElement.click();
 
@@ -98,13 +98,13 @@ describe('SortComponent tests', function () {
 
   it('on two clicks does change to "Descending"', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var fix = createComponentFixture('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
     var el = fix.debugElement;
     var sortEl = el.children[0].children[0].children[0].children[0];
-    var directive = <SortComponent>sortEl.injector.get(SortComponent);
+    var directive = <SortDirective>sortEl.injector.get(SortDirective);
 
     sortEl.nativeElement.click();
     sortEl.nativeElement.click();
@@ -114,7 +114,7 @@ describe('SortComponent tests', function () {
 
   it('does sort original array ascending', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var template = '<table [ptTable]="originalData"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -130,9 +130,9 @@ describe('SortComponent tests', function () {
 
     var el = fix.debugElement;
     var sortEl = el.children[0].children[0].children[0].children[0];
-    var directive = <SortComponent>sortEl.injector.get(SortComponent);
+    var directive = <SortDirective>sortEl.injector.get(SortDirective);
 
-    var tableEl = <TableComponent>el.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>el.children[0].injector.get(TableDirective);
 
     sortEl.nativeElement.click();
     fix.detectChanges();
@@ -148,7 +148,7 @@ describe('SortComponent tests', function () {
 
   it('does sort original array descending', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var template = '<table [ptTable]="originalData"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -164,9 +164,9 @@ describe('SortComponent tests', function () {
 
     var el = fix.debugElement;
     var sortEl = el.children[0].children[0].children[0].children[0];
-    var directive = <SortComponent>sortEl.injector.get(SortComponent);
+    var directive = <SortDirective>sortEl.injector.get(SortDirective);
 
-    var tableEl = <TableComponent>el.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>el.children[0].injector.get(TableDirective);
 
     sortEl.nativeElement.click();
     fix.detectChanges();
@@ -184,7 +184,7 @@ describe('SortComponent tests', function () {
 
   it('does sort reverse after clicking twice', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var template = '<table [ptTable]="originalData"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -197,7 +197,7 @@ describe('SortComponent tests', function () {
     fix.componentInstance.originalData = original;
     fix.detectChanges();
 
-    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
     var sortEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
 
     sortEl.nativeElement.click();
@@ -215,7 +215,7 @@ describe('SortComponent tests', function () {
 
   it('does use table eventEmitter to check which property should be used for sorting', () => {
     TestBed.configureTestingModule({
-      declarations: [SortComponent, TableComponent]
+      declarations: [SortDirective, TableDirective]
     });
 
     var template = '<table [ptTable]="originalData" (propertySelector)="getProperty($event)"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -232,7 +232,7 @@ describe('SortComponent tests', function () {
     };
     fix.detectChanges();
 
-    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
     var sortEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
 
     sortEl.nativeElement.click();
@@ -248,7 +248,7 @@ describe('SortComponent tests', function () {
 
   it('order is automatically reset if sort object changed from outside directive', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent, SortComponent]
+      declarations: [TableDirective, SortDirective]
     });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState">
@@ -256,9 +256,9 @@ describe('SortComponent tests', function () {
       <tbody><tr><td>Row 1</td><td>Row 1</td></tr></tbody></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
-    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
     var sortEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
-    var sortDirective = sortEl.injector.get(SortComponent);
+    var sortDirective = sortEl.injector.get(SortDirective);
 
     var original = new Array<TestObject>();
     original.push(new TestObject(2, "Name 3"));
@@ -293,7 +293,7 @@ describe('SortComponent tests', function () {
   
   it('order is synced for all sort directives when sort is changed', () => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent, SortComponent]
+      declarations: [TableDirective, SortDirective]
     });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState">
@@ -301,12 +301,12 @@ describe('SortComponent tests', function () {
       <tbody><tr><td>Row 1</td><td>Row 1</td></tr></tbody></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
-    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
     var sortIdEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
     var sortNameEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[1];
     
-    var sortIdDirective = <SortComponent>sortIdEl.injector.get(SortComponent);
-    var sortNameDirective = <SortComponent>sortNameEl.injector.get(SortComponent);
+    var sortIdDirective = <SortDirective>sortIdEl.injector.get(SortDirective);
+    var sortNameDirective = <SortDirective>sortNameEl.injector.get(SortDirective);
 
     tableEl.tableState.sort.predicate = "id";
     tableEl.tableState.sort.order = SortOrder.Ascending;

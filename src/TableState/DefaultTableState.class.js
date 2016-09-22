@@ -1,6 +1,6 @@
 "use strict";
 var core_1 = require("@angular/core");
-var Sort_component_1 = require('./Sort/Sort.component');
+var Sort_directive_1 = require('./../Sort/Sort.directive');
 var DefaultTableStateSearch = (function () {
     function DefaultTableStateSearch() {
     }
@@ -20,7 +20,7 @@ exports.DefaultTableStatePagination = DefaultTableStatePagination;
 var DefaultTableStateSort = (function () {
     function DefaultTableStateSort() {
         this.changed = new core_1.EventEmitter();
-        this._order = Sort_component_1.SortOrder.NotSet;
+        this._order = Sort_directive_1.SortOrder.NotSet;
         this._predicate = null;
     }
     Object.defineProperty(DefaultTableStateSort.prototype, "order", {

@@ -1,12 +1,12 @@
 "use strict";
-var DefaultTableState_class_1 = require('./../../src/DefaultTableState.class');
-var Sort_component_1 = require('./../../src/Sort/Sort.component');
+var DefaultTableState_class_1 = require('./../../src/TableState/DefaultTableState.class');
+var Sort_directive_1 = require('./../../src/Sort/Sort.directive');
 describe('DefaultTableState', function () {
     describe('DefaultTableStateSort', function () {
         it('should be initialized with default values', function () {
             var sut = new DefaultTableState_class_1.DefaultTableState();
             expect(sut.sort).toBeDefined();
-            expect(sut.sort.order).toBe(Sort_component_1.SortOrder.NotSet);
+            expect(sut.sort.order).toBe(Sort_directive_1.SortOrder.NotSet);
             expect(sut.sort.predicate).toBeNull();
         });
         it('event emitter should be triggered with new sort', function () {
@@ -14,9 +14,9 @@ describe('DefaultTableState', function () {
             var called = false;
             sut.sort.changed.subscribe(function () {
                 called = true;
-                expect(sut.sort.order).toBe(Sort_component_1.SortOrder.Ascending);
+                expect(sut.sort.order).toBe(Sort_directive_1.SortOrder.Ascending);
             });
-            sut.sort.order = Sort_component_1.SortOrder.Ascending;
+            sut.sort.order = Sort_directive_1.SortOrder.Ascending;
             expect(called).toBeTruthy();
         });
         it('event emitter should be triggered with new predicate', function () {

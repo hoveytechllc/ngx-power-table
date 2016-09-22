@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var DefaultTableState_class_1 = require("./DefaultTableState.class");
-var sort_selector_class_1 = require('./Sort/sort.selector.class');
-var Sort_component_1 = require('./Sort/Sort.component');
-var TableComponent = (function () {
-    function TableComponent(changeDetectorRef) {
+var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");
+var PropertyValueSelectorEvent_class_1 = require('./../Sort/PropertyValueSelectorEvent.class');
+var Sort_directive_1 = require('./../Sort/Sort.directive');
+var TableDirective = (function () {
+    function TableDirective(changeDetectorRef) {
         this.changeDetectorRef = changeDetectorRef;
         this.displayArrayChange = new core_1.EventEmitter();
         this.tableStateChange = new core_1.EventEmitter();
@@ -25,12 +25,12 @@ var TableComponent = (function () {
         this.propertySelector = new core_1.EventEmitter();
         this.customPipe = null;
     }
-    TableComponent.prototype.ngOnInit = function () {
+    TableDirective.prototype.ngOnInit = function () {
         this.getTableState();
     };
-    TableComponent.prototype.preventRefreshDataEvent = function () {
+    TableDirective.prototype.preventRefreshDataEvent = function () {
     };
-    TableComponent.prototype.getTableState = function () {
+    TableDirective.prototype.getTableState = function () {
         if (!this.tableState) {
             this.tableState = new DefaultTableState_class_1.DefaultTableState();
             this.tableStateChange.emit(this.tableState);
@@ -38,27 +38,27 @@ var TableComponent = (function () {
         }
         return this.tableState;
     };
-    TableComponent.prototype.doSort = function (predicate, order) {
+    TableDirective.prototype.doSort = function (predicate, order) {
         var state = this.getTableState();
         state.sort.predicate = predicate;
         state.sort.order = order;
         this.pipe();
     };
-    TableComponent.prototype.doSearch = function (predicate, reverse) {
+    TableDirective.prototype.doSearch = function (predicate, reverse) {
         // update table state
         // 
         this.pipe();
     };
-    TableComponent.prototype.overridePipe = function (func) {
+    TableDirective.prototype.overridePipe = function (func) {
         this.customPipe = func;
         this.pipe();
     };
-    TableComponent.prototype.getPropertyValue = function (row) {
+    TableDirective.prototype.getPropertyValue = function (row) {
         if (!row)
             return undefined;
         var state = this.getTableState();
         if (this.propertySelector.observers.length > 0) {
-            var msg = new sort_selector_class_1.PropertyValueSelectorEvent();
+            var msg = new PropertyValueSelectorEvent_class_1.PropertyValueSelectorEvent();
             msg.row = row;
             msg.propertyName = state.sort.predicate;
             this.propertySelector.emit(msg);
@@ -66,7 +66,7 @@ var TableComponent = (function () {
         }
         return row[state.sort.predicate];
     };
-    TableComponent.prototype.pipe = function () {
+    TableDirective.prototype.pipe = function () {
         var _this = this;
         if (this.customPipe) {
             this.customPipe();
@@ -87,7 +87,7 @@ var TableComponent = (function () {
                     return 1;
                 var filter = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
                 // Descending order only if items not equal, and descending selected.
-                if (state.sort.order === Sort_component_1.SortOrder.Descending
+                if (state.sort.order === Sort_directive_1.SortOrder.Descending
                     && filter !== 0) {
                     filter = filter * -1;
                 }
@@ -103,34 +103,34 @@ var TableComponent = (function () {
     __decorate([
         core_1.Input('ptTable'), 
         __metadata('design:type', Array)
-    ], TableComponent.prototype, "originalArray", void 0);
+    ], TableDirective.prototype, "originalArray", void 0);
     __decorate([
         core_1.Input('ptDisplayArray'), 
         __metadata('design:type', Array)
-    ], TableComponent.prototype, "displayArray", void 0);
+    ], TableDirective.prototype, "displayArray", void 0);
     __decorate([
         core_1.Output('ptDisplayArrayChange'), 
         __metadata('design:type', core_1.EventEmitter)
-    ], TableComponent.prototype, "displayArrayChange", void 0);
+    ], TableDirective.prototype, "displayArrayChange", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Object)
-    ], TableComponent.prototype, "tableState", void 0);
+    ], TableDirective.prototype, "tableState", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
-    ], TableComponent.prototype, "tableStateChange", void 0);
+    ], TableDirective.prototype, "tableStateChange", void 0);
     __decorate([
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
-    ], TableComponent.prototype, "propertySelector", void 0);
-    TableComponent = __decorate([
+    ], TableDirective.prototype, "propertySelector", void 0);
+    TableDirective = __decorate([
         core_1.Directive({
             selector: "[ptTable]"
         }), 
         __metadata('design:paramtypes', [core_1.ChangeDetectorRef])
-    ], TableComponent);
-    return TableComponent;
+    ], TableDirective);
+    return TableDirective;
 }());
-exports.TableComponent = TableComponent;
-//# sourceMappingURL=Table.component.js.map
+exports.TableDirective = TableDirective;
+//# sourceMappingURL=Table.directive.js.map

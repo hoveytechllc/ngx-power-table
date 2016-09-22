@@ -9,18 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var Table_component_1 = require("./../Table.component");
+var Table_directive_1 = require("./../Table/Table.directive");
 (function (SortOrder) {
     SortOrder[SortOrder["NotSet"] = 0] = "NotSet";
     SortOrder[SortOrder["Ascending"] = 1] = "Ascending";
     SortOrder[SortOrder["Descending"] = 2] = "Descending";
 })(exports.SortOrder || (exports.SortOrder = {}));
 var SortOrder = exports.SortOrder;
-var SortComponent = (function () {
+var SortDirective = (function () {
     /**
      *
      */
-    function SortComponent(table, element, renderer) {
+    function SortDirective(table, element, renderer) {
         var _this = this;
         this.table = table;
         this.element = element;
@@ -34,18 +34,18 @@ var SortComponent = (function () {
             _this.onTableStateChanged(tableState);
         });
     }
-    SortComponent.prototype.ngOnDestroy = function () {
+    SortDirective.prototype.ngOnDestroy = function () {
         if (this.removeClickListener)
             this.removeClickListener();
         if (this.removeTableStateListener && this.removeTableStateListener.unsubscribe)
             this.removeTableStateListener.unsubscribe();
         this.unsubscribeToSortListener();
     };
-    SortComponent.prototype.unsubscribeToSortListener = function () {
+    SortDirective.prototype.unsubscribeToSortListener = function () {
         if (this.removeSortListener && this.removeSortListener.unsubscribe)
             this.removeSortListener.unsubscribe();
     };
-    SortComponent.prototype.resolveTableState = function () {
+    SortDirective.prototype.resolveTableState = function () {
         if (this.suppressSortChangedHandler) {
             // this directive is causing the callback   
             return;
@@ -71,7 +71,7 @@ var SortComponent = (function () {
             return;
         }
     };
-    SortComponent.prototype.onTableStateChanged = function (tableState) {
+    SortDirective.prototype.onTableStateChanged = function (tableState) {
         var _this = this;
         this.unsubscribeToSortListener();
         this.resolveTableState();
@@ -79,12 +79,12 @@ var SortComponent = (function () {
             _this.resolveTableState();
         });
     };
-    SortComponent.prototype.triggerSort = function () {
+    SortDirective.prototype.triggerSort = function () {
         this.suppressSortChangedHandler = true;
         this.table.doSort(this.predicate, this.order);
         this.suppressSortChangedHandler = false;
     };
-    SortComponent.prototype.onClicked = function (ev) {
+    SortDirective.prototype.onClicked = function (ev) {
         if (this.order === SortOrder.Descending) {
             // manual reset
             this.order = SortOrder.NotSet;
@@ -97,14 +97,14 @@ var SortComponent = (function () {
     __decorate([
         core_1.Input("ptSort"), 
         __metadata('design:type', String)
-    ], SortComponent.prototype, "predicate", void 0);
-    SortComponent = __decorate([
+    ], SortDirective.prototype, "predicate", void 0);
+    SortDirective = __decorate([
         core_1.Directive({
             selector: "[ptSort]"
         }), 
-        __metadata('design:paramtypes', [Table_component_1.TableComponent, core_1.ElementRef, core_1.Renderer])
-    ], SortComponent);
-    return SortComponent;
+        __metadata('design:paramtypes', [Table_directive_1.TableDirective, core_1.ElementRef, core_1.Renderer])
+    ], SortDirective);
+    return SortDirective;
 }());
-exports.SortComponent = SortComponent;
-//# sourceMappingURL=Sort.component.js.map
+exports.SortDirective = SortDirective;
+//# sourceMappingURL=Sort.directive.js.map

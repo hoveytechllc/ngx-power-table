@@ -1,6 +1,6 @@
 import { Directive, Input, ElementRef, Renderer, SimpleChange } from "@angular/core";
-import { TableComponent } from "./../Table.component";
-import { ITableState } from "./../ITableState.interface"
+import { TableDirective } from "./../Table/Table.directive";
+import { ITableState } from "./../TableState/ITableState.interface"
 
 export enum SortOrder {
     NotSet,
@@ -11,8 +11,8 @@ export enum SortOrder {
 @Directive({
     selector: "[ptSort]"
 })
-export class SortComponent {
-    dependency: TableComponent;
+export class SortDirective {
+    dependency: TableDirective;
 
     @Input("ptSort")
     public predicate: string;
@@ -26,7 +26,7 @@ export class SortComponent {
     /**
      *
      */
-    constructor(private table: TableComponent,
+    constructor(private table: TableDirective,
         private element: ElementRef,
         private renderer: Renderer) {
         this.order = SortOrder.NotSet;
