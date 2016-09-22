@@ -101,7 +101,7 @@ describe('SortComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Sort_component_1.SortComponent, Table_component_1.TableComponent]
         });
-        var template = '<table [pt-table]="displayData" [pt-original]="originalData"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
+        var template = '<table pt-table="" [pt-original]="originalData"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var original = new Array();
         original.push(new TestObject(2, "David"));
@@ -128,7 +128,7 @@ describe('SortComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Sort_component_1.SortComponent, Table_component_1.TableComponent]
         });
-        var template = '<table [pt-table]="displayData" [pt-original]="originalData"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
+        var template = '<table pt-table="" [pt-original]="originalData"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var original = new Array();
         original.push(new TestObject(2, "David"));
@@ -157,7 +157,7 @@ describe('SortComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Sort_component_1.SortComponent, Table_component_1.TableComponent]
         });
-        var template = '<table [pt-table]="displayData" [pt-original]="originalData"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
+        var template = '<table pt-table="" [pt-original]="originalData"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var original = new Array();
         original.push(new TestObject(1, "Name 1"));
@@ -182,7 +182,7 @@ describe('SortComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Sort_component_1.SortComponent, Table_component_1.TableComponent]
         });
-        var template = '<table [pt-table]="displayData" [pt-original]="originalData" (propertySelector)="getProperty($event)"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
+        var template = '<table pt-table="" [pt-original]="originalData" (propertySelector)="getProperty($event)"><thead><tr><th pt-sort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var original = new Array();
         original.push(new TestObject(1, "Name 3"));
@@ -209,7 +209,7 @@ describe('SortComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Table_component_1.TableComponent, Sort_component_1.SortComponent]
         });
-        var template = "<table [(tableState)]=\"tableState\" [pt-table]=\"displayData\" [pt-original]=\"originalData\">\n      <thead><tr><th pt-sort=\"id\">Header 1</th><th pt-sort=\"name\">Header 2</th></tr></thead>\n      <tbody><tr><td>Row 1</td><td>Row 1</td></tr></tbody></table>";
+        var template = "<table [(tableState)]=\"tableState\" pt-table=\"\" [pt-original]=\"originalData\">\n      <thead><tr><th pt-sort=\"id\">Header 1</th><th pt-sort=\"name\">Header 2</th></tr></thead>\n      <tbody><tr><td>Row 1</td><td>Row 1</td></tr></tbody></table>";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var tableEl = fix.debugElement.children[0].injector.get(Table_component_1.TableComponent);
         var sortEl = fix.debugElement.children[0].children[0].children[0].children[0];
@@ -239,6 +239,25 @@ describe('SortComponent tests', function () {
         expect(display[0].id).toBe(3);
         expect(display[1].id).toBe(2);
         expect(display[2].id).toBe(1);
+    });
+    it('order is synced for all sort directives when sort is changed', function () {
+        testing_1.TestBed.configureTestingModule({
+            declarations: [Table_component_1.TableComponent, Sort_component_1.SortComponent]
+        });
+        var template = "<table [(tableState)]=\"tableState\" pt-table=\"\" [pt-original]=\"originalData\">\n      <thead><tr><th pt-sort=\"id\">Header 1</th><th pt-sort=\"name\">Header 2</th></tr></thead>\n      <tbody><tr><td>Row 1</td><td>Row 1</td></tr></tbody></table>";
+        var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
+        var tableEl = fix.debugElement.children[0].injector.get(Table_component_1.TableComponent);
+        var sortIdEl = fix.debugElement.children[0].children[0].children[0].children[0];
+        var sortNameEl = fix.debugElement.children[0].children[0].children[0].children[1];
+        var sortIdDirective = sortIdEl.injector.get(Sort_component_1.SortComponent);
+        var sortNameDirective = sortNameEl.injector.get(Sort_component_1.SortComponent);
+        tableEl.tableState.sort.predicate = "id";
+        tableEl.tableState.sort.order = Sort_component_1.SortOrder.Ascending;
+        expect(sortIdDirective.order).toBe(Sort_component_1.SortOrder.Ascending);
+        expect(sortNameDirective.order).toBe(Sort_component_1.SortOrder.NotSet);
+        tableEl.tableState.sort.predicate = "name";
+        expect(sortIdDirective.order).toBe(Sort_component_1.SortOrder.NotSet);
+        expect(sortNameDirective.order).toBe(Sort_component_1.SortOrder.Ascending);
     });
 });
 //# sourceMappingURL=SortComponent.spec.js.map

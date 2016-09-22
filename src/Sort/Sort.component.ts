@@ -62,7 +62,8 @@ export class SortComponent {
         // 1. consumer of power-table is modifying sort values directly.
         // 2. another sort triggered sort so we need to update state.
 
-        if (!this.table.tableState.sort.predicate && this.order !== SortOrder.NotSet) {
+        if ((!this.table.tableState.sort.predicate || (this.table.tableState.sort.predicate !== this.predicate)) 
+            && this.order !== SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
             this.order = SortOrder.NotSet;
             // fix css classes

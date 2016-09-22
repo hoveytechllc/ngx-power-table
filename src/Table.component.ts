@@ -13,8 +13,10 @@ export class TableComponent {
     @Input('pt-original')
     public originalArray: Array<any>;
 
-    @Input('pt-table')
+    @Input()
     public displayArray: Array<any>;
+    @Output()
+    displayArrayChange: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
     /*
         two-way binding for ITableState
@@ -125,6 +127,7 @@ export class TableComponent {
             });
 
             this.displayArray = newArray;
+            this.displayArrayChange.emit(this.displayArray);
         }
 
         // 3. splice array by pageSize if applicable

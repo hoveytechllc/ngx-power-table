@@ -15,18 +15,10 @@ module.exports = function(config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-firefox-launcher'),
+      require('karma-phantomjs-launcher'),
       require('karma-coverage')
-    //  require('karma-htmlfile-reporter')
     ],
 
-    // customLaunchers: {
-    //   // From the CLI. Not used here but interesting
-    //   // chrome setup for travis CI using chromium
-    //   Chrome_travis_ci: {
-    //     base: 'Chrome',
-    //     flags: ['--no-sandbox']
-    //   }
-    // },
     files: [
       // System.js for module loading
       'node_modules/systemjs/dist/system.src.js',
@@ -66,11 +58,11 @@ module.exports = function(config) {
       // //{pattern: appBase + '**/*.html', included: false, watched: true},
       // //{pattern: appBase + '**/*.css', included: false, watched: true},
 
-      // // Paths for debugging with source maps in dev tools
-      // {pattern: appSrcBase + '**/*.ts', included: false, watched: false},
-      // {pattern: appBase + '**/*.js.map', included: false, watched: false},
-      // {pattern: testSrcBase + '**/*.ts', included: false, watched: false},
-      // {pattern: testBase + '**/*.js.map', included: false, watched: false}
+      // Paths for debugging with source maps in dev tools
+      {pattern: 'src/**/*.ts', included: false, watched: false},
+      {pattern: 'src/**/*.js.map', included: false, watched: false},
+      {pattern: 'test/spec/*.ts', included: false, watched: false},
+      {pattern: 'test/spec/*.js.map', included: false, watched: false}
     ],
 
     // Proxied base paths for loading assets
@@ -105,7 +97,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'Firefox'],
+    browsers: ['Chrome'],
     singleRun: false
   })
 }

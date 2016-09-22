@@ -15,6 +15,7 @@ var Sort_component_1 = require('./Sort/Sort.component');
 var TableComponent = (function () {
     function TableComponent(changeDetectorRef) {
         this.changeDetectorRef = changeDetectorRef;
+        this.displayArrayChange = new core_1.EventEmitter();
         this.tableStateChange = new core_1.EventEmitter();
         /*
             if consumer would like to leverage aggresive minification for their
@@ -94,6 +95,7 @@ var TableComponent = (function () {
                 return filter;
             });
             this.displayArray = newArray;
+            this.displayArrayChange.emit(this.displayArray);
         }
         // 3. splice array by pageSize if applicable
     };
@@ -103,9 +105,13 @@ var TableComponent = (function () {
         __metadata('design:type', Array)
     ], TableComponent.prototype, "originalArray", void 0);
     __decorate([
-        core_1.Input('pt-table'), 
+        core_1.Input(), 
         __metadata('design:type', Array)
     ], TableComponent.prototype, "displayArray", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], TableComponent.prototype, "displayArrayChange", void 0);
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Object)

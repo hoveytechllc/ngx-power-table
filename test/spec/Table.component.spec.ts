@@ -3,8 +3,9 @@ import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angul
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 
 import { TableComponent } from "./../../src/Table.component";
+import { SortOrder, SortComponent } from "./../../src/Sort/Sort.component";
 import { ITableState} from './../../src/ITableState.interface';
-
+ 
 class TestObject {
 
   constructor(public id: number, public name: string) {
@@ -75,7 +76,7 @@ describe('TableComponent tests', function () {
       declarations: [TableComponent]
     });
 
-    var el = createComponentFixture('<table [pt-original]="originalData" pt-table="displayArray"></table>', [], TestTableComponent);
+    var el = createComponentFixture('<table pt-table="" [pt-original]="originalData" [(displayArray)]="displayArray"></table>', [], TestTableComponent);
 
     var table = <TableComponent>el.debugElement.children[0].injector.get(TableComponent);
     expect(table.originalArray).toBeDefined();
@@ -86,7 +87,7 @@ describe('TableComponent tests', function () {
       declarations: [TableComponent]
     });
 
-    var template = `<table [(tableState)]="tableState" [pt-table]="displayData" [pt-original]="originalData"></table>`;
+    var template = `<table pt-table="" [(tableState)]="tableState" [(displayArray)]="displayData" [pt-original]="originalData"></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
     var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
@@ -96,5 +97,39 @@ describe('TableComponent tests', function () {
     
     expect(tableEl.tableState).toBeDefined();
     expect(fix.componentInstance.tableState).toBeDefined();
+  });
+
+  it('displayArray is set by directive when data sorted', () => {
+    TestBed.configureTestingModule({
+      declarations: [TableComponent, SortComponent]
+    });
+
+    var template = `<table pt-table="" [(tableState)]="tableState" [(displayArray)]="displayData" [pt-original]="originalData">
+      <thead><tr><th pt-sort="id">Header 1</th></tr></thead>
+      <tbody><tr><td>Row 1</td></tr></tbody></table>`;
+    var fix = createComponentFixture(template, [], TestTableComponent);
+
+    var original = new Array<TestObject>();
+    original.push(new TestObject(2, "Name 2"));
+    original.push(new TestObject(3, "Name 3"));
+    original.push(new TestObject(1, "Name 1"));
+    fix.componentInstance.originalData = original;
+    fix.detectChanges();
+  
+    var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
+    var sortIdEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
+    
+    var sortIdDirective = <SortComponent>sortIdEl.injector.get(SortComponent);
+
+    tableEl.tableState.sort.predicate = "id";
+    tableEl.tableState.sort.order = SortOrder.Ascending;
+    fix.detectChanges();
+    
+    var display = fix.componentInstance.displayData;
+    expect(display).toBeDefined();
+    expect(display.length).toBe(3);
+    expect(display[0].id).toBe(1);
+    expect(display[1].id).toBe(2);
+    expect(display[2].id).toBe(3);
   });
 });
