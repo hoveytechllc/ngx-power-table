@@ -11,7 +11,7 @@ Simple usage:
 `ptTable` is required parent directive. Other directives/components prefixed with `pt` depend on `ptTable`. In the simple example below `ptTable` is provided the full array of customers (one-way binding into the directive). Internally the directive filters/sorts/pages the array and returns it using `ptDisplayArray` (one-way binding out of the directive).
 
 ```javascript
-<table __[ptTable]="allCustomers"__ (ptDisplayArray)="customers">
+<table [**ptTable**]="allCustomers" (ptDisplayArray)="customers">
     <thead>
         <tr>
             <th ptSort="id">Id<th>
