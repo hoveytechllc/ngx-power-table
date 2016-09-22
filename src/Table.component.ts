@@ -10,12 +10,12 @@ import { SortOrder } from './Sort/Sort.component';
 export class TableComponent {
     public customPipe: Function;
 
-    @Input('pt-original')
+    @Input('ptTable')
     public originalArray: Array<any>;
 
-    @Input('ptTable')
+    @Input('ptDisplayArray')
     public displayArray: Array<any>;
-    @Output('ptTableChange')
+    @Output('ptDisplayArrayChange')
     displayArrayChange: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
     /*

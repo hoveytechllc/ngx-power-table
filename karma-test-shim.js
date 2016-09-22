@@ -53,7 +53,7 @@ System.config({
 });
 
 System.import('systemjs.config.js')
-  .then(importSystemJsExtras)
+  //.then(importSystemJsExtras)
   .then(initTestBed)
   .then(initTesting);
 
@@ -86,10 +86,8 @@ function initTestBed(){
 
 // Import all spec files and start karma
 function initTesting () {
-  console.log('initTesting');
   return Promise.all(
     allSpecFiles.map(function (moduleName) {
-      console.log('Loading module: ' + moduleName);
       return System.import(moduleName);
     })
   )

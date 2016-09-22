@@ -4,6 +4,31 @@
 
 Power Table is table module for Angular 2 that is based on a great module, [Smart Table](https://github.com/lorenzofox3/Smart-Table), for AngularJS. Since I couldn't find Smart-Table written for Angular 2 I am making my own attempt.
 
+# Usage
+
+Simple usage:
+
+`ptTable` is required parent directive. Other directives/components prefixed with `pt` depend on `ptTable`. In the simple example below `ptTable` is provided the full array of customers (one-way binding into the directive). Internally the directive filters/sorts/pages the array and returns it using `ptDisplayArray` (one-way binding out of the directive).
+
+```javascript
+<table [ptTable]="allCustomers" (ptDisplayArray)="customers">
+    <thead>
+        <tr>
+            <th ptSort="id">Id<th>
+            <th ptSort="name">Name<th>
+            <th>Open Invoices<th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ngFor="#c of customers">
+            <td>{{c.id}}</td>
+            <td>{{c.name}}</td>
+            <td>{{c.invoices}}</td>
+        </tr>
+    </tbody>
+</table>
+```
+
 ## Test
 
 Run `npm install` then `npm run test`

@@ -71,7 +71,7 @@ describe('TableComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Table_component_1.TableComponent]
         });
-        var el = component_factory_1.createComponentFixture('<table [(ptTable)]="displayArray" [pt-original]="originalData"></table>', [], TestTableComponent);
+        var el = component_factory_1.createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableComponent);
         var table = el.debugElement.children[0].injector.get(Table_component_1.TableComponent);
         expect(table.originalArray).toBeDefined();
     });
@@ -79,7 +79,7 @@ describe('TableComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Table_component_1.TableComponent]
         });
-        var template = "<table [(ptTable)]=\"displayData\" [(tableState)]=\"tableState\"  [pt-original]=\"originalData\"></table>";
+        var template = "<table [ptTable]=\"originalData\" [(tableState)]=\"tableState\" (ptDisplayData)=\"displayData\"></table>";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var tableEl = fix.debugElement.children[0].injector.get(Table_component_1.TableComponent);
         fix.componentInstance.originalData = new Array();
@@ -91,7 +91,7 @@ describe('TableComponent tests', function () {
         testing_1.TestBed.configureTestingModule({
             declarations: [Table_component_1.TableComponent, Sort_component_1.SortComponent]
         });
-        var template = "<table [(ptTable)]=\"displayData\" [(tableState)]=\"tableState\" [pt-original]=\"originalData\">\n      <thead><tr><th pt-sort=\"id\">Header 1</th></tr></thead>\n      <tbody><tr><td>Row 1</td></tr></tbody></table>";
+        var template = "<table [ptTable]=\"originalData\" [(tableState)]=\"tableState\" [(ptDisplayArray)]=\"displayData\">\n      <thead><tr><th ptSort=\"id\">Header 1</th></tr></thead>\n      <tbody><tr><td>Row 1</td></tr></tbody></table>";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var original = new Array();
         original.push(new TestObject(2, "Name 2"));

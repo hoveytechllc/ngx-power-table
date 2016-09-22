@@ -9,12 +9,12 @@ export enum SortOrder {
 }
 
 @Directive({
-    selector: "[pt-sort]"
+    selector: "[ptSort]"
 })
 export class SortComponent {
     dependency: TableComponent;
 
-    @Input("pt-sort")
+    @Input("ptSort")
     public predicate: string;
     public order: SortOrder;
 

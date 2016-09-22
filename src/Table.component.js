@@ -101,15 +101,15 @@ var TableComponent = (function () {
     };
     ;
     __decorate([
-        core_1.Input('pt-original'), 
+        core_1.Input('ptTable'), 
         __metadata('design:type', Array)
     ], TableComponent.prototype, "originalArray", void 0);
     __decorate([
-        core_1.Input('ptTable'), 
+        core_1.Input('ptDisplayArray'), 
         __metadata('design:type', Array)
     ], TableComponent.prototype, "displayArray", void 0);
     __decorate([
-        core_1.Output('ptTableChange'), 
+        core_1.Output('ptDisplayArrayChange'), 
         __metadata('design:type', core_1.EventEmitter)
     ], TableComponent.prototype, "displayArrayChange", void 0);
     __decorate([

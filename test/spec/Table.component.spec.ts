@@ -76,7 +76,7 @@ describe('TableComponent tests', function () {
       declarations: [TableComponent]
     });
 
-    var el = createComponentFixture('<table [(ptTable)]="displayArray" [pt-original]="originalData"></table>', [], TestTableComponent);
+    var el = createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableComponent);
 
     var table = <TableComponent>el.debugElement.children[0].injector.get(TableComponent);
     expect(table.originalArray).toBeDefined();
@@ -87,7 +87,7 @@ describe('TableComponent tests', function () {
       declarations: [TableComponent]
     });
 
-    var template = `<table [(ptTable)]="displayData" [(tableState)]="tableState"  [pt-original]="originalData"></table>`;
+    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" (ptDisplayData)="displayData"></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
     var tableEl = <TableComponent>fix.debugElement.children[0].injector.get(TableComponent);
@@ -104,8 +104,8 @@ describe('TableComponent tests', function () {
       declarations: [TableComponent, SortComponent]
     });
 
-    var template = `<table [(ptTable)]="displayData" [(tableState)]="tableState" [pt-original]="originalData">
-      <thead><tr><th pt-sort="id">Header 1</th></tr></thead>
+    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData">
+      <thead><tr><th ptSort="id">Header 1</th></tr></thead>
       <tbody><tr><td>Row 1</td></tr></tbody></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 

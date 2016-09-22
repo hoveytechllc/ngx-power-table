@@ -95,12 +95,12 @@ var SortComponent = (function () {
         this.triggerSort();
     };
     __decorate([
-        core_1.Input("pt-sort"), 
+        core_1.Input("ptSort"), 
         __metadata('design:type', String)
     ], SortComponent.prototype, "predicate", void 0);
     SortComponent = __decorate([
         core_1.Directive({
-            selector: "[pt-sort]"
+            selector: "[ptSort]"
         }), 
         __metadata('design:paramtypes', [Table_component_1.TableComponent, core_1.ElementRef, core_1.Renderer])
     ], SortComponent);
