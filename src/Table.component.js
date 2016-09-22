@@ -105,11 +105,11 @@ var TableComponent = (function () {
         __metadata('design:type', Array)
     ], TableComponent.prototype, "originalArray", void 0);
     __decorate([
-        core_1.Input(), 
+        core_1.Input('ptTable'), 
         __metadata('design:type', Array)
     ], TableComponent.prototype, "displayArray", void 0);
     __decorate([
-        core_1.Output(), 
+        core_1.Output('ptTableChange'), 
         __metadata('design:type', core_1.EventEmitter)
     ], TableComponent.prototype, "displayArrayChange", void 0);
     __decorate([
@@ -126,7 +126,7 @@ var TableComponent = (function () {
     ], TableComponent.prototype, "propertySelector", void 0);
     TableComponent = __decorate([
         core_1.Directive({
-            selector: "[pt-table]"
+            selector: "[ptTable]"
         }), 
         __metadata('design:paramtypes', [core_1.ChangeDetectorRef])
     ], TableComponent);

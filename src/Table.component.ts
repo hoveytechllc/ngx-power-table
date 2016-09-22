@@ -5,7 +5,7 @@ import { PropertyValueSelectorEvent } from './Sort/sort.selector.class';
 import { SortOrder } from './Sort/Sort.component';
 
 @Directive({
-    selector: "[pt-table]"
+    selector: "[ptTable]"
 })
 export class TableComponent {
     public customPipe: Function;
@@ -13,9 +13,9 @@ export class TableComponent {
     @Input('pt-original')
     public originalArray: Array<any>;
 
-    @Input()
+    @Input('ptTable')
     public displayArray: Array<any>;
-    @Output()
+    @Output('ptTableChange')
     displayArrayChange: EventEmitter<Array<any>> = new EventEmitter<Array<any>>();
 
     /*
