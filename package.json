@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ntsc && concurrently \"ntsc -w\" \"karma start karma.conf.js\"",
+    "test-travis": "ntsc && ./node_modules/.bin/karma start --browsers Firefox --single-run",
     "postinstall": "typings install"
   },
   "repository": {
