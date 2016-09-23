@@ -1,8 +1,9 @@
 import { Directive, EventEmitter, Output, Input, SimpleChange, OnChanges, ChangeDetectorRef, DoCheck } from "@angular/core";
+
 import { ITableState } from "./../TableState/ITableState.interface";
 import { DefaultTableState } from "./../TableState/DefaultTableState.class";
 import { PropertyValueSelectorEvent } from './../Sort/PropertyValueSelectorEvent.class';
-import { SortOrder } from './../Sort/Sort.directive';
+import { SortOrder } from './../Sort/SortOrder.enum';
 
 @Directive({
     selector: "[ptTable]"

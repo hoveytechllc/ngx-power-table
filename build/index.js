@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 // import components / directives for the module
+var Table_directive_1 = require('./Table/Table.directive');
 var Pipe_component_1 = require('./Pipe/Pipe.component');
 var Sort_directive_1 = require('./Sort/Sort.directive');
-var Table_directive_1 = require('./Table/Table.directive');
 // export for any consumers of module
 var SortOrder_enum_1 = require('./Sort/SortOrder.enum');
 exports.SortOrder = SortOrder_enum_1.SortOrder;
@@ -29,16 +29,18 @@ exports.DefaultTableState = DefaultTableState_class_1.DefaultTableState;
 exports.DefaultTableStatePagination = DefaultTableState_class_1.DefaultTableStatePagination;
 exports.DefaultTableStateSearch = DefaultTableState_class_1.DefaultTableStateSearch;
 exports.DefaultTableStateSort = DefaultTableState_class_1.DefaultTableStateSort;
+var declarations = [
+    Table_directive_1.TableDirective,
+    Sort_directive_1.SortDirective,
+    Pipe_component_1.PipeComponent
+];
 var PowerTableModule = (function () {
     function PowerTableModule() {
     }
     PowerTableModule = __decorate([
         core_1.NgModule({
-            declarations: [
-                Table_directive_1.TableDirective,
-                Sort_directive_1.SortDirective,
-                Pipe_component_1.PipeComponent
-            ]
+            exports: declarations,
+            declarations: declarations
         }), 
         __metadata('design:paramtypes', [])
     ], PowerTableModule);

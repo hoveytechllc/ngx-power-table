@@ -2,8 +2,9 @@ import { Provider, Type, DebugElement, Component } from "@angular/core";
 import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angular/core/testing';
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 
+import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
-import { SortOrder, SortDirective } from "./../../src/Sort/Sort.directive";
+import { SortDirective } from "./../../src/Sort/Sort.directive";
 import { ITableState} from './../../src/TableState/ITableState.interface';
  
 class TestObject {

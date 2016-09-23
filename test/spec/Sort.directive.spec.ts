@@ -3,8 +3,9 @@ import { TestBed, inject, ComponentFixture, TestComponentRenderer, tick, fakeAsy
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
 
-import { SortOrder, SortDirective } from "./../../src/Sort/Sort.directive";
+import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
+import { SortDirective } from "./../../src/Sort/Sort.directive";
 import { PropertyValueSelectorEvent } from './../../src/Sort/PropertyValueSelectorEvent.class';
 import { ITableState } from './../../src/TableState/ITableState.interface';
 

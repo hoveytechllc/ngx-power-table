@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var testing_1 = require('@angular/core/testing');
 var component_factory_1 = require('./component.factory');
+var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
 var Sort_directive_1 = require("./../../src/Sort/Sort.directive");
 var TestObject = (function () {
@@ -103,7 +104,7 @@ describe('TableDirective tests', function () {
         var sortIdEl = fix.debugElement.children[0].children[0].children[0].children[0];
         var sortIdDirective = sortIdEl.injector.get(Sort_directive_1.SortDirective);
         tableEl.tableState.sort.predicate = "id";
-        tableEl.tableState.sort.order = Sort_directive_1.SortOrder.Ascending;
+        tableEl.tableState.sort.order = SortOrder_enum_1.SortOrder.Ascending;
         fix.detectChanges();
         var display = fix.componentInstance.displayData;
         expect(display).toBeDefined();

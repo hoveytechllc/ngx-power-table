@@ -1,6 +1,6 @@
 import { EventEmitter } from "@angular/core";
 import { ITableState, ITableStatePagination, ITableStateSearch, ITableStateSort } from "./ITableState.interface";
-import { SortOrder } from './../Sort/Sort.directive';
+import { SortOrder } from './../Sort/SortOrder.enum';
 
 export class DefaultTableStateSearch implements ITableStateSearch {
 

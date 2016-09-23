@@ -1,12 +1,7 @@
-import { Directive, Input, ElementRef, Renderer, SimpleChange } from "@angular/core";
+import { Directive, Input, ElementRef, Renderer, SimpleChange, Inject, Host } from "@angular/core";
 import { TableDirective } from "./../Table/Table.directive";
 import { ITableState } from "./../TableState/ITableState.interface"
-
-export enum SortOrder {
-    NotSet,
-    Ascending,
-    Descending
-}
+import { SortOrder} from "./SortOrder.enum";
 
 @Directive({
     selector: "[ptSort]"

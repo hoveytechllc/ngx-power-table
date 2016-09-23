@@ -3,7 +3,8 @@ import { TableDirective } from "./../Table/Table.directive";
 import { ITableState } from "./../TableState/ITableState.interface";
 
 @Component({
-    selector: "[pt-pipe]"
+    selector: "[pt-pipe]",
+    template: "<div></div>"
 })
 export class PipeComponent {
     @Input()

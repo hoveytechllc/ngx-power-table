@@ -11,8 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var testing_1 = require('@angular/core/testing');
 var component_factory_1 = require('./component.factory');
-var Sort_directive_1 = require("./../../src/Sort/Sort.directive");
+var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
+var Sort_directive_1 = require("./../../src/Sort/Sort.directive");
 var TestObject = (function () {
     function TestObject(id, name) {
         this.id = id;
@@ -72,7 +73,7 @@ describe('SortDirective tests', function () {
         var el = fix.debugElement;
         var sortEl = el.children[0].children[0].children[0].children[0];
         var directive = sortEl.injector.get(Sort_directive_1.SortDirective);
-        expect(directive.order).toBe(Sort_directive_1.SortOrder.NotSet);
+        expect(directive.order).toBe(SortOrder_enum_1.SortOrder.NotSet);
     });
     it('on click does increment index', function () {
         testing_1.TestBed.configureTestingModule({
@@ -83,7 +84,7 @@ describe('SortDirective tests', function () {
         var sortEl = el.children[0].children[0].children[0].children[0];
         var directive = sortEl.injector.get(Sort_directive_1.SortDirective);
         sortEl.nativeElement.click();
-        expect(directive.order).toBe(Sort_directive_1.SortOrder.Ascending);
+        expect(directive.order).toBe(SortOrder_enum_1.SortOrder.Ascending);
     });
     it('on two clicks does change to "Descending"', function () {
         testing_1.TestBed.configureTestingModule({
@@ -95,7 +96,7 @@ describe('SortDirective tests', function () {
         var directive = sortEl.injector.get(Sort_directive_1.SortDirective);
         sortEl.nativeElement.click();
         sortEl.nativeElement.click();
-        expect(directive.order).toBe(Sort_directive_1.SortOrder.Descending);
+        expect(directive.order).toBe(SortOrder_enum_1.SortOrder.Descending);
     });
     it('does sort original array ascending', function () {
         testing_1.TestBed.configureTestingModule({
@@ -222,7 +223,7 @@ describe('SortDirective tests', function () {
         fix.detectChanges();
         sortEl.nativeElement.click();
         fix.detectChanges();
-        expect(sortDirective.order).toBe(Sort_directive_1.SortOrder.Ascending);
+        expect(sortDirective.order).toBe(SortOrder_enum_1.SortOrder.Ascending);
         var display = tableEl.displayArray;
         expect(display).toBeDefined();
         expect(display.length).toBe(3);
@@ -231,7 +232,7 @@ describe('SortDirective tests', function () {
         expect(display[2].id).toBe(3);
         fix.detectChanges();
         expect(fix.componentInstance.tableState).toBeDefined();
-        fix.componentInstance.tableState.sort.order = Sort_directive_1.SortOrder.Descending;
+        fix.componentInstance.tableState.sort.order = SortOrder_enum_1.SortOrder.Descending;
         fix.detectChanges();
         var display = tableEl.displayArray;
         expect(display).toBeDefined();
@@ -252,12 +253,12 @@ describe('SortDirective tests', function () {
         var sortIdDirective = sortIdEl.injector.get(Sort_directive_1.SortDirective);
         var sortNameDirective = sortNameEl.injector.get(Sort_directive_1.SortDirective);
         tableEl.tableState.sort.predicate = "id";
-        tableEl.tableState.sort.order = Sort_directive_1.SortOrder.Ascending;
-        expect(sortIdDirective.order).toBe(Sort_directive_1.SortOrder.Ascending);
-        expect(sortNameDirective.order).toBe(Sort_directive_1.SortOrder.NotSet);
+        tableEl.tableState.sort.order = SortOrder_enum_1.SortOrder.Ascending;
+        expect(sortIdDirective.order).toBe(SortOrder_enum_1.SortOrder.Ascending);
+        expect(sortNameDirective.order).toBe(SortOrder_enum_1.SortOrder.NotSet);
         tableEl.tableState.sort.predicate = "name";
-        expect(sortIdDirective.order).toBe(Sort_directive_1.SortOrder.NotSet);
-        expect(sortNameDirective.order).toBe(Sort_directive_1.SortOrder.Ascending);
+        expect(sortIdDirective.order).toBe(SortOrder_enum_1.SortOrder.NotSet);
+        expect(sortNameDirective.order).toBe(SortOrder_enum_1.SortOrder.Ascending);
     });
 });
 //# sourceMappingURL=Sort.directive.spec.js.map

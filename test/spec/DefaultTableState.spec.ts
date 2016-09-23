@@ -3,9 +3,9 @@ import { TestBed, inject, ComponentFixture, TestComponentRenderer, tick, fakeAsy
 import { TestComp, createComponent, createComponentFixture } from './component.factory';
 import { dispatchEvent } from '@angular/platform-browser/testing/browser_util';
 
+import { SortOrder } from './../../src/Sort/SortOrder.enum';
 import { ITableState } from './../../src/TableState/ITableState.interface';
 import { DefaultTableState } from './../../src/TableState/DefaultTableState.class';
-import { SortOrder } from './../../src/Sort/Sort.directive';
 
 describe('DefaultTableState', function () {
 
