@@ -1,0 +1,24 @@
+{
+  "name": "ng2-power-table-ui",
+  "version": "0.1.0",
+  "homepage": "https://github.com/hoveytech/ng2-power-table",
+  "authors": [
+    "David Hovey <david@hoveytech.com>"
+  ],
+  "description": "table module for angular2 - samples",
+  "keywords": [
+    "smart-table",
+    "power-table",
+    "angular",
+    "table"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "latest",
+    "font-awesome": "latest"
+  }
+}
