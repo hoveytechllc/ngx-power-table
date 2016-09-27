@@ -1,0 +1,5 @@
+<nav *ngIf="numPages && pages.length >= 2">
+    <ul class="pagination">
+        <li *ngFor="let page of pages" ngClass="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a></li>
+    </ul>
+</nav>

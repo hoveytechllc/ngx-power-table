@@ -6,13 +6,10 @@
 
   var paths = {
     // paths serve as alias
-    'npm:': 'node_modules/'
+    'npm:': 'base/node_modules/'
   };
 
   var map = {
-    // our app
-    "app": "app",
-
     // angular bundles
     '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
     '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
@@ -30,7 +27,6 @@
   };
 
   var packages = {
-    "app": { main: "main.js", defaultExtension: "js" },
     "rxjs": { defaultExtension: "js" },
     "angular2-in-memory-web-api": { defaultExtension: "js" }
   };

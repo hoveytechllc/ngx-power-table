@@ -50,17 +50,18 @@ module.exports = function(config) {
       'karma-test-shim.js',
 
       // transpiled application & spec code paths loaded via module imports
+      {pattern: 'index.js', included: false, watched: true},
       {pattern: 'src/**/*.js', included: false, watched: true},
       {pattern: 'test/spec/*.js', included: false, watched: true},
 
       // // Asset (HTML & CSS) paths loaded via Angular's component compiler
       // // (these paths need to be rewritten, see proxies section)
-      // //{pattern: appBase + '**/*.html', included: false, watched: true},
-      // //{pattern: appBase + '**/*.css', included: false, watched: true},
+      {pattern: 'src/**/*.html', included: false, watched: true},
 
       // Paths for debugging with source maps in dev tools
-     // {pattern: 'src/**/*.ts', included: false, watched: false},
-     // {pattern: 'src/**/*.js.map', included: false, watched: false},
+      {pattern: 'index.ts', included: false, watched: true},
+      {pattern: 'src/**/*.ts', included: false, watched: false},
+      {pattern: 'src/**/*.js.map', included: false, watched: false},
       {pattern: 'test/spec/*.ts', included: false, watched: false},
       {pattern: 'test/spec/*.js.map', included: false, watched: false}
     ],
@@ -73,7 +74,7 @@ module.exports = function(config) {
 
     exclude: [],
     preprocessors: {
-        'src/**/*.js': ['coverage'] 
+    //    'src/**/*.js': ['coverage'] 
     },
 
     reporters: ['progress', 'coverage'],

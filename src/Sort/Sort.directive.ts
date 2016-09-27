@@ -1,13 +1,12 @@
 import { Directive, Input, ElementRef, Renderer, SimpleChange, Inject, Host } from "@angular/core";
 import { TableDirective } from "./../Table/Table.directive";
 import { ITableState } from "./../TableState/ITableState.interface"
-import { SortOrder} from "./SortOrder.enum";
+import { SortOrder } from "./SortOrder.enum";
 
 @Directive({
     selector: "[ptSort]"
 })
 export class SortDirective {
-    dependency: TableDirective;
 
     @Input("ptSort")
     public predicate: string;
@@ -21,7 +20,7 @@ export class SortDirective {
     /**
      *
      */
-    constructor(private table: TableDirective,
+    constructor(@Host() private table: TableDirective,
         private element: ElementRef,
         private renderer: Renderer) {
         this.order = SortOrder.NotSet;
@@ -54,10 +53,7 @@ export class SortDirective {
             return;
         }
 
-        // 1. consumer of power-table is modifying sort values directly.
-        // 2. another sort triggered sort so we need to update state.
-
-        if ((!this.table.tableState.sort.predicate || (this.table.tableState.sort.predicate !== this.predicate)) 
+        if ((!this.table.tableState.sort.predicate || (this.table.tableState.sort.predicate !== this.predicate))
             && this.order !== SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
             this.order = SortOrder.NotSet;
@@ -73,7 +69,7 @@ export class SortDirective {
             // since suppressSortChangedHandler was not set, we can safely assume
             // we need to trigger sort.
             this.order = this.table.tableState.sort.order;
-            this.triggerSort();
+            this.table.pipe();
             // fix css classes
             return;
         }
@@ -88,12 +84,6 @@ export class SortDirective {
         });
     }
 
-    private triggerSort() {
-        this.suppressSortChangedHandler = true;
-        this.table.doSort(this.predicate, this.order);
-        this.suppressSortChangedHandler = false;
-    }
-
     private onClicked(ev: MouseEvent) {
         if (this.order === SortOrder.Descending) {
             // manual reset
@@ -102,6 +92,13 @@ export class SortDirective {
             this.order++;
         }
 
-        this.triggerSort();
+        this.suppressSortChangedHandler = true;
+
+        var state = this.table.tableState;
+        state.sort.predicate = this.predicate;
+        state.sort.order = this.order;
+
+        this.table.pipe();
+        this.suppressSortChangedHandler = false;
     }
 }

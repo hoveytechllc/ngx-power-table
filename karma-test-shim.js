@@ -30,11 +30,12 @@ var allSpecFiles = Object.keys(window.__karma__.files)
   .filter(isBuiltFile);
 
 System.config({
-  baseURL: '/base',
+  //baseURL: '/',
   // Extend usual application package list with test folder
   packages: { 
     'test': { main: 'index.js', defaultExtension: 'js' },
     'src': { main: 'index.js', defaultExtension: 'js' }, 
+    'base': { main: 'index.js', defaultExtension: 'js' }, 
   },
 
   // Assume npm: is set in `paths` in systemjs.config
@@ -52,7 +53,7 @@ System.config({
   },
 });
 
-System.import('systemjs.config.js')
+System.import('base/systemjs.config.js')
   //.then(importSystemJsExtras)
   .then(initTestBed)
   .then(initTesting);

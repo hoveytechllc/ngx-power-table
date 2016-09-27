@@ -6,8 +6,9 @@ import {dispatchEvent} from '@angular/platform-browser/testing/browser_util';
 import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
 import { SortDirective } from "./../../src/Sort/Sort.directive";
-import { PropertyValueSelectorEvent } from './../../src/Sort/PropertyValueSelectorEvent.class';
 import { ITableState } from './../../src/TableState/ITableState.interface';
+import { ConfigurationProvider } from './../../src/Configuration/ConfigurationProvider.class';
+import { DefaultDataPipeService } from './../../src/Pipe/DefaultDataPipeService.class';
 
 class TestObject {
 
@@ -25,9 +26,6 @@ class TestTableComponent {
   public displayData: Array<TestObject>;
   public tableState: ITableState;
 
-  public getProperty(e: PropertyValueSelectorEvent): void {
-
-  }
 }
 
 describe('SortDirective tests', function () {
@@ -36,17 +34,19 @@ describe('SortDirective tests', function () {
 
   it('should not be created', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     expect(() => {
       var el = createComponent('<table><thead><tr><th ptSort>Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
-    }).toThrowError(/No provider for TableDirective!/)
+    }).toThrowError(/No provider for TableDirective/)
   });
 
   it('should be created', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var el = createComponent('<table ptTable=""><thead><tr><th ptSort>Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
@@ -60,7 +60,8 @@ describe('SortDirective tests', function () {
 
   it('predicate is set on directive', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
     var el = createComponent('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
     var sortEl = el.children[0].children[0].children[0].children[0];
@@ -71,7 +72,8 @@ describe('SortDirective tests', function () {
 
   it('initial sort is "NotSet"', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var fix = createComponentFixture('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
@@ -84,7 +86,8 @@ describe('SortDirective tests', function () {
 
   it('on click does increment index', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var fix = createComponentFixture('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
@@ -99,7 +102,8 @@ describe('SortDirective tests', function () {
 
   it('on two clicks does change to "Descending"', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var fix = createComponentFixture('<table ptTable=""><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>');
@@ -115,7 +119,8 @@ describe('SortDirective tests', function () {
 
   it('does sort original array ascending', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var template = '<table [ptTable]="originalData"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -149,7 +154,8 @@ describe('SortDirective tests', function () {
 
   it('does sort original array descending', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var template = '<table [ptTable]="originalData"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -185,7 +191,8 @@ describe('SortDirective tests', function () {
 
   it('does sort reverse after clicking twice', () => {
     TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
+      declarations: [SortDirective, TableDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var template = '<table [ptTable]="originalData"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
@@ -214,42 +221,10 @@ describe('SortDirective tests', function () {
     expect(display[2].id).toBe(1);
   });
 
-  it('does use table eventEmitter to check which property should be used for sorting', () => {
-    TestBed.configureTestingModule({
-      declarations: [SortDirective, TableDirective]
-    });
-
-    var template = '<table [ptTable]="originalData" (propertySelector)="getProperty($event)"><thead><tr><th ptSort="id">Header 1</th></tr></thead><tbody><tr><td>Row 1</td></tr></tbody></table>';
-    var fix = createComponentFixture(template, [], TestTableComponent);
-
-    var original = new Array<TestObject>();
-    original.push(new TestObject(1, "Name 3"));
-    original.push(new TestObject(2, "Name 2"));
-    original.push(new TestObject(3, "Name 1"));
-    fix.componentInstance.originalData = original;
-    fix.componentInstance.getProperty = (e: PropertyValueSelectorEvent): any => {
-      // this minics custom property handling.
-      return e.row.name;
-    };
-    fix.detectChanges();
-
-    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
-    var sortEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
-
-    sortEl.nativeElement.click();
-    fix.detectChanges();
-
-    var display = tableEl.displayArray;
-    expect(display).toBeDefined();
-    expect(display.length).toBe(3);
-    expect(display[0].name).toBe("Name 1");
-    expect(display[1].name).toBe("Name 2");
-    expect(display[2].name).toBe("Name 3");
-  });
-
   it('order is automatically reset if sort object changed from outside directive', () => {
     TestBed.configureTestingModule({
-      declarations: [TableDirective, SortDirective]
+      declarations: [TableDirective, SortDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState">
@@ -294,7 +269,8 @@ describe('SortDirective tests', function () {
   
   it('order is synced for all sort directives when sort is changed', () => {
     TestBed.configureTestingModule({
-      declarations: [TableDirective, SortDirective]
+      declarations: [TableDirective, SortDirective],
+      providers: [ConfigurationProvider, DefaultDataPipeService]
     });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState">

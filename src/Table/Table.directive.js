@@ -10,25 +10,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");
-var PropertyValueSelectorEvent_class_1 = require('./../Sort/PropertyValueSelectorEvent.class');
-var SortOrder_enum_1 = require('./../Sort/SortOrder.enum');
+var ConfigurationProvider_class_1 = require('./../Configuration/ConfigurationProvider.class');
 var TableDirective = (function () {
-    function TableDirective(changeDetectorRef) {
+    function TableDirective(changeDetectorRef, injector, configurationProvider) {
+        var _this = this;
         this.changeDetectorRef = changeDetectorRef;
+        this.injector = injector;
+        this.configurationProvider = configurationProvider;
         this.displayArrayChange = new core_1.EventEmitter();
         this.tableStateChange = new core_1.EventEmitter();
-        /*
-            if consumer would like to leverage aggresive minification for their
-            project they can leverage this callback to select property value
-            internally it will be used to sort
-        */
-        this.propertySelector = new core_1.EventEmitter();
-        this.customPipe = null;
+        this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe(function (config) {
+            _this.currentConfiguration = null;
+            _this.pipe();
+        });
     }
+    TableDirective.prototype.ngOnDestroy = function () {
+        if (this.removeConfigListener && this.removeConfigListener.unsubscribe)
+            this.removeConfigListener.unsubscribe();
+    };
     TableDirective.prototype.ngOnInit = function () {
         this.getTableState();
     };
-    TableDirective.prototype.preventRefreshDataEvent = function () {
+    TableDirective.prototype.ngOnChanges = function (changes) {
+        if (changes['originalArray']) {
+            this.pipe();
+        }
+        if (changes['configuration']) {
+            this.dataPipeService = null;
+            this.currentConfiguration = null;
+            this.pipe();
+        }
     };
     TableDirective.prototype.getTableState = function () {
         if (!this.tableState) {
@@ -38,66 +49,31 @@ var TableDirective = (function () {
         }
         return this.tableState;
     };
-    TableDirective.prototype.doSort = function (predicate, order) {
-        var state = this.getTableState();
-        state.sort.predicate = predicate;
-        state.sort.order = order;
-        this.pipe();
-    };
     TableDirective.prototype.doSearch = function (predicate, reverse) {
         // update table state
         // 
         this.pipe();
     };
-    TableDirective.prototype.overridePipe = function (func) {
-        this.customPipe = func;
-        this.pipe();
-    };
-    TableDirective.prototype.getPropertyValue = function (row) {
-        if (!row)
-            return undefined;
-        var state = this.getTableState();
-        if (this.propertySelector.observers.length > 0) {
-            var msg = new PropertyValueSelectorEvent_class_1.PropertyValueSelectorEvent();
-            msg.row = row;
-            msg.propertyName = state.sort.predicate;
-            this.propertySelector.emit(msg);
-            return msg.value;
+    TableDirective.prototype.getConfiguration = function () {
+        if (this.currentConfiguration)
+            return this.currentConfiguration;
+        if (this.configurationOverride) {
+            this.currentConfiguration = this.configurationOverride;
         }
-        return row[state.sort.predicate];
+        else {
+            this.currentConfiguration = this.configurationProvider.globalConfiguration;
+        }
+        return this.currentConfiguration;
     };
     TableDirective.prototype.pipe = function () {
-        var _this = this;
-        if (this.customPipe) {
-            this.customPipe();
-            return;
-        }
-        if (!this.originalArray)
-            return;
         var state = this.getTableState();
-        // 1. filter array by possible search predicate
-        // 2. sort array if predicate
-        if (state.sort.predicate) {
-            var newArray = new Array();
-            newArray = this.originalArray.sort(function (a, b) {
-                var aValue = _this.getPropertyValue(a);
-                var bValue = _this.getPropertyValue(b);
-                // null or undefined values should be first
-                if (!aValue)
-                    return 1;
-                var filter = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-                // Descending order only if items not equal, and descending selected.
-                if (state.sort.order === SortOrder_enum_1.SortOrder.Descending
-                    && filter !== 0) {
-                    filter = filter * -1;
-                }
-                ;
-                return filter;
-            });
-            this.displayArray = newArray;
-            this.displayArrayChange.emit(this.displayArray);
+        var config = this.getConfiguration();
+        if (!this.dataPipeService) {
+            this.dataPipeService = this.injector.get(config.pipeServiceType);
         }
-        // 3. splice array by pageSize if applicable
+        this.displayArray = this.dataPipeService.pipe(this.originalArray, state, config);
+        this.displayArrayChange.emit(this.displayArray);
+        this.changeDetectorRef.detectChanges();
     };
     ;
     __decorate([
@@ -121,14 +97,14 @@ var TableDirective = (function () {
         __metadata('design:type', core_1.EventEmitter)
     ], TableDirective.prototype, "tableStateChange", void 0);
     __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], TableDirective.prototype, "propertySelector", void 0);
+        core_1.Input('ptConfiguration'), 
+        __metadata('design:type', Object)
+    ], TableDirective.prototype, "configurationOverride", void 0);
     TableDirective = __decorate([
         core_1.Directive({
             selector: "[ptTable]"
         }), 
-        __metadata('design:paramtypes', [core_1.ChangeDetectorRef])
+        __metadata('design:paramtypes', [core_1.ChangeDetectorRef, core_1.Injector, ConfigurationProvider_class_1.ConfigurationProvider])
     ], TableDirective);
     return TableDirective;
 }());

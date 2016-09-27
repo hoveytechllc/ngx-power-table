@@ -10,6 +10,9 @@ export interface ITableStatePagination {
     end: number;
     pageSize: number;
     totalItemCount: number;
+    numberOfPages: number;
+
+    changed: EventEmitter<void>;
 }
 
 export interface ITableStateSort {

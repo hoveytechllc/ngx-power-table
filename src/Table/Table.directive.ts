@@ -1,19 +1,29 @@
-import { Directive, EventEmitter, Output, Input, SimpleChange, OnChanges, ChangeDetectorRef, DoCheck } from "@angular/core";
+import { Directive, EventEmitter, Output, Input, SimpleChanges, OnChanges, ChangeDetectorRef, DoCheck, Injector } from "@angular/core";
 
 import { ITableState } from "./../TableState/ITableState.interface";
 import { DefaultTableState } from "./../TableState/DefaultTableState.class";
-import { PropertyValueSelectorEvent } from './../Sort/PropertyValueSelectorEvent.class';
 import { SortOrder } from './../Sort/SortOrder.enum';
+import { ConfigurationProvider } from './../Configuration/ConfigurationProvider.class';
+import { IConfiguration } from './../Configuration/IConfiguration.interface';
+import { IDataPipeService } from './../Pipe/IDataPipeService.interface';
 
 @Directive({
     selector: "[ptTable]"
 })
 export class TableDirective {
-    public customPipe: Function;
+    private dataPipeService: IDataPipeService;
+    private currentConfiguration: IConfiguration;
+    private removeConfigListener: any;
 
+    /*
+        one-way binding, consumer provides originalArray
+    */
     @Input('ptTable')
     public originalArray: Array<any>;
 
+    /*
+        two-way binding for ptDisplayArray
+    */
     @Input('ptDisplayArray')
     public displayArray: Array<any>;
     @Output('ptDisplayArrayChange')
@@ -28,23 +38,38 @@ export class TableDirective {
     tableStateChange: EventEmitter<ITableState> = new EventEmitter<ITableState>();
 
     /*
-        if consumer would like to leverage aggresive minification for their
-        project they can leverage this callback to select property value
-        internally it will be used to sort
+        one-way binding, consumer can override configuration vs using globalConfiguration
     */
-    @Output()
-    propertySelector: EventEmitter<PropertyValueSelectorEvent> = new EventEmitter<PropertyValueSelectorEvent>();
+    @Input('ptConfiguration')
+    public configurationOverride: IConfiguration;
 
-    constructor(private changeDetectorRef: ChangeDetectorRef) {
-        this.customPipe = null;
+    constructor(private changeDetectorRef: ChangeDetectorRef,
+        private injector: Injector,
+        private configurationProvider: ConfigurationProvider) {
+
+        this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe((config: IConfiguration) => {
+            this.currentConfiguration = null;
+            this.pipe();
+        });
+    }
+
+    ngOnDestroy() {
+        if (this.removeConfigListener && this.removeConfigListener.unsubscribe) this.removeConfigListener.unsubscribe();
     }
 
     ngOnInit() {
         this.getTableState();
     }
 
-    public preventRefreshDataEvent() {
-
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['originalArray']) {
+            this.pipe();
+        }
+        if (changes['configuration']) {
+            this.dataPipeService = null;
+            this.currentConfiguration = null;
+            this.pipe();
+        }
     }
 
     private getTableState() {
@@ -56,14 +81,6 @@ export class TableDirective {
         return this.tableState;
     }
 
-    public doSort(predicate: string, order: SortOrder) {
-        var state = this.getTableState();
-        state.sort.predicate = predicate;
-        state.sort.order = order;
-
-        this.pipe();
-    }
-
     public doSearch(predicate: string, reverse: boolean) {
         // update table state
         // 
@@ -71,66 +88,30 @@ export class TableDirective {
         this.pipe();
     }
 
-    public overridePipe(func: Function) {
-        this.customPipe = func;
-        this.pipe();
-    }
+    private getConfiguration(): IConfiguration {
+        if (this.currentConfiguration)
+            return this.currentConfiguration;
 
-    private getPropertyValue(row: any): any {
-        if (!row) return undefined;
-
-        var state = this.getTableState();
-
-        if (this.propertySelector.observers.length > 0) {
-            var msg = new PropertyValueSelectorEvent();
-            msg.row = row;
-            msg.propertyName = state.sort.predicate;
-            this.propertySelector.emit(msg);
-            return msg.value;
+        if (this.configurationOverride) {
+            this.currentConfiguration = this.configurationOverride;
+        } else {
+            this.currentConfiguration = this.configurationProvider.globalConfiguration;
         }
 
-        return row[state.sort.predicate];
+        return this.currentConfiguration;
     }
 
     public pipe() {
-        if (this.customPipe) {
-            this.customPipe();
-            return;
-        }
-
-        if (!this.originalArray)
-            return;
-
         var state = this.getTableState();
+        var config = this.getConfiguration();
 
-        // 1. filter array by possible search predicate
-
-        // 2. sort array if predicate
-        if (state.sort.predicate) {
-            var newArray: Array<any> = new Array<any>();
-
-            newArray = this.originalArray.sort((a, b) => {
-                var aValue = this.getPropertyValue(a);
-                var bValue = this.getPropertyValue(b);
-
-                // null or undefined values should be first
-                if (!aValue) return 1;
-
-                var filter = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-
-                // Descending order only if items not equal, and descending selected.
-                if (state.sort.order === SortOrder.Descending
-                    && filter !== 0) {
-                    filter = filter * -1
-                };
-
-                return filter;
-            });
-
-            this.displayArray = newArray;
-            this.displayArrayChange.emit(this.displayArray);
+        if (!this.dataPipeService) {
+            this.dataPipeService = this.injector.get(config.pipeServiceType);
         }
 
-        // 3. splice array by pageSize if applicable
+        this.displayArray = this.dataPipeService.pipe(this.originalArray, state, config);
+
+        this.displayArrayChange.emit(this.displayArray);
+        this.changeDetectorRef.detectChanges();
     };
 }

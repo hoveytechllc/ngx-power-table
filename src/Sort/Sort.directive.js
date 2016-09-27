@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var core_1 = require("@angular/core");
 var Table_directive_1 = require("./../Table/Table.directive");
 var SortOrder_enum_1 = require("./SortOrder.enum");
@@ -45,8 +48,6 @@ var SortDirective = (function () {
             // this directive is causing the callback   
             return;
         }
-        // 1. consumer of power-table is modifying sort values directly.
-        // 2. another sort triggered sort so we need to update state.
         if ((!this.table.tableState.sort.predicate || (this.table.tableState.sort.predicate !== this.predicate))
             && this.order !== SortOrder_enum_1.SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
@@ -61,7 +62,7 @@ var SortDirective = (function () {
             // since suppressSortChangedHandler was not set, we can safely assume
             // we need to trigger sort.
             this.order = this.table.tableState.sort.order;
-            this.triggerSort();
+            this.table.pipe();
             // fix css classes
             return;
         }
@@ -74,11 +75,6 @@ var SortDirective = (function () {
             _this.resolveTableState();
         });
     };
-    SortDirective.prototype.triggerSort = function () {
-        this.suppressSortChangedHandler = true;
-        this.table.doSort(this.predicate, this.order);
-        this.suppressSortChangedHandler = false;
-    };
     SortDirective.prototype.onClicked = function (ev) {
         if (this.order === SortOrder_enum_1.SortOrder.Descending) {
             // manual reset
@@ -87,7 +83,12 @@ var SortDirective = (function () {
         else {
             this.order++;
         }
-        this.triggerSort();
+        this.suppressSortChangedHandler = true;
+        var state = this.table.tableState;
+        state.sort.predicate = this.predicate;
+        state.sort.order = this.order;
+        this.table.pipe();
+        this.suppressSortChangedHandler = false;
     };
     __decorate([
         core_1.Input("ptSort"), 
@@ -96,7 +97,8 @@ var SortDirective = (function () {
     SortDirective = __decorate([
         core_1.Directive({
             selector: "[ptSort]"
-        }), 
+        }),
+        __param(0, core_1.Host()), 
         __metadata('design:paramtypes', [Table_directive_1.TableDirective, core_1.ElementRef, core_1.Renderer])
     ], SortDirective);
     return SortDirective;

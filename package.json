@@ -1,8 +1,7 @@
 {
   "name": "ng2-power-table",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "ntsc && concurrently \"ntsc -w\" \"karma start karma.conf.js\"",
     "test-travis": "ntsc && ./node_modules/.bin/karma start --browsers Firefox --single-run",
