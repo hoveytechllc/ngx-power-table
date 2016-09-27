@@ -12,7 +12,8 @@ var nodeModules = [
     { name: "systemjs", filter: "dist/*.js"},
     { name: "zone.js", filter: "dist/*.js"},
     { name: "core-js", filter: "client/*.js"},
-    { name: "reflect-metadata", filter: "reflect.js"}
+    { name: "reflect-metadata", filter: "reflect.js"},
+    { name: "ng2-power-table", filter: "**/*.js"}
 ];
 
 var bowerComponents = [
