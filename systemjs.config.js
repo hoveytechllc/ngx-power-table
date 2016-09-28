@@ -6,7 +6,7 @@
 
   var paths = {
     // paths serve as alias
-    'npm:': 'libs/'
+    'npm:': 'node_modules/'
   };
 
   var map = {
@@ -27,16 +27,19 @@
     // other libraries
     'rxjs': 'npm:rxjs',
     'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
-    'ng2-power-table': 'libs/ng2-power-table/index.js'
-    
+    'ng2-power-table': 'npm:ng2-power-table',
+    'ng2-bootstrap/ng2-bootstrap': 'npm:ng2-bootstrap',
+    'ng2-bootstrap/components': 'npm:ng2-bootstrap/bundles',
+    "moment": "npm:moment/moment.js"
   };
 
   var packages = {
     "app": { main: "main.js", defaultExtension: "js" },
     "rxjs": { defaultExtension: "js" },
     "angular2-in-memory-web-api": { defaultExtension: "js" },
-    "libs/ng2-power-table": { defaultExtension: "js" }
-
+    "ng2-power-table": { main: "index.js", defaultExtension: "js" },
+    "ng2-bootstrap/ng2-bootstrap": { main: "ng2-bootstrap.js", defaultExtension: "js"},
+    "ng2-bootstrap/components": {  defaultExtension: "js"}
   };
 
   var config = {

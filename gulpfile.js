@@ -13,13 +13,14 @@ var nodeModules = [
     { name: "zone.js", filter: "dist/*.js"},
     { name: "core-js", filter: "client/*.js"},
     { name: "reflect-metadata", filter: "reflect.js"},
-    { name: "ng2-power-table", filter: "**/*.js"}
+    { name: "ng2-power-table", filter: "**/*.*"}
 ];
 
 var bowerComponents = [
     { name: "bootstrap", filter: "**/*.*"},
     { name: "font-awesome", filter: "**/*.*"},
     { name: "jquery", filter: "**/*.*"},
+    { name: "chance", filter: "dist/*.*"}
 ];
 
 gulp.task('restore-libs', function() {

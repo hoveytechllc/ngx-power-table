@@ -1,25 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Angular QuickStart</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
 
-    <!-- Polyfill(s) for older browsers -->
-    <script src="libs/core-js/shim.min.js"></script>
+<head>
+  <base href="/">
 
-    <script src="libs/zone.js/zone.js"></script>
-    <script src="libs/reflect-metadata/reflect.js"></script>
-    <script src="libs/systemjs/system.src.js"></script>
+  <title>ng2-power-table Documentation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="css/sb-admin-2.css">
+  <link rel="stylesheet" href="node_modules/ng2-power-table/src/ng2-power-table.css">
+  <link rel="stylesheet" href="pretty-print/prettify.css" />
+  <link rel="stylesheet" href="css/site.css" />
+</head>
 
-    <script src="systemjs.config.js"></script>
-    <script>
+<body>
+
+  <div id="wrapper">
+
+    <my-app>
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h4 style="margin-top: 50px;"><i class="fa fa-3x fa-spin fa-circle-o-notch"></i><br/> Loading...</h4>
+        </div>
+      </div>
+
+    </my-app>
+
+  </div>
+
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/chance/dist/chance.min.js"></script>
+  <script src="node_modules/lodash/lodash.js"></script>
+  <script src="pretty-print/prettify.js"></script>
+
+  <!-- Polyfill(s) for older browsers -->
+  <script src="node_modules/core-js/client/shim.min.js"></script>
+
+  <script src="node_modules/zone.js/dist/zone.js"></script>
+  <script src="node_modules/reflect-metadata/reflect.js"></script>
+  <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+  <script src="systemjs.config.js"></script>
+  <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
-  </head>
 
-  <body>
-    <my-app>Loading...</my-app>
-  </body>
+</body>
+
 </html>

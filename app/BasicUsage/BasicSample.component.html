@@ -1,0 +1,21 @@
+<table [ptTable]="allPeople" [(ptDisplayArray)]="people" [(tableState)]="tableState" class="table table-bordered table-stripped">
+    <thead>
+        <tr>
+            <th ptSort="id">Id</th>
+            <th ptSort="firstName">First Name</th>
+            <th ptSort="lastName">Last Name</th>
+            <th ptSort="age">Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let person of people; let i = index;">
+            <td>{{person.id}}</td>
+            <td>{{person.firstName}}</td>
+            <td>{{person.lastName}}</td>
+            <td>{{person.age}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <pt-pagination></pt-pagination>
+    </tfoot>
+</table>

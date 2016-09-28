@@ -1,0 +1,22 @@
+
+
+.pt-sort-asc:after {
+    Font-Family: 'FontAwesome';
+    content: "\f077";
+    color: #31708f;
+    padding: 0px 8px;
+    font-size: 13px;
+}
+
+.pt-sort-desc:after {
+    Font-Family: 'FontAwesome';
+    content: "\f078";
+    color: #31708f;
+    padding: 0px 8px;
+    font-size: 13px;
+}
+
+[ptSort]:hover {
+    cursor: pointer;
+    background-color: #d9edf7;
+}

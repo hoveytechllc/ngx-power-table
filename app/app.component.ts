@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ITableState, TableDirective } from 'ng2-power-table';
+import { NavigationComponent} from "./Navigation/Navigation.component";
 
 class Customer {
     constructor(public id: number,
@@ -11,7 +12,8 @@ class Customer {
 @Component({
     moduleId: module.id,
     selector: 'my-app',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    viewProviders:[NavigationComponent]
 })
 export class AppComponent {
     public allCustomers: Array<Customer>;

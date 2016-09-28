@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h2 class="page-header">Getting started</h2>
+
+        <h5>ng2-power-table gives you the power to decide which components you want, which you don't</h5>
+
+        <h3>1. Download power-table</h3>
+        <p>In order to get started download power-table from using npm:</p>
+        <pre>npm install ng2-power-table</pre>
+        <br/>
+
+        <h3>2. Configure bootloader</h3>
+        <span>Modify your <code>systemjs.config.js</code> to load the <code>ng2-power-table</code> module when requested.</span>
+        <br>
+        <code-example content-url="/app/BasicUsage/systemjs.config.sample.js" lang="lang-js"></code-example>
+        <br/>
+
+        <h3>Basic setup</h3>
+        <p>Power-Table includes several components to help manage table related functions such as paging and sorting. These
+            components can be used selecting, except the main component <code>TableComponent</code>, leveraged by using the
+            attribute <code>ptTable</code>.
+        </p>
+        <ul>
+            <li><code>ptDisplayArray</code>: power-table outputs the results of any paging, sorting or filtering into this property.</li>
+            <li><code>ptTableState</code>: This property provides access to any state properties of the table such as paging,
+                sorting, filtering, etc.</li>
+        </ul>
+
+        <tabset>
+            <tab heading="Display">
+                <basic-sample></basic-sample>
+            </tab>
+
+            <tab heading="Html">
+                <code-example content-url="/app/BasicUsage/BasicSample.component.html" lang="lang-html"></code-example>
+            </tab>
+
+            <tab heading="Typescript">
+                <code-example content-url="/app/BasicUsage/BasicSample.component.ts" lang="lang-ts"></code-example>
+            </tab>
+        </tabset>
+    </div>
+</div>

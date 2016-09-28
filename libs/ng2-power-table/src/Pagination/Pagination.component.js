@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 var core_1 = require('@angular/core');
 var Table_directive_1 = require('./../Table/Table.directive');
 var PaginationComponent = (function () {
@@ -25,6 +22,9 @@ var PaginationComponent = (function () {
             _this.onTableStateChanged(tableState);
         });
     }
+    PaginationComponent.prototype.ngOnInit = function () {
+        this.rebuildPagination();
+    };
     PaginationComponent.prototype.ngOnDestroy = function () {
         if (this.removeTableStateListener && this.removeTableStateListener.unsubscribe)
             this.removeTableStateListener.unsubscribe();
@@ -75,9 +75,8 @@ var PaginationComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'pt-pagination',
-            template: "<nav *ngIf=\"numPages && pages.length >= 2\">\n                    <ul class=\"pagination\">\n                        <li *ngFor=\"let page of pages\" ngClass=\"{active: page==currentPage}\"><a href=\"javascript: void(0);\" ng-click=\"selectPage(page)\">{{page}}</a></li>\n                    </ul>\n                </nav>"
-        }),
-        __param(0, core_1.Host()), 
+            templateUrl: "./Pagination.component.html"
+        }), 
         __metadata('design:paramtypes', [Table_directive_1.TableDirective])
     ], PaginationComponent);
     return PaginationComponent;

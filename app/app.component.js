@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var Navigation_component_1 = require("./Navigation/Navigation.component");
 var Customer = (function () {
     function Customer(id, name) {
         this.id = id;
@@ -30,7 +31,8 @@ var AppComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'my-app',
-            templateUrl: './app.component.html'
+            templateUrl: './app.component.html',
+            viewProviders: [Navigation_component_1.NavigationComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

@@ -1,18 +1,6 @@
-<h1>ng2-power-table</h1>
+<pt-navigation>
+</pt-navigation>
 
-<button class="btn btn-success" (click)="showAlert()">Hello</button>
-
-<table [ptTable]="allCustomers" [(ptDisplayArray)]="customers" [(tableState)]="tableState" class="table table-bordered table-stripped">
-    <thead>
-        <tr>
-            <th ptSort="id">Id</th>
-            <th ptSort="name">Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let customer of customers; let i = index;">
-            <td>{{customer.id}}</td>
-            <td>{{customer.name}}</td>
-        </tr>
-    </tbody>
-</table>
+<div id="page-wrapper">
+    <router-outlet></router-outlet>
+</div>

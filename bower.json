@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "bootstrap": "latest",
-    "font-awesome": "latest"
+    "font-awesome": "latest",
+    "chance": "1.0.3"
   }
 }
