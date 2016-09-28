@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ./src/Table/Table.directive.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../prettify.css">
+    <link rel="stylesheet" href="../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">./src/Table/Table.directive.js</span></h1>
+    <h2>
+        Statements: <span class="metric">89.41% <small>(76 / 85)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">72.73% <small>(40 / 55)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">78.57% <small>(11 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">91.36% <small>(74 / 81)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">./src/Table/</a> &#187; Table.directive.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">32</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">32</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">137</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-yes">18</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">137</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-yes">14</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">70</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">70</span>
+<span class="cline-any cline-yes">70</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">64</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">35</span>
+<span class="cline-any cline-yes">35</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">32</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+var __decorate = (this &amp;&amp; this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c &lt; 3 ? target : desc === null ? <span class="branch-0 cbranch-no" title="branch not covered" >desc = Object.getOwnPropertyDescriptor(target, key) </span>: desc, d;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof Reflect === "object" &amp;&amp; typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else <span class="cstat-no" title="statement not covered" >for (var i = decorators.length - 1; i &gt;= 0; i--) <span class="cstat-no" title="statement not covered" >if (d = decorators[i]) <span class="cstat-no" title="statement not covered" >r = (c &lt; 3 ? d(r) : c &gt; 3 ? d(target, key, r) : d(target, key)) || r;</span></span></span>
+    return c &gt; 3 &amp;&amp; r &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >Object.defineProperty(target, key, r),</span> r;
+};
+var __metadata = (this &amp;&amp; this.__metadata) || function (k, v) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof Reflect === "object" &amp;&amp; typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require("@angular/core");
+var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");
+var PropertyValueSelectorEvent_class_1 = require('./../Sort/PropertyValueSelectorEvent.class');
+var SortOrder_enum_1 = require('./../Sort/SortOrder.enum');
+var TableDirective = (function () {
+    function TableDirective(changeDetectorRef) {
+        this.changeDetectorRef = changeDetectorRef;
+        this.displayArrayChange = new core_1.EventEmitter();
+        this.tableStateChange = new core_1.EventEmitter();
+        /*
+            if consumer would like to leverage aggresive minification for their
+            project they can leverage this callback to select property value
+            internally it will be used to sort
+        */
+        this.propertySelector = new core_1.EventEmitter();
+        this.customPipe = null;
+    }
+    TableDirective.prototype.ngOnInit = function () {
+        this.getTableState();
+    };
+    TableDirective.prototype.ngOnChanges = function (changes) {
+        if (changes['originalArray'] &amp;&amp; changes['originalArray'].currentValue) {
+            this.pipe();
+        }
+    };
+    TableDirective.prototype.preventRefreshDataEvent = <span class="fstat-no" title="function not covered" >function () {</span>
+    };
+    TableDirective.prototype.getTableState = function () {
+        if (!this.tableState) {
+            this.tableState = new DefaultTableState_class_1.DefaultTableState();
+            this.tableStateChange.emit(this.tableState);
+            this.changeDetectorRef.detectChanges();
+        }
+        return this.tableState;
+    };
+    TableDirective.prototype.doSort = function (predicate, order) {
+        var state = this.getTableState();
+        state.sort.predicate = predicate;
+        state.sort.order = order;
+        this.pipe();
+    };
+    TableDirective.prototype.doSearch = <span class="fstat-no" title="function not covered" >function (predicate, reverse) {</span>
+        // update table state
+        // 
+<span class="cstat-no" title="statement not covered" >        this.pipe();</span>
+    };
+    TableDirective.prototype.overridePipe = <span class="fstat-no" title="function not covered" >function (func) {</span>
+<span class="cstat-no" title="statement not covered" >        this.customPipe = func;</span>
+<span class="cstat-no" title="statement not covered" >        this.pipe();</span>
+    };
+    TableDirective.prototype.getPropertyValue = function (row) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!row)
+<span class="cstat-no" title="statement not covered" >            return undefined;</span>
+        var state = this.getTableState();
+        if (this.propertySelector.observers.length &gt; 0) {
+            var msg = new PropertyValueSelectorEvent_class_1.PropertyValueSelectorEvent();
+            msg.row = row;
+            msg.propertyName = state.sort.predicate;
+            this.propertySelector.emit(msg);
+            return msg.value;
+        }
+        return row[state.sort.predicate];
+    };
+    TableDirective.prototype.pipe = function () {
+        var _this = this;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (this.customPipe) {
+<span class="cstat-no" title="statement not covered" >            this.customPipe();</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+        if (!this.originalArray)
+            return;
+        var state = this.getTableState();
+        // 1. filter array by possible search predicate
+        // 2. sort array if predicate
+        if (state.sort.predicate) {
+            var newArray = new Array();
+            newArray = this.originalArray.sort(function (a, b) {
+                var aValue = _this.getPropertyValue(a);
+                var bValue = _this.getPropertyValue(b);
+                // null or undefined values should be first
+                if (!aValue)
+                    return 1;
+                var filter = aValue &gt; bValue ? 1 : aValue &lt; bValue ? -1 : <span class="branch-1 cbranch-no" title="branch not covered" >0;</span>
+                // Descending order only if items not equal, and descending selected.
+                if (state.sort.order === SortOrder_enum_1.SortOrder.Descending
+                    &amp;&amp; filter !== 0) {
+                    filter = filter * -1;
+                }
+                ;
+                return filter;
+            });
+            this.displayArray = newArray;
+            this.displayArrayChange.emit(this.displayArray);
+        }
+        // 3. splice array by pageSize if applicable
+    };
+    ;
+    __decorate([
+        core_1.Input('ptTable'), 
+        __metadata('design:type', Array)
+    ], TableDirective.prototype, "originalArray", void 0);
+    __decorate([
+        core_1.Input('ptDisplayArray'), 
+        __metadata('design:type', Array)
+    ], TableDirective.prototype, "displayArray", void 0);
+    __decorate([
+        core_1.Output('ptDisplayArrayChange'), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], TableDirective.prototype, "displayArrayChange", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], TableDirective.prototype, "tableState", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], TableDirective.prototype, "tableStateChange", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], TableDirective.prototype, "propertySelector", void 0);
+    TableDirective = __decorate([
+        core_1.Directive({
+            selector: "[ptTable]"
+        }), 
+        __metadata('design:paramtypes', [core_1.ChangeDetectorRef])
+    ], TableDirective);
+    return TableDirective;
+}());
+exports.TableDirective = TableDirective;
+//# sourceMappingURL=Table.directive.js.map</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 27 2016 09:03:59 GMT-0700 (Pacific Daylight Time)</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
