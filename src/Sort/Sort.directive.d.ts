@@ -2,7 +2,7 @@ import { ElementRef, Renderer } from "@angular/core";
 import { TableDirective } from "./../Table/Table.directive";
 import { SortOrder } from "./SortOrder.enum";
 export declare class SortDirective {
-    private table;
+    table: TableDirective;
     private element;
     private renderer;
     predicate: string;

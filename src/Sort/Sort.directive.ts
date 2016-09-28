@@ -20,7 +20,7 @@ export class SortDirective {
     /**
      *
      */
-    constructor(@Host() private table: TableDirective,
+    constructor(public table: TableDirective,
         private element: ElementRef,
         private renderer: Renderer) {
         this.order = SortOrder.NotSet;

@@ -25,7 +25,7 @@ export class PaginationComponent {
     /**
      *
      */
-    constructor(@Host() private table: TableDirective) {
+    constructor(private table: TableDirective) {
 
         this.displayedPagesCount = 5;
 
