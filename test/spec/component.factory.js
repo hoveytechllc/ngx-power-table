@@ -20,6 +20,25 @@ var TestComp = (function () {
     return TestComp;
 }());
 exports.TestComp = TestComp;
+///
+function createComponentFixtureAfterSetup(comp) {
+    var fix = testing_1.TestBed.createComponent(comp);
+    fix.detectChanges();
+    return fix;
+}
+exports.createComponentFixtureAfterSetup = createComponentFixtureAfterSetup;
+function SetupComponentFixture(template, providers, comp) {
+    if (providers === void 0) { providers = null; }
+    if (comp === void 0) { comp = null; }
+    if (!comp) {
+        comp = TestComp;
+    }
+    testing_1.TestBed.overrideComponent(comp, { set: { template: template } });
+    if (providers && providers.length) {
+        testing_1.TestBed.overrideComponent(comp, { add: { providers: providers } });
+    }
+}
+exports.SetupComponentFixture = SetupComponentFixture;
 function createComponentFixture(template, providers, comp) {
     if (providers === void 0) { providers = null; }
     if (comp === void 0) { comp = null; }

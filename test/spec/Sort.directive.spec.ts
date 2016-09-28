@@ -19,6 +19,12 @@ describe('SortDirective tests', function () {
     },
     pipe: function () {
 
+    },
+    getConfiguration: () => {
+      return {
+          ascendingCssClass: "fa fa-sort-asc",
+          descendingCssClass: "fa fa-sort-desc"
+      };
     }
   };
 
@@ -103,19 +109,18 @@ describe('SortDirective tests', function () {
   
   it('does add css class from configuration based on SortOrder', () => {
     var template = `<div><div ptSort="col1"></div></div>`;
-    var fix = createComponentFixture(template);
+
+    var fix = createComponentFixture(template, [{provide: TableDirective, useValue: tableDirectiveSub}]);
     fix.detectChanges();
 
     var sortEl = fix.debugElement.children[0].children[0];
     var sortDirective = <SortDirective>sortEl.injector.get(SortDirective);
-  
+    
     expect(sortEl.nativeElement.classList.length).toBe(0);
     sortEl.nativeElement.click();
-    expect(sortEl.nativeElement.classList.length).toBe(1);
-    expect(sortEl.nativeElement.classList[0]).toBe('fa fa-sort-asc');
+    expect(sortEl.nativeElement.classList.value).toBe('fa fa-sort-asc');
     sortEl.nativeElement.click();
-    expect(sortEl.nativeElement.classList.length).toBe(1);
-    expect(sortEl.nativeElement.classList[0]).toBe('fa fa-sort-asc');
+    expect(sortEl.nativeElement.classList.value).toBe('fa fa-sort-desc');
     sortEl.nativeElement.click();
     expect(sortEl.nativeElement.classList.length).toBe(0);
   });

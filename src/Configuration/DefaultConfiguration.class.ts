@@ -45,8 +45,8 @@ export class DefaultConfiguration implements IConfiguration {
     public static create(): DefaultConfiguration{
         var config = new DefaultConfiguration();
 
-        config.ascendingCssClass = 'fa fa-sort-asc'
-        config.descendingCssClass = 'fa fa-sort-desc'
+        config.ascendingCssClass = 'pt-sort-asc'
+        config.descendingCssClass = 'pt-sort-desc'
         config.pipeServiceType = DefaultDataPipeService;
 
         return config; 

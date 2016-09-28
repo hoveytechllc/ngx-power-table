@@ -49,6 +49,7 @@ var SortDirective = (function () {
             && this.order !== SortOrder_enum_1.SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
             this.order = SortOrder_enum_1.SortOrder.NotSet;
+            this.updateSortDisplay();
             // fix css classes
             return;
         }
@@ -59,6 +60,7 @@ var SortDirective = (function () {
             // since suppressSortChangedHandler was not set, we can safely assume
             // we need to trigger sort.
             this.order = this.table.tableState.sort.order;
+            this.updateSortDisplay();
             this.table.pipe();
             // fix css classes
             return;
@@ -72,6 +74,26 @@ var SortDirective = (function () {
             _this.resolveTableState();
         });
     };
+    SortDirective.prototype.updateSortDisplay = function () {
+        var config = this.table.getConfiguration();
+        var addAscending = (this.order === SortOrder_enum_1.SortOrder.Ascending);
+        var addDescending = (this.order === SortOrder_enum_1.SortOrder.Descending);
+        if (!addDescending && addAscending) {
+            this.setElementClass(config.descendingCssClass, addDescending);
+            this.setElementClass(config.ascendingCssClass, addAscending);
+        }
+        else {
+            this.setElementClass(config.ascendingCssClass, addAscending);
+            this.setElementClass(config.descendingCssClass, addDescending);
+        }
+    };
+    SortDirective.prototype.setElementClass = function (classValue, add) {
+        var classes = classValue.split(' ');
+        for (var i = 0; i < classes.length; i++) {
+            var value = classes[i];
+            this.renderer.setElementClass(this.element.nativeElement, value, add);
+        }
+    };
     SortDirective.prototype.onClicked = function (ev) {
         if (this.order === SortOrder_enum_1.SortOrder.Descending) {
             // manual reset
@@ -80,6 +102,7 @@ var SortDirective = (function () {
         else {
             this.order++;
         }
+        this.updateSortDisplay();
         this.suppressSortChangedHandler = true;
         var state = this.table.tableState;
         state.sort.predicate = this.predicate;

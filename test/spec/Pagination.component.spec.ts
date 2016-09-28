@@ -1,6 +1,6 @@
-import { Provider, Type, DebugElement, Component } from "@angular/core";
-import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angular/core/testing';
-import { TestComp, createComponent, createComponentFixture } from './component.factory';
+import { Provider, Type, DebugElement, Component, EventEmitter } from "@angular/core";
+import { TestBed } from '@angular/core/testing';
+import { TestComp, createComponent, createComponentFixture, SetupComponentFixture, createComponentFixtureAfterSetup } from './component.factory';
 
 import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
@@ -10,63 +10,82 @@ import { ConfigurationProvider } from './../../src/Configuration/ConfigurationPr
 import { DefaultDataPipeService } from './../../src/Pipe/DefaultDataPipeService.class';
 import { PaginationComponent } from './../../src/Pagination/Pagination.component';
 
-class TestObject {
-
-    constructor(public id: number, public name: string) {
-
-    }
-}
-
-@Component({
-    selector: 'my-test-component',
-    template: "<div></div>"
-})
-class TestTableDirective {
-    public originalData: Array<TestObject>;
-    public displayData: Array<TestObject>;
-    public tableState: ITableState;
-
-    /**
-     *
-     */
-    constructor() {
-        this.originalData = new Array<TestObject>();
-        this.displayData = new Array<TestObject>();
-    }
-}
-
 describe('Pagination.component tests', function () {
+    var tableDirectiveSub = {
+        tableStateChange: new EventEmitter<ITableState>(),
+        tableState: {
+            pagination: {
+                start: 0,
+                end: 0,
+                pageSize: 0,
+                numberOfPages: 0
+            }
+        },
+        pipe: function () {
 
-    beforeEach(() => {
+        },
+        getConfiguration: () => {
+            return {
+                ascendingCssClass: "fa fa-sort-asc",
+                descendingCssClass: "fa fa-sort-desc"
+            };
+        }
+    };
 
-        TestBed.configureTestingModule({
-            declarations: [TableDirective, PaginationComponent, TestTableDirective, TestComp],
-            providers: [ConfigurationProvider, DefaultDataPipeService]
+    var providers = [{ provide: TableDirective, useValue: tableDirectiveSub }];
+
+    function configureModule(): Promise<any> {
+        return TestBed.configureTestingModule({
+            declarations: [PaginationComponent, TestComp]
+        }).compileComponents();
+    }
+
+    it('should create buttons for page count', (done) => {
+        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.start = 0;
+        tableDirectiveSub.tableState.pagination.pageSize = 10;
+
+        var template = '<div><pt-pagination></pt-pagination></div>';
+        SetupComponentFixture(template, providers);
+
+        configureModule().then(() => {
+            var fix = createComponentFixtureAfterSetup(TestComp);
+
+            var paginationEl = fix.debugElement.children[0].children[0];
+            var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
+
+            expect(paginationComponent).toBeDefined();
+
+            expect(paginationEl.nativeElement.children[0].children[0].children.length).toBe(4);
+            done();
+        })
+    });
+
+    it('does call pipe with new start, if button clicked', (done) => {
+        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.start = 0;
+        tableDirectiveSub.tableState.pagination.pageSize = 10;
+
+        var pipeCalled: boolean = false;
+        tableDirectiveSub.pipe = () => {
+            pipeCalled = true;
+        };
+
+        var template = '<div><pt-pagination></pt-pagination></div>';
+        SetupComponentFixture(template, providers);
+
+        configureModule().then(() => {
+            var fix = createComponentFixtureAfterSetup(TestComp);
+
+            var paginationEl = fix.debugElement.children[0].children[0];
+            var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
+
+            var page2Button = paginationEl.children[0].children[0].children[1];
+            page2Button.nativeElement.click();
+
+            expect(pipeCalled).toBeTruthy();
+            expect(paginationComponent.table.tableState.pagination.start).toBe(10);
+            done();
         });
     });
-
-    it('should create buttons for page count', () => {
-
-        var template = '<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData">' +
-            '<tfoot><pt-pagination></pt-pagination></tfoot></table>';
-        var fix = createComponentFixture(template, [], TestTableDirective);
-
-        var paginationEl = fix.debugElement.children[0].children[0].children[0];
-        var paginationComponent = <PaginationComponent>paginationEl.componentInstance;
-
-        var original = new Array<TestObject>();
-        for (var i = 0; i < 40; i++) {
-            original.push(new TestObject(i, "Name " + i));
-        }
-        fix.componentInstance.originalData = original;
-        fix.detectChanges();
-
-        expect(paginationComponent).toBeDefined();
-
-        expect(fix.componentInstance.displayData).toBeDefined();
-        expect(fix.componentInstance.displayData.length).toBe(10);
-        expect(paginationEl.nativeElement.children[0].children[0].children.length).toBe(4);
-
-    });
-
 });

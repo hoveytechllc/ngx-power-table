@@ -19,5 +19,7 @@ export declare class SortDirective {
     private unsubscribeToSortListener();
     private resolveTableState();
     private onTableStateChanged(tableState);
+    private updateSortDisplay();
+    private setElementClass(classValue, add);
     private onClicked(ev);
 }

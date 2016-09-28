@@ -22,6 +22,9 @@ var PaginationComponent = (function () {
             _this.onTableStateChanged(tableState);
         });
     }
+    PaginationComponent.prototype.ngOnInit = function () {
+        this.rebuildPagination();
+    };
     PaginationComponent.prototype.ngOnDestroy = function () {
         if (this.removeTableStateListener && this.removeTableStateListener.unsubscribe)
             this.removeTableStateListener.unsubscribe();
@@ -72,7 +75,7 @@ var PaginationComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'pt-pagination',
-            template: "<nav *ngIf=\"numPages && pages.length >= 2\">\n                    <ul class=\"pagination\">\n                        <li *ngFor=\"let page of pages\" ngClass=\"{active: page==currentPage}\"><a href=\"javascript: void(0);\" ng-click=\"selectPage(page)\">{{page}}</a></li>\n                    </ul>\n                </nav>"
+            templateUrl: "./Pagination.component.html"
         }), 
         __metadata('design:paramtypes', [Table_directive_1.TableDirective])
     ], PaginationComponent);

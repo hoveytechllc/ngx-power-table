@@ -6,11 +6,7 @@ import { ITableState } from './../TableState/ITableState.interface';
 @Component({
     moduleId: module.id,
     selector: 'pt-pagination',
-    template: `<nav *ngIf="numPages && pages.length >= 2">
-                    <ul class="pagination">
-                        <li *ngFor="let page of pages" ngClass="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a></li>
-                    </ul>
-                </nav>`
+    templateUrl: "./Pagination.component.html"
 })
 export class PaginationComponent {
     private removeTableStateListener: any;
@@ -25,7 +21,7 @@ export class PaginationComponent {
     /**
      *
      */
-    constructor(private table: TableDirective) {
+    constructor(public table: TableDirective) {
 
         this.displayedPagesCount = 5;
 
@@ -33,6 +29,10 @@ export class PaginationComponent {
             this.onTableStateChanged(tableState);
         });
 
+    }
+
+    ngOnInit() {
+        this.rebuildPagination();
     }
 
     ngOnDestroy() {

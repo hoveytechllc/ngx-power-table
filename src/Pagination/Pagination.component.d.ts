@@ -1,6 +1,6 @@
 import { TableDirective } from './../Table/Table.directive';
 export declare class PaginationComponent {
-    private table;
+    table: TableDirective;
     private removeTableStateListener;
     private removePaginationListener;
     currentPage: number;
@@ -11,6 +11,7 @@ export declare class PaginationComponent {
      *
      */
     constructor(table: TableDirective);
+    ngOnInit(): void;
     ngOnDestroy(): void;
     private unsubscribeToPagination();
     private rebuildPagination();

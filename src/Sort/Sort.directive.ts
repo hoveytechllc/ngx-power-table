@@ -57,6 +57,7 @@ export class SortDirective {
             && this.order !== SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
             this.order = SortOrder.NotSet;
+            this.updateSortDisplay();
             // fix css classes
             return;
         }
@@ -69,6 +70,7 @@ export class SortDirective {
             // since suppressSortChangedHandler was not set, we can safely assume
             // we need to trigger sort.
             this.order = this.table.tableState.sort.order;
+            this.updateSortDisplay();
             this.table.pipe();
             // fix css classes
             return;
@@ -84,6 +86,30 @@ export class SortDirective {
         });
     }
 
+    private updateSortDisplay() {
+        var config = this.table.getConfiguration();
+        var addAscending: boolean = (this.order === SortOrder.Ascending);
+        var addDescending: boolean = (this.order === SortOrder.Descending);
+
+        if (!addDescending && addAscending) {
+            this.setElementClass(config.descendingCssClass, addDescending);
+            this.setElementClass(config.ascendingCssClass, addAscending);
+        }
+        else {
+            this.setElementClass(config.ascendingCssClass, addAscending);
+            this.setElementClass(config.descendingCssClass, addDescending);
+        }
+    }
+
+    private setElementClass(classValue: string, add: boolean) {
+        var classes = classValue.split(' ');
+
+        for (var i = 0; i < classes.length; i++) {
+            var value = classes[i];
+            this.renderer.setElementClass(this.element.nativeElement, value, add);
+        }
+    }
+
     private onClicked(ev: MouseEvent) {
         if (this.order === SortOrder.Descending) {
             // manual reset
@@ -91,6 +117,7 @@ export class SortDirective {
         } else {
             this.order++;
         }
+        this.updateSortDisplay();
 
         this.suppressSortChangedHandler = true;
 

@@ -21,6 +21,6 @@ export declare class TableDirective {
     ngOnChanges(changes: SimpleChanges): void;
     private getTableState();
     doSearch(predicate: string, reverse: boolean): void;
-    private getConfiguration();
+    getConfiguration(): IConfiguration;
     pipe(): void;
 }

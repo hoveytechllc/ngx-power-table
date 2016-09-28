@@ -37,23 +37,27 @@ var TestTableComponent = (function () {
     return TestTableComponent;
 }());
 describe('PowerTableModule tests', function () {
-    beforeEach(function () {
-        testing_1.TestBed.configureTestingModule({
+    function configureModule() {
+        return testing_1.TestBed.configureTestingModule({
             declarations: [TestTableComponent],
             imports: [__1.PowerTableModule]
-        });
-    });
-    it('should create buttons for page count', function () {
+        }).compileComponents();
+    }
+    it('does create table and set displayData on consumer', function (done) {
         var template = '<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData"></table>';
-        var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
-        var original = new Array();
-        for (var i = 0; i < 40; i++) {
-            original.push(new TestObject(i, "Name " + i));
-        }
-        fix.componentInstance.originalData = original;
-        fix.detectChanges();
-        expect(fix.componentInstance.displayData).toBeDefined();
-        expect(fix.componentInstance.displayData.length).toBe(10);
+        component_factory_1.SetupComponentFixture(template, [], TestTableComponent);
+        configureModule().then(function () {
+            var fix = component_factory_1.createComponentFixtureAfterSetup(TestTableComponent);
+            var original = new Array();
+            for (var i = 0; i < 40; i++) {
+                original.push(new TestObject(i, "Name " + i));
+            }
+            fix.componentInstance.originalData = original;
+            fix.detectChanges();
+            expect(fix.componentInstance.displayData).toBeDefined();
+            expect(fix.componentInstance.displayData.length).toBe(10);
+            done();
+        });
     });
 });
 //# sourceMappingURL=PowerTableModule.module.spec.js.map

@@ -88,7 +88,7 @@ export class TableDirective {
         this.pipe();
     }
 
-    private getConfiguration(): IConfiguration {
+    public getConfiguration(): IConfiguration {
         if (this.currentConfiguration)
             return this.currentConfiguration;
 
