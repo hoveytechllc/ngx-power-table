@@ -6,7 +6,10 @@ export class TestComp {
 
 }
 
-///
+/*
+If using templateUrl for any components included in TestBed module, TestComp or any
+components that we are overriding template, need to setup before compileComponents is called.
+ */
 export function createComponentFixtureAfterSetup<T>(comp: Type<T>): ComponentFixture<T> {
     var fix = TestBed.createComponent(comp);
     fix.detectChanges();
