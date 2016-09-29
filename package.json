@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ntsc && gulp build && concurrently \"ntsc -w\" \"jekyll serve --incremental\" \"open 'http://localhost:4000/ng2-power-table/\"",
+    "start": "ntsc && gulp build && concurrently \"ntsc -w\" \"jekyll serve --incremental\" \"start chrome http://localhost:4000/ng2-power-table/\"",
     "postinstall": "typings install"
   },
   "repository": {
@@ -33,11 +33,13 @@
     "ng2-bootstrap": "1.1.5"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.34",
+    "@types/node": "^6.0.41",
     "concurrently": "^2.2.0",
-    "lite-server": "^2.2.0",
+    "gulp": "3.9.1",
     "http-server": "0.9.0",
+    "lite-server": "^2.2.0",
     "typescript": "^2.0.2",
-    "typings": "^1.0.4",
-    "gulp": "3.9.1"
+    "typings": "^1.0.4"
   }
 }

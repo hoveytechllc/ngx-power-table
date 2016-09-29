@@ -10,8 +10,14 @@
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
   },
-  "exclude": [
-    "typings",
-    "node_modules"
+  "include": [
+    "app/**/*.ts"
+  ],
+  "typeRoots": [
+    "node_modules/@types"
+  ],
+  "types": [
+    "core-js",
+    "node"
   ]
 }
