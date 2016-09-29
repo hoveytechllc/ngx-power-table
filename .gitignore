@@ -1,5 +1,12 @@
+.DS_Store
+.vscode
+
+# packages
 node_modules
 bower_components
-.DS_Store
+
 typings
-.vscode
+
+# Jekyll related
+_site
+.jekyll-metadata
