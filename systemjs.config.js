@@ -6,7 +6,7 @@
 
   var paths = {
     // paths serve as alias
-    'npm:': 'node_modules/'
+    'npm:': 'libs/'
   };
 
   var map = {

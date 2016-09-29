@@ -13,7 +13,10 @@ var nodeModules = [
     { name: "zone.js", filter: "dist/*.js"},
     { name: "core-js", filter: "client/*.js"},
     { name: "reflect-metadata", filter: "reflect.js"},
-    { name: "ng2-power-table", filter: "**/*.*"}
+    { name: "ng2-power-table", filter: "**/*.*"},
+    { name: "ng2-bootstrap", filter: "**/*.*"},
+    { name: "lodash", filter: "lodash.js"},
+    { name: "moment", filter: "moment.js"}
 ];
 
 var bowerComponents = [
