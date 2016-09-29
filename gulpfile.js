@@ -15,7 +15,7 @@ var nodeModules = [
     { name: "reflect-metadata", filter: "reflect.js"},
     { name: "ng2-power-table", filter: "**/*.*"},
     { name: "ng2-bootstrap", filter: "**/*.*"},
-    { name: "lodash", filter: "lodash.js"},
+    { name: "lodash", filter: "lodash.min.js"},
     { name: "moment", filter: "moment.js"}
 ];
 
@@ -23,7 +23,8 @@ var bowerComponents = [
     { name: "bootstrap", filter: "**/*.*"},
     { name: "font-awesome", filter: "**/*.*"},
     { name: "jquery", filter: "**/*.*"},
-    { name: "chance", filter: "dist/*.*"}
+    { name: "chance", filter: "dist/*.*"},
+    { name: "animate.css", filter: "animate.min.css"}
 ];
 
 gulp.task('restore-libs', function() {

@@ -9,32 +9,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var Navigation_component_1 = require("./Navigation/Navigation.component");
-var Customer = (function () {
-    function Customer(id, name) {
-        this.id = id;
-        this.name = name;
-    }
-    return Customer;
-}());
 var AppComponent = (function () {
-    function AppComponent() {
-        this.allCustomers = [
-            new Customer(1, "ABC Tire"),
-            new Customer(2, "XYZ Center")
-        ];
+    function AppComponent(renderer, elementRef) {
+        this.renderer = renderer;
+        this.elementRef = elementRef;
+        var wrapper = document.getElementById('wrapper');
+        if (!wrapper)
+            return;
+        var elements = wrapper.getElementsByClassName('loading-frame');
+        if (elements && elements[0]) {
+            var loadingFrame = elements[0];
+            loadingFrame.classList.add('fadeOut');
+            loadingFrame.classList.add('animated');
+            setTimeout(function () {
+                wrapper.removeChild(loadingFrame);
+            }, 1000);
+        }
     }
-    AppComponent.prototype.showAlert = function () {
-        alert('hello');
-    };
     AppComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
             selector: 'my-app',
-            templateUrl: './app.component.html',
-            viewProviders: [Navigation_component_1.NavigationComponent]
+            templateUrl: './app.component.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [core_1.Renderer, core_1.ElementRef])
     ], AppComponent);
     return AppComponent;
 }());

@@ -1,2 +1,5 @@
 baseurl:  /ng2-power-table
 markdown: kramdown
+
+
+exclude: [ node_modules, bower_components ]

@@ -1,34 +1,28 @@
-import { Component } from '@angular/core';
-import { ITableState, TableDirective } from 'ng2-power-table';
-import { NavigationComponent} from "./Navigation/Navigation.component";
-
-class Customer {
-    constructor(public id: number,
-        public name: string) {
-
-    }
-}
+import { Component, ElementRef, Renderer } from '@angular/core';
 
 @Component({
     moduleId: module.id,
     selector: 'my-app',
-    templateUrl: './app.component.html',
-    viewProviders:[NavigationComponent]
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
-    public allCustomers: Array<Customer>;
-    public customers: Array<Customer>;
-    public tableState: ITableState;
 
-    constructor() {
-        this.allCustomers = [
-            new Customer(1, "ABC Tire"),
-            new Customer(2, "XYZ Center")
-        ];
+    constructor(private renderer: Renderer,
+        private elementRef: ElementRef) {
+
+        var wrapper = document.getElementById('wrapper');
+        if (!wrapper)
+            return;
+        var elements = wrapper.getElementsByClassName('loading-frame');
+        if (elements && elements[0]) {
+            var loadingFrame = elements[0];
+            loadingFrame.classList.add('fadeOut');
+            loadingFrame.classList.add('animated');
+
+            setTimeout(() => {
+                wrapper.removeChild(loadingFrame);
+            }, 1000);
+        }
     }
 
-    showAlert()
-    {
-        alert('hello');
-    }
 }
