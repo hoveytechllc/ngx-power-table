@@ -43,6 +43,7 @@
   };
 
   var config = {
+    baseURL: '/ng2-power-table',
     paths: paths,
     map: map,
     packages: packages
