@@ -20,7 +20,10 @@ var TestComp = (function () {
     return TestComp;
 }());
 exports.TestComp = TestComp;
-///
+/*
+If using templateUrl for any components included in TestBed module, TestComp or any
+components that we are overriding template, need to setup before compileComponents is called.
+ */
 function createComponentFixtureAfterSetup(comp) {
     var fix = testing_1.TestBed.createComponent(comp);
     fix.detectChanges();
