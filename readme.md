@@ -12,9 +12,11 @@ Documentation: [https://hoveytech.github.io/ng2-power-table](https://hoveytech.g
 
 ## 1. Install Ng2PowerTable
 
+using Node Package Manager:
+
 `npm install ng2-power-table`
 
-## 2. Modify SystemJS to load Ng2PowerTable ([see documentation](https://hoveytech.github.io/ng2-power-table/))
+## 2. Modify SystemJS bootloader to load Ng2PowerTable ([see documentation](https://hoveytech.github.io/ng2-power-table/))
 
 ```javascript
 (function (global) {
@@ -32,11 +34,11 @@ Documentation: [https://hoveytech.github.io/ng2-power-table](https://hoveytech.g
 
 # Usage
 
-## 1. Add `ptTable` attribute to any element using for table, i.e. `<table [ptTable]="allCustomers">...`
+### 1. Add `ptTable` attribute to any element using for table, i.e. `<table [ptTable]="allCustomers">...`
 
 `ptTable` is 'parent' directive and is required by other directives/components. Include one-way binding for `ptTable` which should be the original array of items for table (i.e. un-sorted, un-paged).
 
-## 2. Add `ptDisplayArray` attribute on same element as `ptTable` with two-way binding.
+### 2. Add `ptDisplayArray` attribute on same element as `ptTable` with two-way binding.
 
 `ptDisplayArray` is the resulting array after Ng2PowerTable has processed the original array of items. For example on a table `...<table [ptTable]="allCustomers" [(ptDisplayArray)]="displayCustomers">...`
 
@@ -44,11 +46,11 @@ Now you can use `*ngFor` over a `tr` element (or whatever you want) and repeat o
 
 Internally Ng2PowerTable uses a service `DefaultDataPipeService` that does client-side paging and sorting. The output of this service is set to your binding of `ptDisplayArray`. FYI: A different `IDataPipeService` could be configured that does server-side paging/sorting/filtering.
 
-## 3. Add any sorting to header elements.
+### 3. Add any sorting to header elements.
 
 Use `ptSort` attribute with value set to property name for sorting. For example on a table header `...<th ptSort="name">Name</th>...`.
 
-## 4. Add pagination 
+### 4. Add pagination 
 
 Add element `<pt-pagination></pt-pagination>` somewhere within `ptTable` element. This component renders navigation buttons to move thru pages of resulting data.
 
