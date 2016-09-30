@@ -4,7 +4,7 @@
   <button type="button" class="btn btn-default" [disabled]="page==1" (click)="goToPreviousPage()"><i class="fa fa-angle-left"></i></button>
 
   <button *ngFor="let page of pages" type="button" class="btn btn-default" 
-    ngClass="{active: page==currentPage}"
+    [ngClass]="{ 'active' : page === currentPage}"
     (click)="selectPage(page)">
     {{page}}
   </button>

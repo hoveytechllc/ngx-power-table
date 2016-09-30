@@ -92,7 +92,41 @@ describe('Pagination.component tests', function () {
             done();
         });
     });
-    
+
+    it('does apply "active" cssClass for page button', (done) => {
+        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.start = 0;
+        tableDirectiveSub.tableState.pagination.pageSize = 10;
+
+        var pipeCalled: boolean = false;
+        tableDirectiveSub.pipe = () => {
+            pipeCalled = true;
+        };
+
+        var template = '<div><pt-pagination></pt-pagination></div>';
+        SetupComponentFixture(template, providers);
+
+        configureModule().then(() => {
+            var fix = createComponentFixtureAfterSetup(TestComp);
+
+            var paginationEl = fix.debugElement.children[0].children[0];
+            var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
+
+            var buttonArray = paginationEl.children[0].children;
+
+            fix.detectChanges();
+
+            var classArray = <Array<string>>buttonArray[2].nativeElement.classList;
+            var hasClass: boolean = false;
+
+            for (var i = 0; i < classArray.length; i++) {
+                if (classArray[i] === 'active') hasClass = true;
+            }
+            
+            expect(hasClass).toBeTruthy();
+            done();
+        });
+    });
     it('does call pipe with start for last page, if "last" button clicked', (done) => {
         tableDirectiveSub.tableState.pagination.numberOfPages = 4;
         tableDirectiveSub.tableState.pagination.start = 10;
