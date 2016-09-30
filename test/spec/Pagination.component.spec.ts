@@ -32,6 +32,16 @@ describe('Pagination.component tests', function () {
         }
     };
 
+    var hasClass = (element: any, className: string): boolean => {
+        var hasClass: boolean = false;
+
+        for (var i = 0; i < element.classList.length; i++) {
+            if (element.classList[i] === className) hasClass = true;
+        }
+
+        return hasClass;
+    }
+
     var providers = [{ provide: TableDirective, useValue: tableDirectiveSub }];
 
     function configureModule(): Promise<any> {
@@ -93,6 +103,72 @@ describe('Pagination.component tests', function () {
         });
     });
 
+    it('does disable prev & first buttons if on page 1', (done) => {
+        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.start = 30;
+        tableDirectiveSub.tableState.pagination.pageSize = 10;
+
+        var pipeCalled: boolean = false;
+        tableDirectiveSub.pipe = () => {
+            pipeCalled = true;
+        };
+
+        var template = '<div><pt-pagination></pt-pagination></div>';
+        SetupComponentFixture(template, providers);
+
+        configureModule().then(() => {
+            var fix = createComponentFixtureAfterSetup(TestComp);
+
+            var paginationEl = fix.debugElement.children[0].children[0];
+            var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
+
+            var buttonArray = paginationEl.children[0].children;
+
+            fix.detectChanges();
+
+            var nextButton = buttonArray[buttonArray.length - 2].nativeElement;
+            var lastButton = buttonArray[buttonArray.length - 1].nativeElement;
+            expect(nextButton.disabled).toBeTruthy();
+            expect(hasClass(nextButton, 'disabled')).toBeTruthy();
+            expect(lastButton.disabled).toBeTruthy();
+            expect(hasClass(lastButton, 'disabled')).toBeTruthy();
+            done();
+        });
+    });
+
+    it('does disable prev & first buttons if on page 1', (done) => {
+        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.start = 0;
+        tableDirectiveSub.tableState.pagination.pageSize = 10;
+
+        var pipeCalled: boolean = false;
+        tableDirectiveSub.pipe = () => {
+            pipeCalled = true;
+        };
+
+        var template = '<div><pt-pagination></pt-pagination></div>';
+        SetupComponentFixture(template, providers);
+
+        configureModule().then(() => {
+            var fix = createComponentFixtureAfterSetup(TestComp);
+
+            var paginationEl = fix.debugElement.children[0].children[0];
+            var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
+
+            var buttonArray = paginationEl.children[0].children;
+
+            fix.detectChanges();
+
+            var firstButton = buttonArray[0].nativeElement;
+            var previousButton = buttonArray[1].nativeElement;
+            expect(firstButton.disabled).toBeTruthy();
+            expect(hasClass(firstButton, 'disabled')).toBeTruthy();
+            expect(previousButton.disabled).toBeTruthy();
+            expect(hasClass(previousButton, 'disabled')).toBeTruthy();
+            done();
+        });
+    });
+
     it('does apply "active" cssClass for page button', (done) => {
         tableDirectiveSub.tableState.pagination.numberOfPages = 4;
         tableDirectiveSub.tableState.pagination.start = 0;
@@ -116,17 +192,11 @@ describe('Pagination.component tests', function () {
 
             fix.detectChanges();
 
-            var classArray = <Array<string>>buttonArray[2].nativeElement.classList;
-            var hasClass: boolean = false;
-
-            for (var i = 0; i < classArray.length; i++) {
-                if (classArray[i] === 'active') hasClass = true;
-            }
-            
-            expect(hasClass).toBeTruthy();
+            expect(hasClass(buttonArray[2].nativeElement, 'active')).toBeTruthy();
             done();
         });
     });
+
     it('does call pipe with start for last page, if "last" button clicked', (done) => {
         tableDirectiveSub.tableState.pagination.numberOfPages = 4;
         tableDirectiveSub.tableState.pagination.start = 10;
