@@ -53,6 +53,18 @@ var PaginationComponent = (function () {
             this.pages.push(i);
         }
     };
+    PaginationComponent.prototype.goToFirstPage = function () {
+        this.selectPage(1);
+    };
+    PaginationComponent.prototype.goToPreviousPage = function () {
+        this.selectPage(this.currentPage - 1);
+    };
+    PaginationComponent.prototype.goToNextPage = function () {
+        this.selectPage(this.currentPage + 1);
+    };
+    PaginationComponent.prototype.goToLastPage = function () {
+        this.selectPage(this.numPages);
+    };
     PaginationComponent.prototype.selectPage = function (page) {
         if (page > 0 && page <= this.numPages) {
             var pageSize = this.table.tableState.pagination.pageSize;

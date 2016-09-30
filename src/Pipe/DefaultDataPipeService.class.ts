@@ -24,7 +24,7 @@ export class DefaultDataPipeService<TTableState extends ITableState, TConfigurat
     }
 
     sort(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Array<any> {
-        if (!tableState.sort.predicate) 
+        if (!tableState.sort.predicate || tableState.sort.order === SortOrder.NotSet) 
             return data;
         
         return data.sort((a, b) => {

@@ -15,6 +15,10 @@ export declare class PaginationComponent {
     ngOnDestroy(): void;
     private unsubscribeToPagination();
     private rebuildPagination();
+    goToFirstPage(): void;
+    goToPreviousPage(): void;
+    goToNextPage(): void;
+    goToLastPage(): void;
     selectPage(page: number): void;
     private triggerPaging(start);
     private onTableStateChanged(tableState);

@@ -56,14 +56,17 @@ describe('Pagination.component tests', function () {
 
             expect(paginationComponent).toBeDefined();
 
-            expect(paginationEl.nativeElement.children[0].children[0].children.length).toBe(4);
+            var buttonArray = paginationEl.children[0].children;
+
+            // two left, 4 pages, two right
+            expect(buttonArray.length).toBe(8);
             done();
         })
     });
 
-    it('does call pipe with new start, if button clicked', (done) => {
+    it('does call pipe with start 0, if "first" button clicked', (done) => {
         tableDirectiveSub.tableState.pagination.numberOfPages = 4;
-        tableDirectiveSub.tableState.pagination.start = 0;
+        tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 
         var pipeCalled: boolean = false;
@@ -80,11 +83,41 @@ describe('Pagination.component tests', function () {
             var paginationEl = fix.debugElement.children[0].children[0];
             var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
 
-            var page2Button = paginationEl.children[0].children[0].children[1];
-            page2Button.nativeElement.click();
+            var buttonArray = paginationEl.children[0].children;
+
+            buttonArray[0].nativeElement.click();
 
             expect(pipeCalled).toBeTruthy();
-            expect(paginationComponent.table.tableState.pagination.start).toBe(10);
+            expect(paginationComponent.table.tableState.pagination.start).toBe(0);
+            done();
+        });
+    });
+    
+    it('does call pipe with start for last page, if "last" button clicked', (done) => {
+        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.start = 10;
+        tableDirectiveSub.tableState.pagination.pageSize = 10;
+
+        var pipeCalled: boolean = false;
+        tableDirectiveSub.pipe = () => {
+            pipeCalled = true;
+        };
+
+        var template = '<div><pt-pagination></pt-pagination></div>';
+        SetupComponentFixture(template, providers);
+
+        configureModule().then(() => {
+            var fix = createComponentFixtureAfterSetup(TestComp);
+
+            var paginationEl = fix.debugElement.children[0].children[0];
+            var paginationComponent = <PaginationComponent>paginationEl.injector.get(PaginationComponent);
+
+            var buttonArray = paginationEl.children[0].children;
+
+            buttonArray[buttonArray.length - 1].nativeElement.click();
+
+            expect(pipeCalled).toBeTruthy();
+            expect(paginationComponent.table.tableState.pagination.start).toBe(30);
             done();
         });
     });
