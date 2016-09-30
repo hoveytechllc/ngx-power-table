@@ -118,9 +118,13 @@ describe('SortDirective tests', function () {
     
     expect(sortEl.nativeElement.classList.length).toBe(0);
     sortEl.nativeElement.click();
-    expect(sortEl.nativeElement.classList.value).toBe('fa fa-sort-asc');
+    expect(sortEl.nativeElement.classList.length).toBe(2);
+    expect(sortEl.nativeElement.classList[0]).toBe('fa');
+    expect(sortEl.nativeElement.classList[1]).toBe('fa-sort-asc');
     sortEl.nativeElement.click();
-    expect(sortEl.nativeElement.classList.value).toBe('fa fa-sort-desc');
+    expect(sortEl.nativeElement.classList.length).toBe(2);
+    expect(sortEl.nativeElement.classList[0]).toBe('fa');
+    expect(sortEl.nativeElement.classList[1]).toBe('fa-sort-desc');
     sortEl.nativeElement.click();
     expect(sortEl.nativeElement.classList.length).toBe(0);
   });
