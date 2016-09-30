@@ -72,6 +72,9 @@ Example template:
             <td>{{c.invoices}}</td>
         </tr>
     </tbody>
+    <tfoot>
+        <pt-pagination></pt-pagination>
+    </tfoot>
 </table>
 ```
 
