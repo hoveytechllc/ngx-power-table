@@ -14,14 +14,14 @@
     ]
   ],
   "_from": "ng2-power-table@latest",
-  "_id": "ng2-power-table@0.1.4",
+  "_id": "ng2-power-table@0.1.9",
   "_inCache": true,
   "_installable": true,
   "_location": "/ng2-power-table",
   "_nodeVersion": "6.6.0",
   "_npmOperationalInternal": {
     "host": "packages-12-west.internal.npmjs.com",
-    "tmp": "tmp/ng2-power-table-0.1.4.tgz_1475021857219_0.049568999325856566"
+    "tmp": "tmp/ng2-power-table-0.1.9.tgz_1475260040841_0.9828267951961607"
   },
   "_npmUser": {
     "name": "dahovey",
@@ -39,10 +39,11 @@
     "type": "tag"
   },
   "_requiredBy": [
+    "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/ng2-power-table/-/ng2-power-table-0.1.4.tgz",
-  "_shasum": "22083f6f885c1c25af74192f946a30139ff1b5a7",
+  "_resolved": "https://registry.npmjs.org/ng2-power-table/-/ng2-power-table-0.1.9.tgz",
+  "_shasum": "509cec35592b8e6ba6612af4486043f1247b4335",
   "_shrinkwrap": null,
   "_spec": "ng2-power-table@latest",
   "_where": "C:\\dev\\hoveytech\\ng2-power-table-ui",
@@ -69,7 +70,7 @@
     "systemjs": "0.19.27",
     "zone.js": "^0.6.23"
   },
-  "description": "[![Build Status](https://travis-ci.org/hoveytech/ng2-power-table.svg?branch=master)](https://travis-ci.org/hoveytech/ng2-power-table)",
+  "description": "Angular2 table components",
   "devDependencies": {
     "canonical-path": "0.0.2",
     "concurrently": "^2.2.0",
@@ -93,10 +94,10 @@
   },
   "directories": {},
   "dist": {
-    "shasum": "22083f6f885c1c25af74192f946a30139ff1b5a7",
-    "tarball": "https://registry.npmjs.org/ng2-power-table/-/ng2-power-table-0.1.4.tgz"
+    "shasum": "509cec35592b8e6ba6612af4486043f1247b4335",
+    "tarball": "https://registry.npmjs.org/ng2-power-table/-/ng2-power-table-0.1.9.tgz"
   },
-  "gitHead": "e54644534b13eaefdd4c3034003edb8d0833f640",
+  "gitHead": "83a5f0d7490ae4d4803c5c344c6ff697b39c38cd",
   "homepage": "https://github.com/hoveytech/ng2-power-table#readme",
   "license": "MIT",
   "maintainers": [
@@ -117,5 +118,5 @@
     "test": "ntsc && concurrently \"ntsc -w\" \"karma start karma.conf.js\"",
     "test-travis": "ntsc && ./node_modules/.bin/karma start --browsers Firefox --single-run"
   },
-  "version": "0.1.4"
+  "version": "0.1.9"
 }

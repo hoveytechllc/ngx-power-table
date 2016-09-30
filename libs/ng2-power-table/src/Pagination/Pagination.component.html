@@ -1,7 +1,22 @@
-<nav *ngIf="numPages && pages.length >= 2">
-    <ul class="pagination">
-        <li *ngFor="let page of pages" ngClass="{active: page==currentPage}" (click)="selectPage(page)">
-            <a href="javascript: void(0);">{{page}}</a>
-        </li>
-    </ul>
-</nav>
+
+<div class="btn-group" role="group">
+  <button type="button" class="btn btn-default" [disabled]="currentPage === 1"
+    [ngClass]="{ 'disabled' : currentPage === 1}"
+     (click)="goToFirstPage()"><i class="fa fa-angle-double-left"></i></button>
+  <button type="button" class="btn btn-default" [disabled]="currentPage==1"
+    [ngClass]="{ 'disabled' : currentPage === 1}" 
+    (click)="goToPreviousPage()"><i class="fa fa-angle-left"></i></button>
+
+  <button *ngFor="let page of pages" type="button" class="btn btn-default" 
+    [ngClass]="{ 'active' : page === currentPage}"
+    (click)="selectPage(page)">
+    {{page}}
+  </button>
+
+  <button type="button" class="btn btn-default" [disabled]="currentPage==numPages" 
+    [ngClass]="{ 'disabled' : currentPage === numPages}"
+    (click)="goToNextPage()"><i class="fa fa-angle-right"></i></button>
+  <button type="button" class="btn btn-default" [disabled]="currentPage==numPages" 
+    [ngClass]="{ 'disabled' : currentPage === numPages}"
+    (click)="goToLastPage()"><i class="fa fa-angle-double-right"></i></button>
+</div>

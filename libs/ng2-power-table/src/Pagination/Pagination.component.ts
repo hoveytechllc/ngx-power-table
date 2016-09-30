@@ -71,14 +71,30 @@ export class PaginationComponent {
 
     }
 
-    public selectPage(page: number) : void {
+    public goToFirstPage() {
+        this.selectPage(1);
+    }
+
+    public goToPreviousPage() {
+        this.selectPage(this.currentPage - 1);
+    }
+
+    public goToNextPage() {
+        this.selectPage(this.currentPage + 1);
+    }
+
+    public goToLastPage() {
+        this.selectPage(this.numPages);
+    }
+
+    public selectPage(page: number): void {
         if (page > 0 && page <= this.numPages) {
             var pageSize = this.table.tableState.pagination.pageSize;
             this.triggerPaging((page - 1) * pageSize);
         }
     }
 
-    private triggerPaging(start: number){
+    private triggerPaging(start: number) {
         this.table.tableState.pagination.start = start;
         this.table.pipe();
     }
