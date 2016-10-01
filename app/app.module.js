@@ -8,32 +8,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+// angular stuff
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var http_1 = require('@angular/http');
-var ng2_power_table_1 = require('ng2-power-table');
+// other dependencies
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
+/*
+  ======== IMPORT PowerTableModule
+*/
+var ng2_power_table_1 = require('ng2-power-table');
+// components for this app
 var app_component_1 = require('./app.component');
+// routing
 var app_routes_1 = require('./app.routes');
-var CodeView_component_1 = require('./BasicUsage/CodeViews/CodeView.component');
-var Navigation_component_1 = require('./Navigation/Navigation.component');
-var BasicUsage_component_1 = require('./BasicUsage/BasicUsage.component');
-var BasicSample_component_1 = require('./BasicUsage/BasicSample.component');
-var Sorting_component_1 = require('./Sorting/Sorting.component');
 core_1.enableProdMode();
-var AppModule = (function () {
-    function AppModule() {
+var Ng2PowerTableDocumentationModule = (function () {
+    function Ng2PowerTableDocumentationModule() {
     }
-    AppModule = __decorate([
+    Ng2PowerTableDocumentationModule = __decorate([
         core_1.NgModule({
+            /*
+              ======== INCLUDE PowerTableModule in imports of your module
+            */
             imports: [platform_browser_1.BrowserModule, ng2_power_table_1.PowerTableModule, app_routes_1.routing, ng2_bootstrap_1.Ng2BootstrapModule, http_1.HttpModule],
-            declarations: [app_component_1.AppComponent, Navigation_component_1.NavigationComponent, BasicUsage_component_1.BasicUsageComponent, Sorting_component_1.SortingComponent, CodeView_component_1.CodeExampleComponent, BasicSample_component_1.BasicSampleComponent],
+            declarations: [app_component_1.Ng2PowerTableComponents],
             bootstrap: [app_component_1.AppComponent],
             providers: [app_routes_1.appRoutingProviders]
         }), 
         __metadata('design:paramtypes', [])
-    ], AppModule);
-    return AppModule;
+    ], Ng2PowerTableDocumentationModule);
+    return Ng2PowerTableDocumentationModule;
 }());
-exports.AppModule = AppModule;
+exports.Ng2PowerTableDocumentationModule = Ng2PowerTableDocumentationModule;
 //# sourceMappingURL=app.module.js.map

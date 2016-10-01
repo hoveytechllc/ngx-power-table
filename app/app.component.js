@@ -10,21 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var AppComponent = (function () {
-    function AppComponent(renderer, elementRef) {
-        this.renderer = renderer;
-        this.elementRef = elementRef;
-        var wrapper = document.getElementById('wrapper');
-        if (!wrapper)
-            return;
-        var elements = wrapper.getElementsByClassName('loading-frame');
-        if (elements && elements[0]) {
-            var loadingFrame = elements[0];
-            loadingFrame.classList.add('fadeOut');
-            loadingFrame.classList.add('animated');
-            setTimeout(function () {
-                wrapper.removeChild(loadingFrame);
-            }, 1000);
-        }
+    function AppComponent() {
     }
     AppComponent = __decorate([
         core_1.Component({
@@ -32,9 +18,24 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: './app.component.html'
         }), 
-        __metadata('design:paramtypes', [core_1.Renderer, core_1.ElementRef])
+        __metadata('design:paramtypes', [])
     ], AppComponent);
     return AppComponent;
 }());
 exports.AppComponent = AppComponent;
+var Navigation_component_1 = require('./Navigation/Navigation.component');
+var LoadingFrame_component_1 = require('./Navigation/LoadingFrame.component');
+var BasicUsage_component_1 = require('./BasicUsage/BasicUsage.component');
+var BasicSample_component_1 = require('./BasicUsage/BasicSample.component');
+var Sorting_component_1 = require('./Sorting/Sorting.component');
+var CodeView_component_1 = require('./BasicUsage/CodeViews/CodeView.component');
+exports.Ng2PowerTableComponents = [
+    CodeView_component_1.CodeExampleComponent,
+    Navigation_component_1.NavigationComponent,
+    BasicUsage_component_1.BasicUsageComponent,
+    BasicSample_component_1.BasicSampleComponent,
+    Sorting_component_1.SortingComponent,
+    AppComponent,
+    LoadingFrame_component_1.LoadingFrameComponent
+];
 //# sourceMappingURL=app.component.js.map

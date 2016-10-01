@@ -1,26 +1,33 @@
-import { NgModule, enableProdMode }      from '@angular/core';
+// angular stuff
+import { NgModule, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 
-import { PowerTableModule } from 'ng2-power-table';
+// other dependencies
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 
-import { AppComponent }  from './app.component';
+/*
+  ======== IMPORT PowerTableModule
+*/
+import { PowerTableModule } from 'ng2-power-table';
+
+// components for this app
+import { AppComponent, Ng2PowerTableComponents } from './app.component';
+
+// routing
 import { routing, appRoutingProviders } from './app.routes';
-
-import { CodeExampleComponent } from './BasicUsage/CodeViews/CodeView.component';
-
-import { NavigationComponent } from './Navigation/Navigation.component';
-import { BasicUsageComponent } from './BasicUsage/BasicUsage.component';
-import { BasicSampleComponent } from './BasicUsage/BasicSample.component';
-import { SortingComponent } from './Sorting/Sorting.component';
 
 enableProdMode();
 
 @NgModule({
-  imports: [ BrowserModule, PowerTableModule, routing , Ng2BootstrapModule, HttpModule ],
-  declarations: [AppComponent, NavigationComponent, BasicUsageComponent, SortingComponent, CodeExampleComponent, BasicSampleComponent ],
-  bootstrap: [AppComponent ],
-  providers: [ appRoutingProviders ]
+  /*
+    ======== INCLUDE PowerTableModule in imports of your module    
+  */
+  imports: [BrowserModule, PowerTableModule, routing, Ng2BootstrapModule, HttpModule],
+  declarations: [Ng2PowerTableComponents],
+  bootstrap: [AppComponent],
+  providers: [appRoutingProviders]
 })
-export class AppModule { }
+export class Ng2PowerTableDocumentationModule { 
+
+}

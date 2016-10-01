@@ -7,22 +7,23 @@ import { Component, ElementRef, Renderer } from '@angular/core';
 })
 export class AppComponent {
 
-    constructor(private renderer: Renderer,
-        private elementRef: ElementRef) {
-
-        var wrapper = document.getElementById('wrapper');
-        if (!wrapper)
-            return;
-        var elements = wrapper.getElementsByClassName('loading-frame');
-        if (elements && elements[0]) {
-            var loadingFrame = elements[0];
-            loadingFrame.classList.add('fadeOut');
-            loadingFrame.classList.add('animated');
-
-            setTimeout(() => {
-                wrapper.removeChild(loadingFrame);
-            }, 1000);
-        }
-    }
-
 }
+
+import { NavigationComponent } from './Navigation/Navigation.component';
+import { LoadingFrameComponent } from './Navigation/LoadingFrame.component';
+import { BasicUsageComponent } from './BasicUsage/BasicUsage.component';
+import { BasicSampleComponent } from './BasicUsage/BasicSample.component';
+import { SortingComponent } from './Sorting/Sorting.component';
+
+import { CodeExampleComponent } from './BasicUsage/CodeViews/CodeView.component';
+
+export var Ng2PowerTableComponents : Array<any> = [
+    CodeExampleComponent,
+
+    NavigationComponent,
+    BasicUsageComponent,
+    BasicSampleComponent,
+    SortingComponent,
+    AppComponent,
+    LoadingFrameComponent
+];
