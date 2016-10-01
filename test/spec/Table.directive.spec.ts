@@ -3,9 +3,7 @@ import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angul
 import { ElementInjector } from '@angular/core/src/linker/element_injector';
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 
-import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
-import { SortDirective } from "./../../src/Sort/Sort.directive";
 import { ITableState} from './../../src/TableState/ITableState.interface';
 import { ConfigurationProvider } from './../../src/Configuration/ConfigurationProvider.class';
 import { IConfiguration } from './../../src/Configuration/IConfiguration.interface';
