@@ -2,7 +2,7 @@
 
 # Ng2PowerTable
 
-Ng2PowerTable is table module for Angular 2. It is designed to be modular and easily customizable. Other table modules create HTML template based on configuration from Controller, or even specifying HTML templates are rows/headers. This is not the case with Ng2PowerTable, I believe the view and the view only should be reponsible for which columns are visible and they are shown. 
+Ng2PowerTable is table module for Angular 2. It is designed to be modular and easily customizable. Other table modules require Controllers to provide information for which columns are visible and even providing their respective templates. I believe the view, and the view only, should be responsible for how the table is rendered.
 
 If you've used [Smart Table](https://github.com/lorenzofox3/Smart-Table) for Angular 1.x, you'll find some similarities to Ng2PowerTable.
 
