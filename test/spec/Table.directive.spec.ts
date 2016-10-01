@@ -1,5 +1,6 @@
-import { Provider, Type, DebugElement, Component } from "@angular/core";
+import { Provider, Type, DebugElement, Component, Injectable, Injector, EventEmitter } from "@angular/core";
 import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angular/core/testing';
+import { ElementInjector } from '@angular/core/src/linker/element_injector';
 import { TestComp, createComponent, createComponentFixture }  from './component.factory';
 
 import { SortOrder } from "./../../src/Sort/SortOrder.enum";
@@ -7,7 +8,10 @@ import { TableDirective } from "./../../src/Table/Table.directive";
 import { SortDirective } from "./../../src/Sort/Sort.directive";
 import { ITableState} from './../../src/TableState/ITableState.interface';
 import { ConfigurationProvider } from './../../src/Configuration/ConfigurationProvider.class';
+import { IConfiguration } from './../../src/Configuration/IConfiguration.interface';
+import { DefaultConfiguration } from './../../src/Configuration/DefaultConfiguration.class';
 import { DefaultDataPipeService } from './../../src/Pipe/DefaultDataPipeService.class';
+import { IDataPipeService } from './../../src/Pipe/IDataPipeService.interface';
 
 class TestObject {
 
@@ -20,10 +24,11 @@ class TestObject {
   selector: 'my-test-component',
   template: "<div></div>"
 })
-class TestTableDirective {
+class TestTableComponent {
   public originalData: Array<TestObject>;
   public displayData: Array<TestObject>;
   public tableState: ITableState;
+  public tableConfiguration: IConfiguration;
 
   /**
    *
@@ -34,26 +39,44 @@ class TestTableDirective {
   }
 }
 
+var dataPipeCallCount: number;
+
+@Injectable()
+export class TestDataPipeService implements IDataPipeService {
+
+  public pipe(array: Array<any>, state: ITableState, config: IConfiguration) {
+    dataPipeCallCount++;
+
+    return [
+      { name: "override" }
+    ];
+  }
+}
+
 describe('TableDirective tests', function () {
 
-  beforeEach(() => TestBed.configureTestingModule({ declarations: [TestTableDirective, TestComp] }));
+  var mockConfigurationProvider = {
+    globalConfiguration: {
+      pipeServiceType: TestDataPipeService
+    },
+    globalConfigurationChanged: new EventEmitter<IConfiguration>()
+  }
+
+  beforeEach(() => {
+    dataPipeCallCount = 0;
+
+    TestBed.configureTestingModule({
+      declarations: [TableDirective, TestTableComponent, TestComp],
+      providers: [TestDataPipeService, { provide: ConfigurationProvider, useValue: mockConfigurationProvider }]
+    })
+  });
 
   it('should be created when [pt-table] on element', () => {
-    TestBed.configureTestingModule({
-      declarations: [TableDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
-    });
-
     var el = createComponent('<table ptTable=""></table>');
     expect(el.children[0].injector.get(TableDirective)).toBeDefined();
   });
 
   it('should inject same table instance', () => {
-    TestBed.configureTestingModule({
-      declarations: [TableDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
-    });
-
     var el = createComponent('<table ptTable=""></table>');
 
     var table1 = <TableDirective>el.children[0].injector.get(TableDirective);
@@ -64,10 +87,6 @@ describe('TableDirective tests', function () {
   });
 
   it('should initialize tableState when created', () => {
-    TestBed.configureTestingModule({
-      declarations: [TableDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
-    });
 
     var el = createComponent('<table ptTable=""></table>');
 
@@ -78,93 +97,60 @@ describe('TableDirective tests', function () {
   });
 
   it('originalArray is populated from parentComponent', () => {
-    TestBed.configureTestingModule({
-      declarations: [TableDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
-    });
-
-    var el = createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableDirective);
+    var el = createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableComponent);
 
     var table = <TableDirective>el.debugElement.children[0].injector.get(TableDirective);
     expect(table.originalArray).toBeDefined();
   });
 
   it('can update tableState from parent controller', () => {
-    TestBed.configureTestingModule({
-      declarations: [TableDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
-    });
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState" (ptDisplayData)="displayData"></table>`;
-    var fix = createComponentFixture(template, [], TestTableDirective);
+    var fix = createComponentFixture(template, [], TestTableComponent);
 
     var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
 
-    fix.componentInstance.originalData =  new Array<TestObject>();
+    fix.componentInstance.originalData = new Array<TestObject>();
     fix.detectChanges();
-    
+
     expect(tableEl.tableState).toBeDefined();
     expect(fix.componentInstance.tableState).toBeDefined();
   });
 
-  it('displayArray is set by directive when data sorted', () => {
-    TestBed.configureTestingModule({
-      declarations: [TableDirective, SortDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
-    });
+  it('displayArray is set using result from IDataPipeService', () => {
 
-    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData">
-      <thead><tr><th ptSort="id">Header 1</th></tr></thead>
-      <tbody><tr><td>Row 1</td></tr></tbody></table>`;
-    var fix = createComponentFixture(template, [], TestTableDirective);
+    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData"></table>`;
+    var fix = createComponentFixture(template, [], TestTableComponent);
 
-    var original = new Array<TestObject>();
-    original.push(new TestObject(2, "Name 2"));
-    original.push(new TestObject(3, "Name 3"));
-    original.push(new TestObject(1, "Name 1"));
-    fix.componentInstance.originalData = original;
-    fix.detectChanges();
-  
-    var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
-    var sortIdEl = <DebugElement>fix.debugElement.children[0].children[0].children[0].children[0];
-    
-    var sortIdDirective = <SortDirective>sortIdEl.injector.get(SortDirective);
+    fix.componentInstance.originalData =  new Array<TestObject>();
+    //fix.detectChanges();
 
-    tableEl.tableState.sort.predicate = "id";
-    tableEl.tableState.sort.order = SortOrder.Ascending;
-    fix.detectChanges();
-    
     var display = fix.componentInstance.displayData;
     expect(display).toBeDefined();
-    expect(display.length).toBe(3);
-    expect(display[0].id).toBe(1);
-    expect(display[1].id).toBe(2);
-    expect(display[2].id).toBe(3);
+    expect(display.length).toBe(1);
+    expect(display[0].name).toBe("override");
+    expect(dataPipeCallCount).toBe(1);
   });
-  
-  it('displayArray is set when directive first loaded', () => {
+
+  it('table will use item configuration to inject IDataPipeService', () => {
+    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      declarations: [TableDirective, SortDirective],
-      providers: [ConfigurationProvider, DefaultDataPipeService]
+      declarations: [TableDirective, TestTableComponent],
+      providers: [ConfigurationProvider, DefaultDataPipeService, TestDataPipeService]
     });
 
-    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData">
-      <thead><tr><th ptSort="id">Header 1</th></tr></thead>
-      <tbody><tr><td>Row 1</td></tr></tbody></table>`;
-    var fix = createComponentFixture(template, [], TestTableDirective);
+    var template = `<table [ptTable]="originalData" [(ptDisplayArray)]="displayData" [ptConfiguration]="tableConfiguration"></table>`;
+    var fix = createComponentFixture(template, [], TestTableComponent);
 
-    var original = new Array<TestObject>();
-    original.push(new TestObject(2, "Name 2"));
-    original.push(new TestObject(3, "Name 3"));
-    original.push(new TestObject(1, "Name 1"));
-    fix.componentInstance.originalData = original;
+    fix.componentInstance.tableConfiguration = DefaultConfiguration.create();
+    fix.componentInstance.tableConfiguration.pipeServiceType = TestDataPipeService;
+    fix.componentInstance.originalData = new Array<TestObject>();
     fix.detectChanges();
-    
+
     var display = fix.componentInstance.displayData;
     expect(display).toBeDefined();
-    expect(display.length).toBe(3);
-    expect(display[0].id).toBe(2);
-    expect(display[1].id).toBe(3);
-    expect(display[2].id).toBe(1);
+    expect(display.length).toBe(1);
+    expect(display[0].name).toBe("override");
+    expect(dataPipeCallCount).toBe(1);
   });
 });

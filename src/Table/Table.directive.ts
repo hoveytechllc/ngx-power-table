@@ -65,7 +65,7 @@ export class TableDirective {
         if (changes['originalArray']) {
             this.pipe();
         }
-        if (changes['configuration']) {
+        if (changes['configurationOverride']) {
             this.dataPipeService = null;
             this.currentConfiguration = null;
             this.pipe();

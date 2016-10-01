@@ -12,6 +12,7 @@
   var map = {
     // angular bundles
     '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
+    '@angular/core/src/linker/element_injector': 'npm:@angular/core/src/linker/element_injector.js',
     '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
     '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',
     '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
@@ -24,6 +25,7 @@
     // other libraries
     'rxjs': 'npm:rxjs',
     'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
+    'traceur': 'npm:traceur/bin/traceur.js'
   };
 
   var packages = {
