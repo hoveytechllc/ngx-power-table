@@ -1,17 +1,63 @@
 [![Build Status](https://travis-ci.org/hoveytech/ng2-power-table.svg?branch=master)](https://travis-ci.org/hoveytech/ng2-power-table)
 
-# Power Table
+# Ng2PowerTable
 
-Power Table is table module for Angular 2 that is based on a great module, [Smart Table](https://github.com/lorenzofox3/Smart-Table), for AngularJS. Since I couldn't find Smart-Table written for Angular 2 I am making my own attempt.
+Ng2PowerTable is table module for Angular 2. It is designed to be modular and easily customizable. Other table modules create HTML template based on configuration from Controller, or even specifying HTML templates are rows/headers. This is not the case with Ng2PowerTable, I believe the view and the view only should be reponsible for which columns are visible and they are shown. 
+
+If you've used [Smart Table](https://github.com/lorenzofox3/Smart-Table) for Angular 1.x, you'll find some similarities to Ng2PowerTable.
+
+Documentation: [https://hoveytech.github.io/ng2-power-table](https://hoveytech.github.io/ng2-power-table/)
+
+# Installation
+
+## 1. Install Ng2PowerTable
+
+using Node Package Manager:
+
+`npm install ng2-power-table`
+
+## 2. Modify SystemJS bootloader to load Ng2PowerTable ([see documentation](https://hoveytech.github.io/ng2-power-table/))
+
+```javascript
+(function (global) {
+    var config = {
+        map: {
+            'ng2-power-table': 'node_modules/ng2-power-table',
+        },
+        packages: {
+            "ng2-power-table": { main: "index.js", defaultExtension: "js" },
+        }
+    };
+    System.config(config);
+})(this);
+```
 
 # Usage
 
-Simple usage:
+### 1. Add `ptTable` attribute to any element using for table, i.e. `<table [ptTable]="allCustomers">...`
 
-`ptTable` is required parent directive. Other directives/components prefixed with `pt` depend on `ptTable`. In the simple example below `ptTable` is provided the full array of customers (one-way binding into the directive). Internally the directive filters/sorts/pages the array and returns it using `ptDisplayArray` (one-way binding out of the directive).
+`ptTable` is 'parent' directive and is required by other directives/components. Include one-way binding for `ptTable` which should be the original array of items for table (i.e. un-sorted, un-paged).
+
+### 2. Add `ptDisplayArray` attribute on same element as `ptTable` with two-way binding.
+
+`ptDisplayArray` is the resulting array after Ng2PowerTable has processed the original array of items. For example on a table `...<table [ptTable]="allCustomers" [(ptDisplayArray)]="displayCustomers">...`
+
+Now you can use `*ngFor` over a `tr` element (or whatever you want) and repeat over the resulting `displayCustomers` of example.
+
+Internally Ng2PowerTable uses a service `DefaultDataPipeService` that does client-side paging and sorting. The output of this service is set to your binding of `ptDisplayArray`. FYI: A different `IDataPipeService` could be configured that does server-side paging/sorting/filtering.
+
+### 3. Add any sorting to header elements.
+
+Use `ptSort` attribute with value set to property name for sorting. For example on a table header `...<th ptSort="name">Name</th>...`.
+
+### 4. Add pagination 
+
+Add element `<pt-pagination></pt-pagination>` somewhere within `ptTable` element. This component renders navigation buttons to move thru pages of resulting data.
+
+Example template:
 
 ```javascript
-<table [ptTable]="allCustomers" [(ptDisplayArray)]="customers">
+<table [ptTable]="allCustomers" [(ptDisplayArray)]="displayCustomers">
     <thead>
         <tr>
             <th ptSort="id">Id<th>
@@ -20,18 +66,23 @@ Simple usage:
         </tr>
     </thead>
     <tbody>
-        <tr ngFor="#c of customers">
+        <tr ngFor="#c of displayCustomers">
             <td>{{c.id}}</td>
             <td>{{c.name}}</td>
             <td>{{c.invoices}}</td>
         </tr>
     </tbody>
+    <tfoot>
+        <pt-pagination></pt-pagination>
+    </tfoot>
 </table>
 ```
 
-## Test
+## Testing
 
 Run `npm install` then `npm run test`
+
+Collaborators welcome.
 
 ## License
 
