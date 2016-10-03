@@ -5,5 +5,9 @@
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255",
     "node": "registry:dt/node#6.0.0+20160928143418",
     "selenium-webdriver": "registry:dt/selenium-webdriver#2.44.0+20160317120654"
+  },
+  "globalDevDependencies": {
+    "chance": "registry:dt/chance#0.7.3+20160914132028",
+    "lodash": "registry:dt/lodash#4.14.0+20160919145112"
   }
 }

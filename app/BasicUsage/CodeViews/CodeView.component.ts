@@ -1,3 +1,5 @@
+/// <reference path="./../../../typings/globals/lodash/index.d.ts" />
+
 import { Component, OnInit, Input, ElementRef, Renderer } from '@angular/core';
 import { Http } from "@angular/http";
 import 'rxjs/add/operator/toPromise';

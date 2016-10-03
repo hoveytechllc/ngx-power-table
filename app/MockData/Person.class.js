@@ -1,4 +1,4 @@
-/// <reference path="./../typings/chance.d.ts" />
+/// <reference path="./../../typings/globals/chance/index.d.ts" />
 "use strict";
 var Person = (function () {
     function Person() {
