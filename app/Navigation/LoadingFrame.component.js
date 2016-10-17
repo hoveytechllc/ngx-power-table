@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var LoadingFrameComponent = (function () {
     function LoadingFrameComponent(renderer, elementRef) {
         this.renderer = renderer;
@@ -26,15 +26,16 @@ var LoadingFrameComponent = (function () {
             }, 1000);
         }
     }
-    LoadingFrameComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'loading-frame-handler',
-            templateUrl: './LoadingFrame.component.html'
-        }), 
-        __metadata('design:paramtypes', [core_1.Renderer, core_1.ElementRef])
-    ], LoadingFrameComponent);
     return LoadingFrameComponent;
 }());
+LoadingFrameComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'loading-frame-handler',
+        templateUrl: './LoadingFrame.component.html'
+    }),
+    __metadata("design:paramtypes", [core_1.Renderer,
+        core_1.ElementRef])
+], LoadingFrameComponent);
 exports.LoadingFrameComponent = LoadingFrameComponent;
 //# sourceMappingURL=LoadingFrame.component.js.map

@@ -9,18 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var SortingComponent = (function () {
-    function SortingComponent() {
+var Person_class_1 = require("./../MockData/Person.class");
+var SortingExampleComponent = (function () {
+    function SortingExampleComponent() {
+        this.allPeople = [];
+        for (var i = 0; i < 6; i++) {
+            this.allPeople.push(Person_class_1.Person.create());
+        }
     }
-    SortingComponent.prototype.ngOnInit = function () { };
-    return SortingComponent;
+    return SortingExampleComponent;
 }());
-SortingComponent = __decorate([
+SortingExampleComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        templateUrl: './Sorting.component.html'
+        selector: 'sorting-example',
+        templateUrl: './SortingExample.component.html'
     }),
     __metadata("design:paramtypes", [])
-], SortingComponent);
-exports.SortingComponent = SortingComponent;
-//# sourceMappingURL=Sorting.component.js.map
+], SortingExampleComponent);
+exports.SortingExampleComponent = SortingExampleComponent;
+//# sourceMappingURL=SortingExample.component.js.map

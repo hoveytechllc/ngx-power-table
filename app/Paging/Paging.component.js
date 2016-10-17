@@ -9,18 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var SortingComponent = (function () {
-    function SortingComponent() {
+var PagingComponent = (function () {
+    function PagingComponent() {
     }
-    SortingComponent.prototype.ngOnInit = function () { };
-    return SortingComponent;
+    PagingComponent.prototype.ngOnInit = function () { };
+    return PagingComponent;
 }());
-SortingComponent = __decorate([
+PagingComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
-        templateUrl: './Sorting.component.html'
+        templateUrl: './Paging.component.html'
     }),
     __metadata("design:paramtypes", [])
-], SortingComponent);
-exports.SortingComponent = SortingComponent;
-//# sourceMappingURL=Sorting.component.js.map
+], PagingComponent);
+exports.PagingComponent = PagingComponent;
+//# sourceMappingURL=Paging.component.js.map

@@ -11,19 +11,26 @@ export class AppComponent {
 
 import { NavigationComponent } from './Navigation/Navigation.component';
 import { LoadingFrameComponent } from './Navigation/LoadingFrame.component';
-import { BasicUsageComponent } from './BasicUsage/BasicUsage.component';
-import { BasicSampleComponent } from './BasicUsage/BasicSample.component';
-import { SortingComponent } from './Sorting/Sorting.component';
+import { CodeExampleComponent } from './CodeViews/CodeView.component';
 
-import { CodeExampleComponent } from './BasicUsage/CodeViews/CodeView.component';
+import { BasicComponent } from './Basics/Basic.component';
+import { BasicExampleComponent } from './Basics/BasicExample.component';
+import { SortingComponent } from './Sorting/Sorting.component';
+import { SortingExampleComponent } from './Sorting/SortingExample.component';
+import { PagingComponent } from './Paging/Paging.component';
+import { PagingExampleComponent } from './Paging/PagingExample.component';
 
 export var Ng2PowerTableComponents : Array<any> = [
     CodeExampleComponent,
-
     NavigationComponent,
-    BasicUsageComponent,
-    BasicSampleComponent,
+
+    BasicComponent,
+    BasicExampleComponent,
     SortingComponent,
+    SortingExampleComponent,
+    PagingComponent,
+    PagingExampleComponent,
+
     AppComponent,
     LoadingFrameComponent
 ];

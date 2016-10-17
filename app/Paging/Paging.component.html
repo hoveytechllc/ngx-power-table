@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="col-sm-12">
+		<h2 class="page-header">Paging</h2>
+
+		<h3>1. Add <code>pt-pagination</code> element as child of <code>ptTable</code>.</h3>
+		<span>The <code>ptSort</code> directive depends on <code>ptTable</code> main directive. The attribute value of <code>ptSort</code> is used to determine which property should be sorted.</span>
+
+		<div class="alert alert-info"><i class="fa fa-info-circle"></i> The <code>pt-pagination</code> component does not do any of the heaving lifting for paginagion.
+			It only has logic to display the amount of pages and the ability to navigate thru them. The heavy lifting is done by the <code>IDataPipeService</code> interface.
+            This service is configurable and by default is implemented by the <code>DefaultDataPipeService</code>.
+        </div>
+		<br />
+
+		<tabset>
+			<tab heading="Display">
+				<div style="padding: 15px;">
+					<paging-example></paging-example>
+				</div>
+			</tab>
+
+			<tab heading="Html">
+				<code-example content-url="app/Paging/PagingExample.component.html" lang="lang-html"></code-example>
+			</tab>
+
+			<tab heading="Typescript">
+				<code-example content-url="app/Paging/PagingExample.component.ts" lang="lang-ts"></code-example>
+			</tab>
+		</tabset>
+	</div>
+</div>

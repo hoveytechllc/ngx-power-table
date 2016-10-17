@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ntsc && gulp build && concurrently \"ntsc -w\" \"jekyll serve --incremental\" \"start chrome http://localhost:4000/ng2-power-table/\"",
+    "start": "ntsc && gulp build && concurrently \"ntsc -w\" \"jekyll serve --incremental\" \"start chrome http://localhost:4000/ng2-power-table/\" ",
+    "start-lite": "ntsc && gulp build && concurrently \"ntsc -w\" \"lite-server\" ",
     "postinstall": "typings install"
   },
   "repository": {
@@ -37,8 +38,12 @@
     "@types/node": "^6.0.41",
     "concurrently": "^2.2.0",
     "gulp": "3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
     "http-server": "0.9.0",
     "lite-server": "^2.2.0",
+    "systemjs-builder": "^0.15.32",
     "typescript": "^2.0.2",
     "typings": "^1.0.4"
   }

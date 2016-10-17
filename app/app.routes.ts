@@ -1,12 +1,14 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { BasicUsageComponent } from './BasicUsage/BasicUsage.component';
+import { BasicComponent } from './Basics/Basic.component';
 import { SortingComponent } from './Sorting/Sorting.component';
+import { PagingComponent } from './Paging/Paging.component';
 
 const appRoutes: Routes = [
-  { path: '', component: BasicUsageComponent },
-  { path: 'sorting', component: SortingComponent }
+  { path: '', component: BasicComponent },
+  { path: 'sorting', component: SortingComponent },
+  { path: 'paging', component: PagingComponent }
 ];
 
 export const appRoutingProviders: any[] = [

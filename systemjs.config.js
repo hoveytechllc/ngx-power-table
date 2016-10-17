@@ -6,7 +6,8 @@
 
   var paths = {
     // paths serve as alias
-    'npm:': 'libs/'
+    'npm:': 'libs/',
+    // 'rxjs/*': 'libs/rxjs/bundles/rx.js'
   };
 
   var map = {
@@ -25,27 +26,25 @@
     '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.min.js',
 
     // other libraries
-    'rxjs': 'npm:rxjs',
     'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
     'ng2-power-table': 'npm:ng2-power-table',
-    'ng2-bootstrap/ng2-bootstrap': 'npm:ng2-bootstrap',
-    'ng2-bootstrap/components': 'npm:ng2-bootstrap/bundles',
     "moment": "npm:moment/moment.js"
   };
 
   var packages = {
     "app": { main: "main.js", defaultExtension: "js" },
-    "rxjs": { defaultExtension: "js" },
     "angular2-in-memory-web-api": { defaultExtension: "js" },
-    "ng2-power-table": { main: "index.js", defaultExtension: "js" },
-    "ng2-bootstrap/ng2-bootstrap": { main: "ng2-bootstrap.js", defaultExtension: "js"},
-    "ng2-bootstrap/components": {  defaultExtension: "js"}
+    "ng2-power-table": { main: "index.js", defaultExtension: "js" }
   };
 
   var config = {
     paths: paths,
     map: map,
-    packages: packages
+    packages: packages,
+    bundles: {
+      'libs/ng2-bootstrap/bundles/ng2-bootstrap.js': ['ng2-bootstrap/*'],
+      'libs/rxjs/rx.js': ['rxjs/*']
+    }
   };
 
   System.config(config);
