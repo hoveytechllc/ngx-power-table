@@ -5,7 +5,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var ts = require('gulp-typescript');
 
-var distDir = 'dist';
+var distDir = 'bundles';
 var distJs = distDir + '/ng2-power-table.js';
 var minifiedJs = 'ng2-power-table.min.js';
 
@@ -28,7 +28,7 @@ gulp.task('bundle', function (cb) {
     builder.config({
         paths: {
             'ng2-power-table/ng2-power-table': 'ng2-power-table.js',
-            'ng2-power-table/*': 'src/*'
+            'ng2-power-table/src/*': 'src/*.js'
         },
         packages: {
             'src' : {defaultExtension: 'js'}

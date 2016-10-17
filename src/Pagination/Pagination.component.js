@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var Table_directive_1 = require("./../Table/Table.directive");
+var paginationTemplate = "\n<div class=\"btn-group\" role=\"group\">\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage === 1\"\n    [ngClass]=\"{ 'disabled' : currentPage === 1}\"\n     (click)=\"goToFirstPage()\"><i class=\"fa fa-angle-double-left\"></i></button>\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==1\"\n    [ngClass]=\"{ 'disabled' : currentPage === 1}\" \n    (click)=\"goToPreviousPage()\"><i class=\"fa fa-angle-left\"></i></button>\n\n  <button *ngFor=\"let page of pages\" type=\"button\" class=\"btn btn-default\" \n    [ngClass]=\"{ 'active' : page === currentPage}\"\n    (click)=\"selectPage(page)\">\n    {{page}}\n  </button>\n\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==numPages\" \n    [ngClass]=\"{ 'disabled' : currentPage === numPages}\"\n    (click)=\"goToNextPage()\"><i class=\"fa fa-angle-right\"></i></button>\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==numPages\" \n    [ngClass]=\"{ 'disabled' : currentPage === numPages}\"\n    (click)=\"goToLastPage()\"><i class=\"fa fa-angle-double-right\"></i></button>\n</div>";
 var PaginationComponent = (function () {
     /**
      *
@@ -89,7 +90,7 @@ PaginationComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'pt-pagination',
-        templateUrl: "./Pagination.component.html"
+        template: paginationTemplate
     }),
     __metadata("design:paramtypes", [Table_directive_1.TableDirective])
 ], PaginationComponent);

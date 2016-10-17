@@ -3,10 +3,33 @@ import { Component, OnInit, Host } from '@angular/core';
 import { TableDirective } from './../Table/Table.directive';
 import { ITableState } from './../TableState/ITableState.interface';
 
+var paginationTemplate = `
+<div class="btn-group" role="group">
+  <button type="button" class="btn btn-default" [disabled]="currentPage === 1"
+    [ngClass]="{ 'disabled' : currentPage === 1}"
+     (click)="goToFirstPage()"><i class="fa fa-angle-double-left"></i></button>
+  <button type="button" class="btn btn-default" [disabled]="currentPage==1"
+    [ngClass]="{ 'disabled' : currentPage === 1}" 
+    (click)="goToPreviousPage()"><i class="fa fa-angle-left"></i></button>
+
+  <button *ngFor="let page of pages" type="button" class="btn btn-default" 
+    [ngClass]="{ 'active' : page === currentPage}"
+    (click)="selectPage(page)">
+    {{page}}
+  </button>
+
+  <button type="button" class="btn btn-default" [disabled]="currentPage==numPages" 
+    [ngClass]="{ 'disabled' : currentPage === numPages}"
+    (click)="goToNextPage()"><i class="fa fa-angle-right"></i></button>
+  <button type="button" class="btn btn-default" [disabled]="currentPage==numPages" 
+    [ngClass]="{ 'disabled' : currentPage === numPages}"
+    (click)="goToLastPage()"><i class="fa fa-angle-double-right"></i></button>
+</div>`;
+
 @Component({
     moduleId: module.id,
     selector: 'pt-pagination',
-    templateUrl: "./Pagination.component.html"
+    template: paginationTemplate
 })
 export class PaginationComponent {
     private removeTableStateListener: any;
