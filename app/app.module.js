@@ -17,7 +17,7 @@ var ng2_bootstrap_1 = require("ng2-bootstrap/ng2-bootstrap");
 /*
   ======== IMPORT PowerTableModule
 */
-var ng2_power_table_1 = require("ng2-power-table");
+var ng2_power_table_1 = require("ng2-power-table/ng2-power-table");
 // components for this app
 var app_component_1 = require("./app.component");
 // routing

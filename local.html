@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base href="/local.html" target="_blank" />
+
+  <title>Ng2PowerTable</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="build/css/site.min.css">
+
+</head>
+
+<body>
+  <div id="wrapper">
+
+    <div class="row loading-frame">
+      <div class="col-sm-12 text-center">
+        <h4 style="margin-top: 50px;"><i class="fa fa-3x fa-spin fa-circle-o-notch"></i><br/> Loading...</h4>
+      </div>
+    </div>
+
+    <my-app></my-app>
+  </div>
+
+  <script src="build/js/core.min.js"></script>
+  <script src="build/js/rx.js"></script>
+
+  <script src="systemjs.config.js"></script>
+  <script>
+      System.import('app').catch(function(err){ console.error(err); });
+  </script>
+
+</body>
+
+</html>

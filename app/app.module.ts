@@ -9,7 +9,7 @@ import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 /*
   ======== IMPORT PowerTableModule
 */
-import { PowerTableModule } from 'ng2-power-table';
+import { PowerTableModule } from 'ng2-power-table/ng2-power-table';
 
 // components for this app
 import { AppComponent, Ng2PowerTableComponents } from './app.component';

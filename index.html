@@ -1,55 +1,37 @@
-<!--
-
------ 
+---
 title: Ng2PowerTable 
------
-
-
--->
+---
 
 <!DOCTYPE html>
 <html>
 
 <head>
-  <base href="/" target="_blank" />
-  <!--<base href="{{ site.baseurl }}/" target="_blank" />-->
+	<base href="{{ site.baseurl }}/" target="_blank" />
 
-  <title>ng2-power-table Documentation</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.css">
-  <link rel="stylesheet" href="css/sb-admin-2.css">
-  <link rel="stylesheet" href="libs/ng2-power-table/src/ng2-power-table.css">
-  <link rel="stylesheet" href="pretty-print/prettify.css" />
-  <link rel="stylesheet" href="css/site.css" />
-  <link rel="stylesheet" href="libs/animate.css/animate.min.css" />
+	<title>Ng2PowerTable</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="build/css/site.min.css">
+
 </head>
 
 <body>
-  <div id="wrapper">
+	<div id="wrapper">
 
-    <div class="row loading-frame">
-      <div class="col-sm-12 text-center">
-        <h4 style="margin-top: 50px;"><i class="fa fa-3x fa-spin fa-circle-o-notch"></i><br/> Loading...</h4>
-      </div>
-    </div>
+		<div class="row loading-frame">
+			<div class="col-sm-12 text-center">
+				<h4 style="margin-top: 50px;"><i class="fa fa-3x fa-spin fa-circle-o-notch"></i><br/> Loading...</h4>
+			</div>
+		</div>
 
-    <my-app></my-app>
-  </div>
+		<my-app></my-app>
+	</div>
 
-  <script src="libs/jquery/dist/jquery.min.js"></script>
-  <script src="libs/chance/chance.min.js"></script>
-  <script src="libs/lodash/lodash.min.js"></script>
-  <script src="pretty-print/prettify.js"></script>
-  <script src="libs/core-js/shim.min.js"></script>
-  <script src="libs/zone.js/zone.min.js"></script>
-  <script src="libs/reflect-metadata/reflect.js"></script>
-  <script src="libs/systemjs/system.src.js"></script>
-  <script src="libs/rxjs/rx.min.js"></script>
+  <script src="build/js/core.min.js"></script>
+  <script src="build/js/rx.js"></script>
 
-  <script src="systemjs.config.js"></script>
-  <script>
+	<script src="systemjs.config.js"></script>
+	<script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
 
