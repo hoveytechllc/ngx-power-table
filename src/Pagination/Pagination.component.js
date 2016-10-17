@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var Table_directive_1 = require('./../Table/Table.directive');
+var core_1 = require("@angular/core");
+var Table_directive_1 = require("./../Table/Table.directive");
 var PaginationComponent = (function () {
     /**
      *
@@ -83,15 +83,15 @@ var PaginationComponent = (function () {
             _this.rebuildPagination();
         });
     };
-    PaginationComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'pt-pagination',
-            templateUrl: "./Pagination.component.html"
-        }), 
-        __metadata('design:paramtypes', [Table_directive_1.TableDirective])
-    ], PaginationComponent);
     return PaginationComponent;
 }());
+PaginationComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'pt-pagination',
+        templateUrl: "./Pagination.component.html"
+    }),
+    __metadata("design:paramtypes", [Table_directive_1.TableDirective])
+], PaginationComponent);
 exports.PaginationComponent = PaginationComponent;
 //# sourceMappingURL=Pagination.component.js.map

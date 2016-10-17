@@ -1,9 +1,9 @@
 "use strict";
 var core_1 = require("@angular/core");
-var testing_1 = require('@angular/core/testing');
-var component_factory_1 = require('./component.factory');
+var testing_1 = require("@angular/core/testing");
+var component_factory_1 = require("./component.factory");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
-var Pagination_component_1 = require('./../../src/Pagination/Pagination.component');
+var Pagination_component_1 = require("./../../src/Pagination/Pagination.component");
 describe('Pagination.component tests', function () {
     var tableDirectiveSub = {
         tableStateChange: new core_1.EventEmitter(),

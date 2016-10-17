@@ -9,8 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var testing_1 = require('@angular/core/testing');
-var component_factory_1 = require('./component.factory');
+var testing_1 = require("@angular/core/testing");
+var component_factory_1 = require("./component.factory");
 var __1 = require("./../..");
 var TestObject = (function () {
     function TestObject(id, name) {
@@ -27,15 +27,15 @@ var TestTableComponent = (function () {
         this.originalData = new Array();
         this.displayData = new Array();
     }
-    TestTableComponent = __decorate([
-        core_1.Component({
-            selector: 'my-test-component',
-            template: "<div></div>"
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TestTableComponent);
     return TestTableComponent;
 }());
+TestTableComponent = __decorate([
+    core_1.Component({
+        selector: 'my-test-component',
+        template: "<div></div>"
+    }),
+    __metadata("design:paramtypes", [])
+], TestTableComponent);
 describe('PowerTableModule tests', function () {
     function configureModule() {
         return testing_1.TestBed.configureTestingModule({

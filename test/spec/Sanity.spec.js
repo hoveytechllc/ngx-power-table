@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require('@angular/core');
-var testing_1 = require('@angular/core/testing');
-var component_factory_1 = require('./component.factory');
+var core_1 = require("@angular/core");
+var testing_1 = require("@angular/core/testing");
+var component_factory_1 = require("./component.factory");
 describe('Sanity check', function () {
     it('should run a passing test', function () {
         expect(true).toEqual(true, 'should pass');
@@ -23,29 +23,29 @@ var TestParentDirective = (function () {
     function TestParentDirective() {
     }
     TestParentDirective.prototype.ngOnInit = function () { };
-    TestParentDirective = __decorate([
-        core_1.Directive({
-            selector: '[parent-attr]'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TestParentDirective);
     return TestParentDirective;
 }());
+TestParentDirective = __decorate([
+    core_1.Directive({
+        selector: '[parent-attr]'
+    }),
+    __metadata("design:paramtypes", [])
+], TestParentDirective);
 exports.TestParentDirective = TestParentDirective;
 var TestChildComponent = (function () {
     function TestChildComponent(dependency) {
         this.dependency = dependency;
     }
-    TestChildComponent = __decorate([
-        core_1.Component({
-            selector: 'child-comp',
-            template: '<div></div>'
-        }),
-        __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [TestParentDirective])
-    ], TestChildComponent);
     return TestChildComponent;
 }());
+TestChildComponent = __decorate([
+    core_1.Component({
+        selector: 'child-comp',
+        template: '<div></div>'
+    }),
+    __param(0, core_1.Host()),
+    __metadata("design:paramtypes", [TestParentDirective])
+], TestChildComponent);
 exports.TestChildComponent = TestChildComponent;
 describe('Component directive relationships', function () {
     beforeEach(function () { return testing_1.TestBed.configureTestingModule({ declarations: [component_factory_1.TestComp, TestChildComponent, TestParentDirective] }); });

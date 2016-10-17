@@ -1,6 +1,6 @@
 "use strict";
-var SortOrder_enum_1 = require('./../../src/Sort/SortOrder.enum');
-var DefaultTableState_class_1 = require('./../../src/TableState/DefaultTableState.class');
+var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
+var DefaultTableState_class_1 = require("./../../src/TableState/DefaultTableState.class");
 describe('DefaultTableState', function () {
     describe('DefaultTableStateSort', function () {
         it('should be initialized with default values', function () {

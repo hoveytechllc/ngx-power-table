@@ -1,7 +1,7 @@
 "use strict";
 var core_1 = require("@angular/core");
-var testing_1 = require('@angular/core/testing');
-var component_factory_1 = require('./component.factory');
+var testing_1 = require("@angular/core/testing");
+var component_factory_1 = require("./component.factory");
 var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
 var Sort_directive_1 = require("./../../src/Sort/Sort.directive");

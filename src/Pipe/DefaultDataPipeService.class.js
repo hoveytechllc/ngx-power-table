@@ -54,11 +54,11 @@ var DefaultDataPipeService = (function () {
         tableState.pagination.start = tableState.pagination.start >= data.length ? (tableState.pagination.numberOfPages - 1) * tableState.pagination.pageSize : tableState.pagination.start;
         return data.slice(tableState.pagination.start, tableState.pagination.start + tableState.pagination.pageSize);
     };
-    DefaultDataPipeService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], DefaultDataPipeService);
     return DefaultDataPipeService;
 }());
+DefaultDataPipeService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], DefaultDataPipeService);
 exports.DefaultDataPipeService = DefaultDataPipeService;
 //# sourceMappingURL=DefaultDataPipeService.class.js.map

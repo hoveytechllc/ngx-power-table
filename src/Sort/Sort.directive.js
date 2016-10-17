@@ -110,17 +110,19 @@ var SortDirective = (function () {
         this.table.pipe();
         this.suppressSortChangedHandler = false;
     };
-    __decorate([
-        core_1.Input("ptSort"), 
-        __metadata('design:type', String)
-    ], SortDirective.prototype, "predicate", void 0);
-    SortDirective = __decorate([
-        core_1.Directive({
-            selector: "[ptSort]"
-        }), 
-        __metadata('design:paramtypes', [Table_directive_1.TableDirective, core_1.ElementRef, core_1.Renderer])
-    ], SortDirective);
     return SortDirective;
 }());
+__decorate([
+    core_1.Input("ptSort"),
+    __metadata("design:type", String)
+], SortDirective.prototype, "predicate", void 0);
+SortDirective = __decorate([
+    core_1.Directive({
+        selector: "[ptSort]"
+    }),
+    __metadata("design:paramtypes", [Table_directive_1.TableDirective,
+        core_1.ElementRef,
+        core_1.Renderer])
+], SortDirective);
 exports.SortDirective = SortDirective;
 //# sourceMappingURL=Sort.directive.js.map

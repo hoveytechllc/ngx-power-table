@@ -54,6 +54,7 @@ module.exports = function(config) {
 
       // transpiled application & spec code paths loaded via module imports
       {pattern: 'index.js', included: false, watched: true},
+      {pattern: 'ng2-power-table.js', included: false, watched: true},
       {pattern: 'src/**/*.js', included: false, watched: true},
       {pattern: 'test/spec/*.js', included: false, watched: true},
 
@@ -62,7 +63,10 @@ module.exports = function(config) {
       {pattern: 'src/**/*.html', included: false, watched: true},
 
       // Paths for debugging with source maps in dev tools
-      {pattern: 'index.ts', included: false, watched: true},
+      {pattern: 'index.ts', included: false, watched: false},
+      {pattern: 'index.js.map', included: false, watched: false},
+      {pattern: 'ng2-power-table.ts', included: false, watched: false},
+      {pattern: 'ng2-power-table.js.map', included: false, watched: false},
       {pattern: 'src/**/*.ts', included: false, watched: false},
       {pattern: 'src/**/*.js.map', included: false, watched: false},
       {pattern: 'test/spec/*.ts', included: false, watched: false},

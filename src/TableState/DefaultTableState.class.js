@@ -1,6 +1,6 @@
 "use strict";
 var core_1 = require("@angular/core");
-var SortOrder_enum_1 = require('./../Sort/SortOrder.enum');
+var SortOrder_enum_1 = require("./../Sort/SortOrder.enum");
 var DefaultTableStateSearch = (function () {
     function DefaultTableStateSearch() {
     }

@@ -41,11 +41,11 @@ var ConfigurationProvider = (function () {
             _this.globalConfigurationChanged.emit(_this._globalConfiguration);
         });
     };
-    ConfigurationProvider = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], ConfigurationProvider);
     return ConfigurationProvider;
 }());
+ConfigurationProvider = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], ConfigurationProvider);
 exports.ConfigurationProvider = ConfigurationProvider;
 //# sourceMappingURL=ConfigurationProvider.class.js.map

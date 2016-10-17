@@ -9,16 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var testing_1 = require('@angular/core/testing');
+var testing_1 = require("@angular/core/testing");
 var TestComp = (function () {
     function TestComp() {
     }
-    TestComp = __decorate([
-        core_1.Component({ selector: 'root', template: '' }), 
-        __metadata('design:paramtypes', [])
-    ], TestComp);
     return TestComp;
 }());
+TestComp = __decorate([
+    core_1.Component({ selector: 'root', template: '' }),
+    __metadata("design:paramtypes", [])
+], TestComp);
 exports.TestComp = TestComp;
 /*
 If using templateUrl for any components included in TestBed module, TestComp or any

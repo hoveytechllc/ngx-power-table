@@ -1,7 +1,7 @@
 "use strict";
-var testing_1 = require('@angular/core/testing');
-var ConfigurationProvider_class_1 = require('./../../src/Configuration/ConfigurationProvider.class');
-var DefaultConfiguration_class_1 = require('./../../src/Configuration/DefaultConfiguration.class');
+var testing_1 = require("@angular/core/testing");
+var ConfigurationProvider_class_1 = require("./../../src/Configuration/ConfigurationProvider.class");
+var DefaultConfiguration_class_1 = require("./../../src/Configuration/DefaultConfiguration.class");
 describe('ConfigurationProvider tests', function () {
     beforeEach(function () { return testing_1.TestBed.configureTestingModule({ providers: [ConfigurationProvider_class_1.ConfigurationProvider] }); });
     it('globalConfiguration getter should always return value', function () {

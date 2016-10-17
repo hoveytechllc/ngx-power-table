@@ -1,60 +1,61 @@
 var gulp = require('gulp');
+var Builder = require("systemjs-builder");
+var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var karma = require('karma').server;
-var jshint = require('gulp-jshint');
-var insert = require('gulp-insert');
-var sourcemaps = require('gulp-sourcemaps');
-var stylish = require('jshint-stylish');
-var packageJson = require('./package.json');
-var pluginList = ['stSearch', 'stSelectRow', 'stSort', 'stPagination', 'stPipe'];
-var disFolder = './dist/';
-var src = (['smart-table.module', 'stConfig', 'stTable']).concat(pluginList).map(function (val) {
-    return 'src/' + val + '.js';
+var ts = require('gulp-typescript');
+
+var distDir = 'dist';
+var distJs = distDir + '/ng2-power-table.js';
+var minifiedJs = 'ng2-power-table.min.js';
+
+gulp.task('bundle', function (cb) {
+    // SystemJS build options.
+    var options = {
+        normalize: true,
+        runtime: false,
+        sourceMaps: true,
+        sourceMapContents: true,
+        minify: false,
+        mangle: false,
+        externals: [
+            '@angular/core',
+            '@angular/common'
+        ]
+    };
+
+    var builder = new Builder('./');
+    builder.config({
+        paths: {
+            'ng2-power-table/ng2-power-table': 'ng2-power-table.js',
+            'ng2-power-table/*': 'src/*'
+        },
+        packages: {
+            'src' : {defaultExtension: 'js'}
+        }
+    });
+
+    builder.bundle('ng2-power-table/ng2-power-table', distJs, options)
+        .then(function () {
+
+            console.log('bundle succeeded.');
+            cb();
+        })
+        .catch(function (e) {
+            console.log('bundle failed. Error: ' + e);
+            cb();
+        });
 });
 
-src.push('src/bottom.txt');
-src.unshift('src/top.txt');
+gulp.task('minify', ['bundle'], function () {
+   gulp.src(distJs)
+        .pipe(rename(minifiedJs))
+        .pipe(uglify())
+        .pipe(gulp.dest(distDir));
 
-//just as indication
-gulp.task('lint', function () {
-    gulp.src(src)
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish));
+            console.log('minify complete.');
 });
 
-
-gulp.task('karma-CI', function (done) {
-    var conf = require('./test/karma.common.js');
-    conf.singleRun = true;
-    conf.browsers = ['PhantomJS'];
-    conf.basePath = './';
-    karma.start(conf, done);
-});
-
-gulp.task('uglify', function () {
-    gulp.src(src)
-      .pipe(concat('smart-table.min.js'))
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(disFolder));
-});
-
-gulp.task('concat', function () {
-    gulp.src(src, { base: '.' })
-      .pipe(concat('smart-table.js'))
-      .pipe(gulp.dest(disFolder));
-});
-
-gulp.task('test', ['karma-CI']);
-
-gulp.task('build',['test', 'uglify', 'concat'], function () {
-
-    var version = packageJson.version;
-    var string = '/** \n* @version ' + version + '\n* @license MIT\n*/\n';
-
-    gulp.src(disFolder + '*.js')
-        .pipe(insert.prepend(string))
-        .pipe(gulp.dest(disFolder));
+gulp.task('build', ['bundle', 'minify'], function () {
+   
 });

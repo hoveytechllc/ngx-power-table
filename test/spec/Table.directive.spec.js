@@ -9,12 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var testing_1 = require('@angular/core/testing');
-var component_factory_1 = require('./component.factory');
+var testing_1 = require("@angular/core/testing");
+var component_factory_1 = require("./component.factory");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
-var ConfigurationProvider_class_1 = require('./../../src/Configuration/ConfigurationProvider.class');
-var DefaultConfiguration_class_1 = require('./../../src/Configuration/DefaultConfiguration.class');
-var DefaultDataPipeService_class_1 = require('./../../src/Pipe/DefaultDataPipeService.class');
+var ConfigurationProvider_class_1 = require("./../../src/Configuration/ConfigurationProvider.class");
+var DefaultConfiguration_class_1 = require("./../../src/Configuration/DefaultConfiguration.class");
+var DefaultDataPipeService_class_1 = require("./../../src/Pipe/DefaultDataPipeService.class");
 var TestObject = (function () {
     function TestObject(id, name) {
         this.id = id;
@@ -30,15 +30,15 @@ var TestTableComponent = (function () {
         this.originalData = new Array();
         this.displayData = new Array();
     }
-    TestTableComponent = __decorate([
-        core_1.Component({
-            selector: 'my-test-component',
-            template: "<div></div>"
-        }), 
-        __metadata('design:paramtypes', [])
-    ], TestTableComponent);
     return TestTableComponent;
 }());
+TestTableComponent = __decorate([
+    core_1.Component({
+        selector: 'my-test-component',
+        template: "<div></div>"
+    }),
+    __metadata("design:paramtypes", [])
+], TestTableComponent);
 var dataPipeCallCount;
 var TestDataPipeService = (function () {
     function TestDataPipeService() {
@@ -49,12 +49,12 @@ var TestDataPipeService = (function () {
             { name: "override" }
         ];
     };
-    TestDataPipeService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], TestDataPipeService);
     return TestDataPipeService;
 }());
+TestDataPipeService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], TestDataPipeService);
 exports.TestDataPipeService = TestDataPipeService;
 describe('TableDirective tests', function () {
     var mockConfigurationProvider = {

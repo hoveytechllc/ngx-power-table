@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");
-var ConfigurationProvider_class_1 = require('./../Configuration/ConfigurationProvider.class');
+var ConfigurationProvider_class_1 = require("./../Configuration/ConfigurationProvider.class");
 var TableDirective = (function () {
     function TableDirective(changeDetectorRef, injector, configurationProvider) {
         var _this = this;
@@ -76,37 +76,39 @@ var TableDirective = (function () {
         this.changeDetectorRef.detectChanges();
     };
     ;
-    __decorate([
-        core_1.Input('ptTable'), 
-        __metadata('design:type', Array)
-    ], TableDirective.prototype, "originalArray", void 0);
-    __decorate([
-        core_1.Input('ptDisplayArray'), 
-        __metadata('design:type', Array)
-    ], TableDirective.prototype, "displayArray", void 0);
-    __decorate([
-        core_1.Output('ptDisplayArrayChange'), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], TableDirective.prototype, "displayArrayChange", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Object)
-    ], TableDirective.prototype, "tableState", void 0);
-    __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
-    ], TableDirective.prototype, "tableStateChange", void 0);
-    __decorate([
-        core_1.Input('ptConfiguration'), 
-        __metadata('design:type', Object)
-    ], TableDirective.prototype, "configurationOverride", void 0);
-    TableDirective = __decorate([
-        core_1.Directive({
-            selector: "[ptTable]"
-        }), 
-        __metadata('design:paramtypes', [core_1.ChangeDetectorRef, core_1.Injector, ConfigurationProvider_class_1.ConfigurationProvider])
-    ], TableDirective);
     return TableDirective;
 }());
+__decorate([
+    core_1.Input('ptTable'),
+    __metadata("design:type", Array)
+], TableDirective.prototype, "originalArray", void 0);
+__decorate([
+    core_1.Input('ptDisplayArray'),
+    __metadata("design:type", Array)
+], TableDirective.prototype, "displayArray", void 0);
+__decorate([
+    core_1.Output('ptDisplayArrayChange'),
+    __metadata("design:type", core_1.EventEmitter)
+], TableDirective.prototype, "displayArrayChange", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Object)
+], TableDirective.prototype, "tableState", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], TableDirective.prototype, "tableStateChange", void 0);
+__decorate([
+    core_1.Input('ptConfiguration'),
+    __metadata("design:type", Object)
+], TableDirective.prototype, "configurationOverride", void 0);
+TableDirective = __decorate([
+    core_1.Directive({
+        selector: "[ptTable]"
+    }),
+    __metadata("design:paramtypes", [core_1.ChangeDetectorRef,
+        core_1.Injector,
+        ConfigurationProvider_class_1.ConfigurationProvider])
+], TableDirective);
 exports.TableDirective = TableDirective;
 //# sourceMappingURL=Table.directive.js.map
