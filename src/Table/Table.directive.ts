@@ -58,10 +58,17 @@ export class TableDirective {
     }
 
     ngOnInit() {
+        if (this.tableState){
+            this.tableStateChange.emit(this.tableState);
+        }
+
         this.getTableState();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (changes['tableState'] && this.tableState){
+            this.tableStateChange.emit(this.tableState);
+        }
         if (changes['originalArray']) {
             this.pipe();
         }

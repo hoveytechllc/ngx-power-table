@@ -155,9 +155,15 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             if (this.removeConfigListener && this.removeConfigListener.unsubscribe) this.removeConfigListener.unsubscribe();
         };
         TableDirective.prototype.ngOnInit = function () {
+            if (this.tableState) {
+                this.tableStateChange.emit(this.tableState);
+            }
             this.getTableState();
         };
         TableDirective.prototype.ngOnChanges = function (changes) {
+            if (changes['tableState'] && this.tableState) {
+                this.tableStateChange.emit(this.tableState);
+            }
             if (changes['originalArray']) {
                 this.pipe();
             }
@@ -261,7 +267,7 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
             var start = 1;
             var end;
             var i;
-            //scope.totalItemCount = paginationState.totalItemCount;
+            if (!this.table.tableState || !this.table.tableState.pagination) return;
             var pagination = this.table.tableState.pagination;
             this.currentPage = Math.floor(pagination.start / pagination.pageSize) + 1;
             start = Math.max(start, this.currentPage - Math.abs(Math.floor(this.displayedPagesCount / 2)));
@@ -302,9 +308,11 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
             var _this = this;
             this.unsubscribeToPagination();
             this.rebuildPagination();
-            this.removePaginationListener = tableState.pagination.changed.subscribe(function () {
-                _this.rebuildPagination();
-            });
+            if (tableState && tableState.pagination && tableState.pagination.changed) {
+                this.removePaginationListener = tableState.pagination.changed.subscribe(function () {
+                    _this.rebuildPagination();
+                });
+            }
         };
         return PaginationComponent;
     }();
@@ -552,7 +560,7 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
             return resultArray;
         };
         DefaultDataPipeService.prototype.sort = function (data, tableState, configuration) {
-            if (!tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet) return data;
+            if (!tableState.sort || !tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet) return data;
             return data.sort(function (a, b) {
                 // TODO: Implement configuration setting to help with aggresive minification by consumer
                 var aValue = a[tableState.sort.predicate];

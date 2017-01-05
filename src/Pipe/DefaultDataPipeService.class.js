@@ -24,7 +24,7 @@ var DefaultDataPipeService = (function () {
         return resultArray;
     };
     DefaultDataPipeService.prototype.sort = function (data, tableState, configuration) {
-        if (!tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet)
+        if (!tableState.sort || !tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet)
             return data;
         return data.sort(function (a, b) {
             // TODO: Implement configuration setting to help with aggresive minification by consumer

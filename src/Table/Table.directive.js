@@ -29,9 +29,15 @@ var TableDirective = (function () {
             this.removeConfigListener.unsubscribe();
     };
     TableDirective.prototype.ngOnInit = function () {
+        if (this.tableState) {
+            this.tableStateChange.emit(this.tableState);
+        }
         this.getTableState();
     };
     TableDirective.prototype.ngOnChanges = function (changes) {
+        if (changes['tableState'] && this.tableState) {
+            this.tableStateChange.emit(this.tableState);
+        }
         if (changes['originalArray']) {
             this.pipe();
         }

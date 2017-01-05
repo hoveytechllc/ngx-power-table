@@ -39,7 +39,8 @@ var PaginationComponent = (function () {
         var start = 1;
         var end;
         var i;
-        //scope.totalItemCount = paginationState.totalItemCount;
+        if (!this.table.tableState || !this.table.tableState.pagination)
+            return;
         var pagination = this.table.tableState.pagination;
         this.currentPage = Math.floor(pagination.start / pagination.pageSize) + 1;
         start = Math.max(start, this.currentPage - Math.abs(Math.floor(this.displayedPagesCount / 2)));
@@ -80,9 +81,11 @@ var PaginationComponent = (function () {
         var _this = this;
         this.unsubscribeToPagination();
         this.rebuildPagination();
-        this.removePaginationListener = tableState.pagination.changed.subscribe(function () {
-            _this.rebuildPagination();
-        });
+        if (tableState && tableState.pagination && tableState.pagination.changed) {
+            this.removePaginationListener = tableState.pagination.changed.subscribe(function () {
+                _this.rebuildPagination();
+            });
+        }
     };
     return PaginationComponent;
 }());
