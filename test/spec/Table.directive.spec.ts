@@ -203,9 +203,9 @@ describe('TableDirective tests', function () {
     `;
     var fix = createComponentFixture(template, [], TableWithCustomStateComponent);
 
-var items = new Array<TestObject>();
-    for (var i = 0; i < 20; i++) { 
-      items.push(new TestObject(i, "")); 
+    var items = new Array<TestObject>();
+    for (var i = 0; i < 20; i++) {
+      items.push(new TestObject(i, ""));
     }
     fix.componentInstance.originalData = items;
 
