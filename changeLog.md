@@ -1,3 +1,7 @@
+## version 0.1.11
+
+Removed module.id usage from PaginationComponent
+
 ## version 0.1.10
 
 Bug fixes for initializing tableState from consuming component.

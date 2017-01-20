@@ -317,7 +317,6 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
         return PaginationComponent;
     }();
     PaginationComponent = __decorate([core_1.Component({
-        moduleId: module.id,
         selector: 'pt-pagination',
         template: paginationTemplate
     }), __metadata("design:paramtypes", [Table_directive_1.TableDirective])], PaginationComponent);

@@ -27,7 +27,6 @@ var paginationTemplate = `
 </div>`;
 
 @Component({
-    moduleId: module.id,
     selector: 'pt-pagination',
     template: paginationTemplate
 })

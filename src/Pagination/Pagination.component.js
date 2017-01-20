@@ -91,7 +91,6 @@ var PaginationComponent = (function () {
 }());
 PaginationComponent = __decorate([
     core_1.Component({
-        moduleId: module.id,
         selector: 'pt-pagination',
         template: paginationTemplate
     }),
