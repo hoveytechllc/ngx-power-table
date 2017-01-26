@@ -1,5 +1,5 @@
 import { Provider, Type, DebugElement, Component, Injectable, Injector, EventEmitter } from "@angular/core";
-import { TestBed, inject, ComponentFixture, TestComponentRenderer } from '@angular/core/testing';
+import { TestBed, inject, ComponentFixture, TestComponentRenderer, fakeAsync, tick } from '@angular/core/testing';
 import { ElementInjector } from '@angular/core/src/linker/element_injector';
 import { TestComp, createComponent, createComponentFixture } from './component.factory';
 
@@ -47,9 +47,9 @@ export class TestDataPipeService implements IDataPipeService {
   public pipe(array: Array<any>, state: ITableState, config: IConfiguration) {
     dataPipeCallCount++;
 
-    return [
+    return Promise.resolve([
       { name: "override" }
-    ];
+    ]);
   }
 }
 
@@ -117,22 +117,21 @@ describe('TableDirective tests', function () {
     expect(fix.componentInstance.tableState).toBeDefined();
   });
 
-  it('displayArray is set using result from IDataPipeService', () => {
+  it('displayArray is set using result from IDataPipeService', fakeAsync(() => {
 
     var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData"></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
-    fix.componentInstance.originalData = new Array<TestObject>();
-    //fix.detectChanges();
+    tick();
 
     var display = fix.componentInstance.displayData;
     expect(display).toBeDefined();
     expect(display.length).toBe(1);
     expect(display[0].name).toBe("override");
     expect(dataPipeCallCount).toBe(1);
-  });
+  }));
 
-  it('table will use item configuration to inject IDataPipeService', () => {
+  it('table will use item configuration to inject IDataPipeService', fakeAsync(() => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       declarations: [TableDirective, TestTableComponent],
@@ -146,13 +145,14 @@ describe('TableDirective tests', function () {
     fix.componentInstance.tableConfiguration.pipeServiceType = TestDataPipeService;
     fix.componentInstance.originalData = new Array<TestObject>();
     fix.detectChanges();
+    tick();
 
     var display = fix.componentInstance.displayData;
     expect(display).toBeDefined();
     expect(display.length).toBe(1);
     expect(display[0].name).toBe("override");
     expect(dataPipeCallCount).toBe(1);
-  });
+  }));
 
 
   class CustomTableState extends DefaultTableState {

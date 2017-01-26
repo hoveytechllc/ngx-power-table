@@ -1,8 +1,7 @@
 System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/core", "ng2-power-table/src/Table/Table.directive", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
@@ -116,14 +115,11 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
     }), __metadata("design:paramtypes", [Table_directive_1.TableDirective, core_1.ElementRef, core_1.Renderer])], SortDirective);
     exports.SortDirective = SortDirective;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/core", "ng2-power-table/src/TableState/DefaultTableState.class", "ng2-power-table/src/Configuration/ConfigurationProvider.class"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
@@ -219,14 +215,11 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
     }), __metadata("design:paramtypes", [core_1.ChangeDetectorRef, core_1.Injector, ConfigurationProvider_class_1.ConfigurationProvider])], TableDirective);
     exports.TableDirective = TableDirective;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["@angular/core", "ng2-power-table/src/Table/Table.directive"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
@@ -322,14 +315,11 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
     }), __metadata("design:paramtypes", [Table_directive_1.TableDirective])], PaginationComponent);
     exports.PaginationComponent = PaginationComponent;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/Configuration/ConfigurationProvider.class", ["@angular/core", "ng2-power-table/src/Configuration/DefaultConfiguration.class"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
@@ -378,14 +368,11 @@ System.registerDynamic("ng2-power-table/src/Configuration/ConfigurationProvider.
     ConfigurationProvider = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], ConfigurationProvider);
     exports.ConfigurationProvider = ConfigurationProvider;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/TableState/DefaultTableState.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var core_1 = $__require("@angular/core");
     var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
@@ -509,14 +496,11 @@ System.registerDynamic("ng2-power-table/src/TableState/DefaultTableState.class",
     }();
     exports.DefaultTableState = DefaultTableState;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/Sort/SortOrder.enum", [], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     (function (SortOrder) {
         SortOrder[SortOrder["NotSet"] = 0] = "NotSet";
@@ -525,14 +509,11 @@ System.registerDynamic("ng2-power-table/src/Sort/SortOrder.enum", [], true, func
     })(exports.SortOrder || (exports.SortOrder = {}));
     var SortOrder = exports.SortOrder;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
@@ -590,14 +571,11 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
     DefaultDataPipeService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], DefaultDataPipeService);
     exports.DefaultDataPipeService = DefaultDataPipeService;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.class", ["@angular/core", "ng2-power-table/src/Pipe/DefaultDataPipeService.class"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var core_1 = $__require("@angular/core");
     var DefaultDataPipeService_class_1 = $__require("ng2-power-table/src/Pipe/DefaultDataPipeService.class");
@@ -659,14 +637,11 @@ System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.c
     }();
     exports.DefaultConfiguration = DefaultConfiguration;
     
-
-    return module.exports;
 });
 System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@angular/common", "ng2-power-table/src/Table/Table.directive", "ng2-power-table/src/Sort/Sort.directive", "ng2-power-table/src/Pipe/DefaultDataPipeService.class", "ng2-power-table/src/Pagination/Pagination.component", "ng2-power-table/src/Configuration/ConfigurationProvider.class", "ng2-power-table/src/Sort/SortOrder.enum", "ng2-power-table/src/TableState/DefaultTableState.class", "ng2-power-table/src/Configuration/DefaultConfiguration.class"], true, function ($__require, exports, module) {
     "use strict";
 
-    var define,
-        global = this || self,
+    var global = this || self,
         GLOBAL = global;
     var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
         var c = arguments.length,
@@ -719,7 +694,5 @@ System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@an
     }), __metadata("design:paramtypes", [])], PowerTableModule);
     exports.PowerTableModule = PowerTableModule;
     
-
-    return module.exports;
 });
 //# sourceMappingURL=ng2-power-table.js.map

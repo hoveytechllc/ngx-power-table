@@ -9,9 +9,9 @@ import { SortOrder } from "./../Sort/SortOrder.enum";
 export class DefaultDataPipeService<TTableState extends ITableState, TConfiguration extends IConfiguration> 
     implements IDataPipeService {
 
-    public pipe(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Array<any> {
+    public pipe(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Promise<Array<any>> {
         if (!data || !Array.isArray(data)) {
-            return undefined;
+            return Promise.resolve(undefined);
         }
 
         var resultArray = [].concat(data);
@@ -20,7 +20,7 @@ export class DefaultDataPipeService<TTableState extends ITableState, TConfigurat
         resultArray = this.sort(resultArray, tableState, configuration);
         resultArray = this.page(resultArray, tableState, configuration);
     
-        return resultArray;
+        return Promise.resolve(resultArray);
     }
 
     sort(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Array<any> {

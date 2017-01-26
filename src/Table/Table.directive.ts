@@ -116,9 +116,11 @@ export class TableDirective {
             this.dataPipeService = this.injector.get(config.pipeServiceType);
         }
 
-        this.displayArray = this.dataPipeService.pipe(this.originalArray, state, config);
-
-        this.displayArrayChange.emit(this.displayArray);
-        this.changeDetectorRef.detectChanges();
+        this.dataPipeService.pipe(this.originalArray, state, config)
+        .then( (array : Array<any>) => {
+            this.displayArray = array;
+            this.displayArrayChange.emit(this.displayArray);
+            this.changeDetectorRef.detectChanges();
+        });
     };
 }

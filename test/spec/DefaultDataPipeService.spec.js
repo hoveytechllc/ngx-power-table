@@ -17,13 +17,15 @@ describe('DefaultDataPipeService tests', function () {
             { id: 2, name: "Bill" },
             { id: 1, name: "Stacey" }
         ];
-        var result = sut.pipe(data, state, config);
-        expect(data[0].id).toBe(3, "expected data to not be modified");
-        expect(data[1].id).toBe(2, "expected data to not be modified");
-        expect(data[2].id).toBe(1, "expected data to not be modified");
-        expect(result[0].id).toBe(3, "expected result to be sorted");
-        expect(result[1].id).toBe(2, "expected result to be sorted");
-        expect(result[2].id).toBe(1, "expected result to be sorted");
+        sut.pipe(data, state, config)
+            .then(function (result) {
+            expect(data[0].id).toBe(3, "expected data to not be modified");
+            expect(data[1].id).toBe(2, "expected data to not be modified");
+            expect(data[2].id).toBe(1, "expected data to not be modified");
+            expect(result[0].id).toBe(3, "expected result to be sorted");
+            expect(result[1].id).toBe(2, "expected result to be sorted");
+            expect(result[2].id).toBe(1, "expected result to be sorted");
+        });
     });
     it('pipe should not modify original array', function () {
         var state = new DefaultTableState_class_1.DefaultTableState();
@@ -35,13 +37,15 @@ describe('DefaultDataPipeService tests', function () {
             { id: 2, name: "Bill" },
             { id: 1, name: "Stacey" }
         ];
-        var result = sut.pipe(data, state, config);
-        expect(data[0].id).toBe(3, "expected data to not be modified");
-        expect(data[1].id).toBe(2, "expected data to not be modified");
-        expect(data[2].id).toBe(1, "expected data to not be modified");
-        expect(result[0].id).toBe(1, "expected result to be sorted");
-        expect(result[1].id).toBe(2, "expected result to be sorted");
-        expect(result[2].id).toBe(3, "expected result to be sorted");
+        sut.pipe(data, state, config)
+            .then(function (result) {
+            expect(data[0].id).toBe(3, "expected data to not be modified");
+            expect(data[1].id).toBe(2, "expected data to not be modified");
+            expect(data[2].id).toBe(1, "expected data to not be modified");
+            expect(result[0].id).toBe(1, "expected result to be sorted");
+            expect(result[1].id).toBe(2, "expected result to be sorted");
+            expect(result[2].id).toBe(3, "expected result to be sorted");
+        });
     });
 });
 //# sourceMappingURL=DefaultDataPipeService.spec.js.map

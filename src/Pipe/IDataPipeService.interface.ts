@@ -4,6 +4,6 @@ import { IConfiguration } from "./../Configuration/IConfiguration.interface";
 
 export interface IDataPipeService {
 
-    pipe(data: Array<any>, tableState: ITableState, configuration: IConfiguration): Array<any>;
+    pipe(data: Array<any>, tableState: ITableState, configuration: IConfiguration): Promise<Array<any>>;
 
 }

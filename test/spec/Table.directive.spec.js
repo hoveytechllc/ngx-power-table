@@ -52,9 +52,9 @@ var TestDataPipeService = (function () {
     }
     TestDataPipeService.prototype.pipe = function (array, state, config) {
         dataPipeCallCount++;
-        return [
+        return Promise.resolve([
             { name: "override" }
-        ];
+        ]);
     };
     return TestDataPipeService;
 }());
@@ -110,18 +110,17 @@ describe('TableDirective tests', function () {
         expect(tableEl.tableState).toBeDefined();
         expect(fix.componentInstance.tableState).toBeDefined();
     });
-    it('displayArray is set using result from IDataPipeService', function () {
+    it('displayArray is set using result from IDataPipeService', testing_1.fakeAsync(function () {
         var template = "<table [ptTable]=\"originalData\" [(tableState)]=\"tableState\" [(ptDisplayArray)]=\"displayData\"></table>";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
-        fix.componentInstance.originalData = new Array();
-        //fix.detectChanges();
+        testing_1.tick();
         var display = fix.componentInstance.displayData;
         expect(display).toBeDefined();
         expect(display.length).toBe(1);
         expect(display[0].name).toBe("override");
         expect(dataPipeCallCount).toBe(1);
-    });
-    it('table will use item configuration to inject IDataPipeService', function () {
+    }));
+    it('table will use item configuration to inject IDataPipeService', testing_1.fakeAsync(function () {
         testing_1.TestBed.resetTestingModule();
         testing_1.TestBed.configureTestingModule({
             declarations: [Table_directive_1.TableDirective, TestTableComponent],
@@ -133,12 +132,13 @@ describe('TableDirective tests', function () {
         fix.componentInstance.tableConfiguration.pipeServiceType = TestDataPipeService;
         fix.componentInstance.originalData = new Array();
         fix.detectChanges();
+        testing_1.tick();
         var display = fix.componentInstance.displayData;
         expect(display).toBeDefined();
         expect(display.length).toBe(1);
         expect(display[0].name).toBe("override");
         expect(dataPipeCallCount).toBe(1);
-    });
+    }));
     var CustomTableState = (function (_super) {
         __extends(CustomTableState, _super);
         function CustomTableState() {

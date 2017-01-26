@@ -15,13 +15,13 @@ var DefaultDataPipeService = (function () {
     }
     DefaultDataPipeService.prototype.pipe = function (data, tableState, configuration) {
         if (!data || !Array.isArray(data)) {
-            return undefined;
+            return Promise.resolve(undefined);
         }
         var resultArray = [].concat(data);
         resultArray = this.filter(resultArray, tableState, configuration);
         resultArray = this.sort(resultArray, tableState, configuration);
         resultArray = this.page(resultArray, tableState, configuration);
-        return resultArray;
+        return Promise.resolve(resultArray);
     };
     DefaultDataPipeService.prototype.sort = function (data, tableState, configuration) {
         if (!tableState.sort || !tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet)
