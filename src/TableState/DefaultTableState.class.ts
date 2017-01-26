@@ -21,19 +21,7 @@ export class DefaultTableStatePagination implements ITableStatePagination {
         if (original !== this._start) 
             this.changed.emit();
     }
-    
-    private _end: number;
-    get end(): number {
-        return this._end;
-    }
-    set end(value: number) {
-        var original = this._end;
-        this._end = value;
-
-        if (original !== this._end) 
-            this.changed.emit();
-    }
-    
+       
     private _pageSize: number;
     get pageSize(): number {
         return this._pageSize;
@@ -72,7 +60,6 @@ export class DefaultTableStatePagination implements ITableStatePagination {
 
     constructor() {
         this.start = 0;
-        this.end = 0;
         this.pageSize = 10;
         this.totalItemCount = 0;
         this.numberOfPages = 0;

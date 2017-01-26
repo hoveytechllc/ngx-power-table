@@ -243,7 +243,6 @@ describe('TableDirective tests', function () {
 
     var newTableState = new DefaultTableState();
     newTableState.pagination.start = 10;
-    newTableState.pagination.end = 20;
     newTableState.pagination.numberOfPages = 2;
 
     var tableEl = <TableDirective>fix.debugElement.children[0].children[0].injector.get(TableDirective);

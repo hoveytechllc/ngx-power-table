@@ -10,7 +10,6 @@ describe('Pagination.component tests', function () {
         tableState: {
             pagination: {
                 start: 0,
-                end: 0,
                 pageSize: 0,
                 numberOfPages: 0
             }

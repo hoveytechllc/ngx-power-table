@@ -206,7 +206,6 @@ describe('TableDirective tests', function () {
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var newTableState = new DefaultTableState_class_1.DefaultTableState();
         newTableState.pagination.start = 10;
-        newTableState.pagination.end = 20;
         newTableState.pagination.numberOfPages = 2;
         var tableEl = fix.debugElement.children[0].children[0].injector.get(Table_directive_1.TableDirective);
         fix.componentInstance.tableState = newTableState;

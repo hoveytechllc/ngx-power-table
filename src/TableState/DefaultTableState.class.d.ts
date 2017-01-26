@@ -7,8 +7,6 @@ export declare class DefaultTableStatePagination implements ITableStatePaginatio
     changed: EventEmitter<void>;
     private _start;
     start: number;
-    private _end;
-    end: number;
     private _pageSize;
     pageSize: number;
     private _totalItemCount;
