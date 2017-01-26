@@ -15,13 +15,13 @@ var DefaultDataPipeService = (function () {
     }
     DefaultDataPipeService.prototype.pipe = function (data, tableState, configuration) {
         if (!data || !Array.isArray(data)) {
-            return undefined;
+            return Promise.resolve(undefined);
         }
         var resultArray = [].concat(data);
         resultArray = this.filter(resultArray, tableState, configuration);
         resultArray = this.sort(resultArray, tableState, configuration);
         resultArray = this.page(resultArray, tableState, configuration);
-        return resultArray;
+        return Promise.resolve(resultArray);
     };
     DefaultDataPipeService.prototype.sort = function (data, tableState, configuration) {
         if (!tableState.sort || !tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet)
@@ -50,8 +50,7 @@ var DefaultDataPipeService = (function () {
     DefaultDataPipeService.prototype.page = function (data, tableState, configuration) {
         if (!tableState.pagination || !tableState.pagination.pageSize)
             return data;
-        tableState.pagination.numberOfPages = data.length > 0 ? Math.ceil(data.length / tableState.pagination.pageSize) : 1;
-        tableState.pagination.start = tableState.pagination.start >= data.length ? (tableState.pagination.numberOfPages - 1) * tableState.pagination.pageSize : tableState.pagination.start;
+        tableState.pagination.totalItemCount = data.length;
         return data.slice(tableState.pagination.start, tableState.pagination.start + tableState.pagination.pageSize);
     };
     return DefaultDataPipeService;

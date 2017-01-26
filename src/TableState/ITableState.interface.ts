@@ -7,10 +7,8 @@ export interface ITableStateSearch {
 
 export interface ITableStatePagination {
     start: number;
-    end: number;
     pageSize: number;
     totalItemCount: number;
-    numberOfPages: number;
 
     changed: EventEmitter<void>;
 }

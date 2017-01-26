@@ -11,10 +11,8 @@ var DefaultTableStatePagination = (function () {
     function DefaultTableStatePagination() {
         this.changed = new core_1.EventEmitter();
         this.start = 0;
-        this.end = 0;
         this.pageSize = 10;
         this.totalItemCount = 0;
-        this.numberOfPages = 0;
     }
     Object.defineProperty(DefaultTableStatePagination.prototype, "start", {
         get: function () {
@@ -23,20 +21,8 @@ var DefaultTableStatePagination = (function () {
         set: function (value) {
             var original = this._start;
             this._start = value;
+            this.boundsCheck();
             if (original !== this._start)
-                this.changed.emit();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DefaultTableStatePagination.prototype, "end", {
-        get: function () {
-            return this._end;
-        },
-        set: function (value) {
-            var original = this._end;
-            this._end = value;
-            if (original !== this._end)
                 this.changed.emit();
         },
         enumerable: true,
@@ -62,25 +48,19 @@ var DefaultTableStatePagination = (function () {
         set: function (value) {
             var original = this._totalItemCount;
             this._totalItemCount = value;
+            this.boundsCheck();
             if (original !== this._totalItemCount)
                 this.changed.emit();
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(DefaultTableStatePagination.prototype, "numberOfPages", {
-        get: function () {
-            return this._numberOfPages;
-        },
-        set: function (value) {
-            var original = this._numberOfPages;
-            this._numberOfPages = value;
-            if (original !== this._numberOfPages)
-                this.changed.emit();
-        },
-        enumerable: true,
-        configurable: true
-    });
+    DefaultTableStatePagination.prototype.boundsCheck = function () {
+        if (this._start >= this._totalItemCount) {
+            var numPages = Math.max(1, Math.ceil(this._totalItemCount / this._pageSize));
+            this._start = (numPages - 1) * this._pageSize;
+        }
+    };
     return DefaultTableStatePagination;
 }());
 exports.DefaultTableStatePagination = DefaultTableStatePagination;

@@ -18,22 +18,12 @@ export class DefaultTableStatePagination implements ITableStatePagination {
         var original = this._start;
         this._start = value;
 
+        this.boundsCheck();
+
         if (original !== this._start) 
             this.changed.emit();
     }
-    
-    private _end: number;
-    get end(): number {
-        return this._end;
-    }
-    set end(value: number) {
-        var original = this._end;
-        this._end = value;
-
-        if (original !== this._end) 
-            this.changed.emit();
-    }
-    
+       
     private _pageSize: number;
     get pageSize(): number {
         return this._pageSize;
@@ -54,28 +44,23 @@ export class DefaultTableStatePagination implements ITableStatePagination {
         var original = this._totalItemCount;
         this._totalItemCount = value;
 
+        this.boundsCheck();
+
         if (original !== this._totalItemCount) 
             this.changed.emit();
     }
 
-    private _numberOfPages: number;
-    get numberOfPages(): number {
-        return this._numberOfPages;
-    }
-    set numberOfPages(value: number) {
-        var original = this._numberOfPages;
-        this._numberOfPages = value;
-
-        if (original !== this._numberOfPages) 
-            this.changed.emit();
+    boundsCheck() {
+        if (this._start >= this._totalItemCount) {
+            let numPages = Math.max(1, Math.ceil(this._totalItemCount / this._pageSize));
+            this._start = (numPages - 1) * this._pageSize;
+        }
     }
 
     constructor() {
         this.start = 0;
-        this.end = 0;
         this.pageSize = 10;
         this.totalItemCount = 0;
-        this.numberOfPages = 0;
     }
 }
 

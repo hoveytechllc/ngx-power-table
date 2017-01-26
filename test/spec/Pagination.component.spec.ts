@@ -16,9 +16,8 @@ describe('Pagination.component tests', function () {
         tableState: {
             pagination: {
                 start: 0,
-                end: 0,
                 pageSize: 0,
-                numberOfPages: 0
+                totalItemCount: 0
             }
         },
         pipe: function () {
@@ -51,7 +50,7 @@ describe('Pagination.component tests', function () {
     }
 
     it('should create buttons for page count', (done) => {
-        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 0;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 
@@ -75,7 +74,7 @@ describe('Pagination.component tests', function () {
     });
 
     it('does call pipe with start 0, if "first" button clicked', (done) => {
-        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 
@@ -104,7 +103,7 @@ describe('Pagination.component tests', function () {
     });
 
     it('does disable prev & first buttons if on page 1', (done) => {
-        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 30;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 
@@ -137,7 +136,7 @@ describe('Pagination.component tests', function () {
     });
 
     it('does disable prev & first buttons if on page 1', (done) => {
-        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 0;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 
@@ -170,7 +169,7 @@ describe('Pagination.component tests', function () {
     });
 
     it('does apply "active" cssClass for page button', (done) => {
-        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 0;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 
@@ -198,7 +197,7 @@ describe('Pagination.component tests', function () {
     });
 
     it('does call pipe with start for last page, if "last" button clicked', (done) => {
-        tableDirectiveSub.tableState.pagination.numberOfPages = 4;
+        tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
 

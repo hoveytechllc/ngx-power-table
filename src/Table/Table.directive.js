@@ -72,14 +72,18 @@ var TableDirective = (function () {
         return this.currentConfiguration;
     };
     TableDirective.prototype.pipe = function () {
+        var _this = this;
         var state = this.getTableState();
         var config = this.getConfiguration();
         if (!this.dataPipeService) {
             this.dataPipeService = this.injector.get(config.pipeServiceType);
         }
-        this.displayArray = this.dataPipeService.pipe(this.originalArray, state, config);
-        this.displayArrayChange.emit(this.displayArray);
-        this.changeDetectorRef.detectChanges();
+        this.dataPipeService.pipe(this.originalArray, state, config)
+            .then(function (array) {
+            _this.displayArray = array;
+            _this.displayArrayChange.emit(_this.displayArray);
+            _this.changeDetectorRef.detectChanges();
+        });
     };
     ;
     return TableDirective;

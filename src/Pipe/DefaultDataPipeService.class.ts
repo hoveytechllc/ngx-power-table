@@ -9,9 +9,9 @@ import { SortOrder } from "./../Sort/SortOrder.enum";
 export class DefaultDataPipeService<TTableState extends ITableState, TConfiguration extends IConfiguration> 
     implements IDataPipeService {
 
-    public pipe(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Array<any> {
+    public pipe(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Promise<Array<any>> {
         if (!data || !Array.isArray(data)) {
-            return undefined;
+            return Promise.resolve(undefined);
         }
 
         var resultArray = [].concat(data);
@@ -20,7 +20,7 @@ export class DefaultDataPipeService<TTableState extends ITableState, TConfigurat
         resultArray = this.sort(resultArray, tableState, configuration);
         resultArray = this.page(resultArray, tableState, configuration);
     
-        return resultArray;
+        return Promise.resolve(resultArray);
     }
 
     sort(data: Array<any>, tableState: TTableState, configuration: TConfiguration): Array<any> {
@@ -57,8 +57,7 @@ export class DefaultDataPipeService<TTableState extends ITableState, TConfigurat
         if (!tableState.pagination || !tableState.pagination.pageSize)
             return data;
 
-        tableState.pagination.numberOfPages = data.length > 0 ? Math.ceil(data.length / tableState.pagination.pageSize) : 1;
-        tableState.pagination.start = tableState.pagination.start >= data.length ? (tableState.pagination.numberOfPages - 1) * tableState.pagination.pageSize : tableState.pagination.start;
+        tableState.pagination.totalItemCount = data.length;
 
         return data.slice(tableState.pagination.start, tableState.pagination.start + tableState.pagination.pageSize);
     }
