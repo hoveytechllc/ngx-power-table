@@ -1,3 +1,8 @@
+## version 0.2.0
+
+Implemented async pipe.
+Thanks to StdVectorBool!
+
 ## version 0.1.11
 
 Removed module.id usage from PaginationComponent
