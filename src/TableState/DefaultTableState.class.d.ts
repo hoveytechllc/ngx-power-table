@@ -11,8 +11,7 @@ export declare class DefaultTableStatePagination implements ITableStatePaginatio
     pageSize: number;
     private _totalItemCount;
     totalItemCount: number;
-    private _numberOfPages;
-    numberOfPages: number;
+    boundsCheck(): void;
     constructor();
 }
 export declare class DefaultTableStateSort implements ITableStateSort {

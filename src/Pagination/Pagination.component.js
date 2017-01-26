@@ -42,15 +42,15 @@ var PaginationComponent = (function () {
         if (!this.table.tableState || !this.table.tableState.pagination)
             return;
         var pagination = this.table.tableState.pagination;
+        this.numPages = Math.max(1, Math.ceil(pagination.totalItemCount / pagination.pageSize));
         this.currentPage = Math.floor(pagination.start / pagination.pageSize) + 1;
         start = Math.max(start, this.currentPage - Math.abs(Math.floor(this.displayedPagesCount / 2)));
         end = start + this.displayedPagesCount;
-        if (end > pagination.numberOfPages) {
-            end = pagination.numberOfPages + 1;
+        if (end > this.numPages) {
+            end = this.numPages + 1;
             start = Math.max(1, end - this.displayedPagesCount);
         }
         this.pages = [];
-        this.numPages = pagination.numberOfPages;
         for (i = start; i < end; i++) {
             this.pages.push(i);
         }

@@ -82,6 +82,7 @@ describe('TableDirective tests', function () {
     var table1 = <TableDirective>el.children[0].injector.get(TableDirective);
     var table2 = <TableDirective>el.children[0].injector.get(TableDirective);
     expect(table1).toEqual(table2);
+    table1.tableState.pagination.totalItemCount = 2;
     table1.tableState.pagination.start = 1;
     expect(table2.tableState.pagination.start).toBe(1);
   });
@@ -242,8 +243,8 @@ describe('TableDirective tests', function () {
     var fix = createComponentFixture(template, [], TestTableComponent);
 
     var newTableState = new DefaultTableState();
+    newTableState.pagination.totalItemCount = 20;
     newTableState.pagination.start = 10;
-    newTableState.pagination.numberOfPages = 2;
 
     var tableEl = <TableDirective>fix.debugElement.children[0].children[0].injector.get(TableDirective);
     fix.componentInstance.tableState = newTableState;

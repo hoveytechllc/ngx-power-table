@@ -50,8 +50,7 @@ var DefaultDataPipeService = (function () {
     DefaultDataPipeService.prototype.page = function (data, tableState, configuration) {
         if (!tableState.pagination || !tableState.pagination.pageSize)
             return data;
-        tableState.pagination.numberOfPages = data.length > 0 ? Math.ceil(data.length / tableState.pagination.pageSize) : 1;
-        tableState.pagination.start = tableState.pagination.start >= data.length ? (tableState.pagination.numberOfPages - 1) * tableState.pagination.pageSize : tableState.pagination.start;
+        tableState.pagination.totalItemCount = data.length;
         return data.slice(tableState.pagination.start, tableState.pagination.start + tableState.pagination.pageSize);
     };
     return DefaultDataPipeService;

@@ -86,6 +86,7 @@ describe('TableDirective tests', function () {
         var table1 = el.children[0].injector.get(Table_directive_1.TableDirective);
         var table2 = el.children[0].injector.get(Table_directive_1.TableDirective);
         expect(table1).toEqual(table2);
+        table1.tableState.pagination.totalItemCount = 2;
         table1.tableState.pagination.start = 1;
         expect(table2.tableState.pagination.start).toBe(1);
     });
@@ -205,8 +206,8 @@ describe('TableDirective tests', function () {
         var template = "\n    <div>\n      <table [ptTable]=\"originalData\" [(tableState)]=\"tableState\">\n          <tfoot>\n              <pt-pagination></pt-pagination>\n          </tfoot>\n      </table>\n    </div>\n    ";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var newTableState = new DefaultTableState_class_1.DefaultTableState();
+        newTableState.pagination.totalItemCount = 20;
         newTableState.pagination.start = 10;
-        newTableState.pagination.numberOfPages = 2;
         var tableEl = fix.debugElement.children[0].children[0].injector.get(Table_directive_1.TableDirective);
         fix.componentInstance.tableState = newTableState;
         fix.detectChanges();
