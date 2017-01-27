@@ -1,3 +1,8 @@
+## version 0.2.1
+
+Fix for ng2-power-table.min.js not included last changes.
+Thanks to StdVectorBool!
+
 ## version 0.2.0
 
 Implemented async pipe.
