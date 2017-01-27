@@ -1,0 +1,25 @@
+<table [ptTable]="allCommits" [(ptDisplayArray)]="commits" [ptConfiguration]="configuration" class="table table-bordered table-stripped">
+    <thead>
+        <tr>
+            <th>Sha</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let commit of commits; let i = index;">
+            <td><code>{{commit.sha | slice:0:6}}</code></td>
+            <td>{{commit.commit.author.name}}</td>
+            <td>{{commit.commit.author.date | date:'shortDate'}}</td>
+            <td>{{commit.commit.message}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                <pt-pagination></pt-pagination>
+            </td>
+        </tr>
+    </tfoot>
+</table>
