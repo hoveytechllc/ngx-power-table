@@ -6,7 +6,7 @@ Ng2PowerTable is table module for Angular 2. It is designed to be modular and ea
 
 If you've used [Smart Table](https://github.com/lorenzofox3/Smart-Table) for Angular 1.x, you'll find some similarities to Ng2PowerTable.
 
-Documentation: [https://hoveytech.github.io/ng2-power-table](https://hoveytech.github.io/ng2-power-table/)
+Documentation: [http://ng2-power-table.hoveytech.com](http://ng2-power-table.hoveytech.com)
 
 # Installation
 
