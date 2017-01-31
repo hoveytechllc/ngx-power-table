@@ -19,6 +19,7 @@ var PaginationComponent = (function () {
         var _this = this;
         this.table = table;
         this.displayedPagesCount = 5;
+        this.onTableStateChanged(this.table.tableState);
         this.removeTableStateListener = this.table.tableStateChange.subscribe(function (tableState) {
             _this.onTableStateChanged(tableState);
         });

@@ -10,6 +10,8 @@ import { ConfigurationProvider } from './../../src/Configuration/ConfigurationPr
 import { DefaultDataPipeService } from './../../src/Pipe/DefaultDataPipeService.class';
 import { PaginationComponent } from './../../src/Pagination/Pagination.component';
 
+import { TestObject } from './../helpers/TestObject.class';
+
 describe('Pagination.component tests', function () {
     var tableDirectiveSub = {
         tableStateChange: new EventEmitter<ITableState>(),
@@ -192,6 +194,76 @@ describe('Pagination.component tests', function () {
             fix.detectChanges();
 
             expect(hasClass(buttonArray[2].nativeElement, 'active')).toBeTruthy();
+            done();
+        });
+    });
+
+
+    @Component({
+        selector: 'my-test-component',
+        template: "<div></div>"
+    })
+    class TestPaginationComponent {
+        public originalData: Array<TestObject>;
+        public displayData: Array<TestObject>;
+        public tableState: ITableState;
+        public isPaginationComponentVisible: boolean;
+
+        /**
+         *
+         */
+        constructor() {
+            this.originalData = new Array<TestObject>();
+            this.displayData = new Array<TestObject>();
+            this.isPaginationComponentVisible = false;
+
+            for (var i = 0; i < 20; i++) {
+                this.originalData.push(new TestObject(i, i.toString()));
+            }
+        }
+    }
+
+
+    it('does repond to events if created after ptTable initialization', (done: () => void) => {
+        TestBed.resetTestingModule();
+
+        var template = `
+            <table [ptTable]="originalData" [(tableState)]="tableState">
+                <tfoot>
+                    <pt-pagination *ngIf="isPaginationComponentVisible"></pt-pagination>
+                </tfoot>
+            </table>
+            `;
+
+        SetupComponentFixture(template, [], TestPaginationComponent);
+
+        TestBed.configureTestingModule({
+            declarations: [TableDirective, TestPaginationComponent, PaginationComponent],
+            providers: [ConfigurationProvider, DefaultDataPipeService]
+        }).compileComponents().then(() => {
+
+            var fix = createComponentFixture('', [], TestPaginationComponent);
+            fix.detectChanges();
+
+            var tFootElem = fix.debugElement.children[0].children[0];
+            expect(tFootElem.children.length).toBe(0);
+
+            fix.componentInstance.isPaginationComponentVisible = true;
+            fix.detectChanges();
+            expect(tFootElem.children.length).toBe(1);
+
+            fix.componentInstance.tableState.pagination.start = 10;
+            fix.detectChanges();
+
+            var buttonArray = tFootElem.children[0].children[0].children;
+            expect(hasClass(buttonArray[2].nativeElement, 'active')).toBeFalsy();
+            expect(hasClass(buttonArray[3].nativeElement, 'active')).toBeTruthy();
+            
+            fix.componentInstance.tableState.pagination.start = 11;
+            fix.detectChanges();
+            expect(hasClass(buttonArray[2].nativeElement, 'active')).toBeFalsy();
+            expect(hasClass(buttonArray[3].nativeElement, 'active')).toBeTruthy();
+
             done();
         });
     });

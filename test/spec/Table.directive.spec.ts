@@ -13,12 +13,8 @@ import { DefaultDataPipeService } from './../../src/Pipe/DefaultDataPipeService.
 import { PaginationComponent } from './../../src/Pagination/Pagination.component';
 import { IDataPipeService } from './../../src/Pipe/IDataPipeService.interface';
 
-class TestObject {
+import { TestObject } from './../helpers/TestObject.class';
 
-  constructor(public id: number, public name: string) {
-
-  }
-}
 
 @Component({
   selector: 'my-test-component',

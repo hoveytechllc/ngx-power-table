@@ -56,7 +56,7 @@ module.exports = function(config) {
       {pattern: 'index.js', included: false, watched: true},
       {pattern: 'ng2-power-table.js', included: false, watched: true},
       {pattern: 'src/**/*.js', included: false, watched: true},
-      {pattern: 'test/spec/*.js', included: false, watched: true},
+      {pattern: 'test/**/*.js', included: false, watched: true},
 
       // // Asset (HTML & CSS) paths loaded via Angular's component compiler
       // // (these paths need to be rewritten, see proxies section)
@@ -69,8 +69,8 @@ module.exports = function(config) {
       {pattern: 'ng2-power-table.js.map', included: false, watched: false},
       {pattern: 'src/**/*.ts', included: false, watched: false},
       {pattern: 'src/**/*.js.map', included: false, watched: false},
-      {pattern: 'test/spec/*.ts', included: false, watched: false},
-      {pattern: 'test/spec/*.js.map', included: false, watched: false}
+      {pattern: 'test/**/*.ts', included: false, watched: false},
+      {pattern: 'test/**/*.js.map', included: false, watched: false}
     ],
 
     // Proxied base paths for loading assets

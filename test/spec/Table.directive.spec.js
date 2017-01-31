@@ -22,13 +22,7 @@ var ConfigurationProvider_class_1 = require("./../../src/Configuration/Configura
 var DefaultConfiguration_class_1 = require("./../../src/Configuration/DefaultConfiguration.class");
 var DefaultDataPipeService_class_1 = require("./../../src/Pipe/DefaultDataPipeService.class");
 var Pagination_component_1 = require("./../../src/Pagination/Pagination.component");
-var TestObject = (function () {
-    function TestObject(id, name) {
-        this.id = id;
-        this.name = name;
-    }
-    return TestObject;
-}());
+var TestObject_class_1 = require("./../helpers/TestObject.class");
 var TestTableComponent = (function () {
     /**
      *
@@ -184,7 +178,7 @@ describe('TableDirective tests', function () {
         var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomStateComponent);
         var items = new Array();
         for (var i = 0; i < 20; i++) {
-            items.push(new TestObject(i, ""));
+            items.push(new TestObject_class_1.TestObject(i, ""));
         }
         fix.componentInstance.originalData = items;
         var tableEl = fix.debugElement.children[0].children[0].injector.get(Table_directive_1.TableDirective);

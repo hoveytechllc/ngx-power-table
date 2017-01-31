@@ -26,7 +26,7 @@ function isBuiltFile(path) {
 }
 
 var allSpecFiles = Object.keys(window.__karma__.files)
-  .filter(isSpecFile)
+  //.filter(isSpecFile)
   .filter(isBuiltFile);
 
 System.config({

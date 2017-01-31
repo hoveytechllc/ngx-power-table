@@ -47,10 +47,11 @@ export class PaginationComponent {
 
         this.displayedPagesCount = 5;
 
+        this.onTableStateChanged(this.table.tableState);
         this.removeTableStateListener = this.table.tableStateChange.subscribe((tableState: ITableState) => {
             this.onTableStateChanged(tableState);
         });
-
+        
     }
 
     ngOnInit() {

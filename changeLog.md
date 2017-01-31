@@ -1,3 +1,7 @@
+## version 0.2.2
+
+- [Bug fix](https://github.com/hoveytech/ng2-power-table/issues/4) for ptPagination and *ngIf
+
 ## version 0.2.1
 
 Fix for ng2-power-table.min.js not included last changes.
