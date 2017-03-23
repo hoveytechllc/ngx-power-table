@@ -178,9 +178,9 @@ describe('Pagination.component tests', function () {
         }),
         __metadata("design:paramtypes", [])
     ], TestPaginationComponent);
-    it('does repond to events if created after ptTable initialization', function (done) {
+    it('does respond to events if created after ptTable initialization', function (done) {
         testing_1.TestBed.resetTestingModule();
-        var template = "\n            <table [ptTable]=\"originalData\" [(tableState)]=\"tableState\">\n                <tfoot>\n                    <pt-pagination *ngIf=\"isPaginationComponentVisible\"></pt-pagination>\n                </tfoot>\n            </table>\n            ";
+        var template = "\n            <table [ptTable]=\"originalData\" [(ptTableState)]=\"tableState\">\n                <tfoot>\n                    <pt-pagination *ngIf=\"isPaginationComponentVisible\"></pt-pagination>\n                </tfoot>\n            </table>\n            ";
         component_factory_1.SetupComponentFixture(template, [], TestPaginationComponent);
         testing_1.TestBed.configureTestingModule({
             declarations: [Table_directive_1.TableDirective, TestPaginationComponent, Pagination_component_1.PaginationComponent],

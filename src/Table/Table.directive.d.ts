@@ -12,6 +12,7 @@ export declare class TableDirective {
     originalArray: Array<any>;
     displayArray: Array<any>;
     displayArrayChange: EventEmitter<Array<any>>;
+    dataPipe: EventEmitter<any>;
     tableState: ITableState;
     tableStateChange: EventEmitter<ITableState>;
     configurationOverride: IConfiguration;
@@ -20,7 +21,7 @@ export declare class TableDirective {
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     private getTableState();
-    doSearch(predicate: string, reverse: boolean): void;
     getConfiguration(): IConfiguration;
+    updateDisplayArray(results: Array<any>, totalItemCount: number): void;
     pipe(): void;
 }

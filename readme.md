@@ -16,7 +16,7 @@ using Node Package Manager:
 
 `npm install ng2-power-table`
 
-## 2. Modify SystemJS bootloader to load Ng2PowerTable ([see documentation](https://hoveytech.github.io/ng2-power-table/))
+## 2. Modify SystemJS bootloader to load Ng2PowerTable ([see documentation](https://ng2-power-table.hoveytech.com))
 
 ```javascript
 (function (global) {

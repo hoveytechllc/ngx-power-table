@@ -40,7 +40,7 @@ describe('PowerTableModule tests', function () {
     });
 
     it('does create table and set displayData on consumer', fakeAsync(() => {
-        var template = '<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData"></table>';
+        var template = '<table [ptTable]="originalData" [(ptTableState)]="tableState" [(ptDisplayArray)]="displayData"></table>';
 
         var fix = createComponentFixture(template, [], TestTableComponent);
 

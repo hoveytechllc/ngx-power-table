@@ -1,3 +1,8 @@
+## version 0.3.0
+
+- Added event binding `ptDataPipe` in order to support component handling server side pagination
+- Renamed attribute `tableState` to `ptTableState`
+
 ## version 0.2.2
 
 - [Bug fix](https://github.com/hoveytech/ng2-power-table/issues/4) for ptPagination and *ngIf

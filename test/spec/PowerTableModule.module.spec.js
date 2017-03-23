@@ -44,7 +44,7 @@ describe('PowerTableModule tests', function () {
         });
     });
     it('does create table and set displayData on consumer', testing_1.fakeAsync(function () {
-        var template = '<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData"></table>';
+        var template = '<table [ptTable]="originalData" [(ptTableState)]="tableState" [(ptDisplayArray)]="displayData"></table>';
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var original = new Array();
         for (var i = 0; i < 40; i++) {

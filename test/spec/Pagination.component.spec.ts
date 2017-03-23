@@ -224,11 +224,11 @@ describe('Pagination.component tests', function () {
     }
 
 
-    it('does repond to events if created after ptTable initialization', (done: () => void) => {
+    it('does respond to events if created after ptTable initialization', (done: () => void) => {
         TestBed.resetTestingModule();
 
         var template = `
-            <table [ptTable]="originalData" [(tableState)]="tableState">
+            <table [ptTable]="originalData" [(ptTableState)]="tableState">
                 <tfoot>
                     <pt-pagination *ngIf="isPaginationComponentVisible"></pt-pagination>
                 </tfoot>

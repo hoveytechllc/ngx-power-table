@@ -97,7 +97,7 @@ describe('TableDirective tests', function () {
         expect(table.originalArray).toBeDefined();
     });
     it('can update tableState from parent controller', function () {
-        var template = "<table [ptTable]=\"originalData\" [(tableState)]=\"tableState\" (ptDisplayData)=\"displayData\"></table>";
+        var template = "<table [ptTable]=\"originalData\" [(ptTableState)]=\"tableState\" (ptDisplayData)=\"displayData\"></table>";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var tableEl = fix.debugElement.children[0].injector.get(Table_directive_1.TableDirective);
         fix.componentInstance.originalData = new Array();
@@ -106,7 +106,7 @@ describe('TableDirective tests', function () {
         expect(fix.componentInstance.tableState).toBeDefined();
     });
     it('displayArray is set using result from IDataPipeService', testing_1.fakeAsync(function () {
-        var template = "<table [ptTable]=\"originalData\" [(tableState)]=\"tableState\" [(ptDisplayArray)]=\"displayData\"></table>";
+        var template = "<table [ptTable]=\"originalData\" [(ptTableState)]=\"tableState\" [(ptDisplayArray)]=\"displayData\"></table>";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         testing_1.tick();
         var display = fix.componentInstance.displayData;
@@ -174,7 +174,7 @@ describe('TableDirective tests', function () {
             declarations: [Table_directive_1.TableDirective, TableWithCustomStateComponent, Pagination_component_1.PaginationComponent],
             providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
         });
-        var template = "\n    <div>\n      <table [ptTable]=\"originalData\" [(tableState)]=\"tableState\">\n          <tfoot>\n              <pt-pagination></pt-pagination>\n          </tfoot>\n      </table>\n    </div>\n    ";
+        var template = "\n    <div>\n      <table [ptTable]=\"originalData\" [(ptTableState)]=\"tableState\">\n          <tfoot>\n              <pt-pagination></pt-pagination>\n          </tfoot>\n      </table>\n    </div>\n    ";
         var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomStateComponent);
         var items = new Array();
         for (var i = 0; i < 20; i++) {
@@ -197,7 +197,7 @@ describe('TableDirective tests', function () {
             declarations: [Table_directive_1.TableDirective, TestTableComponent, Pagination_component_1.PaginationComponent],
             providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
         });
-        var template = "\n    <div>\n      <table [ptTable]=\"originalData\" [(tableState)]=\"tableState\">\n          <tfoot>\n              <pt-pagination></pt-pagination>\n          </tfoot>\n      </table>\n    </div>\n    ";
+        var template = "\n    <div>\n      <table [ptTable]=\"originalData\" [(ptTableState)]=\"tableState\">\n          <tfoot>\n              <pt-pagination></pt-pagination>\n          </tfoot>\n      </table>\n    </div>\n    ";
         var fix = component_factory_1.createComponentFixture(template, [], TestTableComponent);
         var newTableState = new DefaultTableState_class_1.DefaultTableState();
         newTableState.pagination.totalItemCount = 20;
@@ -210,6 +210,56 @@ describe('TableDirective tests', function () {
         var page2Button = paginationEl.children[0].children[3];
         expect(hasClass(page1Button.nativeElement, 'active')).toBeFalsy();
         expect(hasClass(page2Button.nativeElement, 'active')).toBeTruthy();
+    });
+    var TableWithCustomDataPipeFunction = (function () {
+        function TableWithCustomDataPipeFunction() {
+            this.tableState = new CustomTableState();
+        }
+        TableWithCustomDataPipeFunction.prototype.pipe = function (tableDirective, tableState, config) {
+            setTimeout(function () {
+                tableDirective.updateDisplayArray([
+                    new TestObject_class_1.TestObject(1, "ng2"),
+                    new TestObject_class_1.TestObject(1, "power"),
+                    new TestObject_class_1.TestObject(1, "table")
+                ], 3);
+            });
+        };
+        return TableWithCustomDataPipeFunction;
+    }());
+    TableWithCustomDataPipeFunction = __decorate([
+        core_1.Component({
+            selector: 'my-test-component',
+            template: "<div></div>"
+        }),
+        __metadata("design:paramtypes", [])
+    ], TableWithCustomDataPipeFunction);
+    it('table will use dataPipe value on directive if set', function (done) {
+        testing_1.TestBed.resetTestingModule();
+        testing_1.TestBed.configureTestingModule({
+            declarations: [TableWithCustomDataPipeFunction, Table_directive_1.TableDirective, TestTableComponent, Pagination_component_1.PaginationComponent],
+            providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
+        });
+        var template = "\n    <div>\n      <table [ptTable]=\"\" (ptDataPipe)=\"pipe($event[0], $event[1], $event[2])\" [(ptDisplayArray)]=\"displayArray\" [(ptTableState)]=\"tableState\">\n      </table>\n    </div>\n    ";
+        var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+        var intervalHandle;
+        var start = new Date();
+        intervalHandle = setInterval(function () {
+            var now = new Date();
+            if ((now.getTime() - start.getTime()) > 2000) {
+                expect(true).toBeFalsy();
+                done();
+                throw new Error("Timeout passed, displayArray not set.");
+            }
+            if (fix.componentInstance.displayArray
+                && fix.componentInstance.displayArray.length === 3) {
+                clearInterval(intervalHandle);
+                expect(fix.componentInstance.displayArray.length).toBe(3);
+                expect(fix.componentInstance.displayArray[0].name).toBe("ng2");
+                expect(fix.componentInstance.displayArray[1].name).toBe("power");
+                expect(fix.componentInstance.displayArray[2].name).toBe("table");
+                done();
+            }
+        }, 50);
     });
 });
 //# sourceMappingURL=Table.directive.spec.js.map

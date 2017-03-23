@@ -11,7 +11,7 @@ import { IConfiguration } from './../../src/Configuration/IConfiguration.interfa
 import { DefaultConfiguration } from './../../src/Configuration/DefaultConfiguration.class';
 import { DefaultDataPipeService } from './../../src/Pipe/DefaultDataPipeService.class';
 import { PaginationComponent } from './../../src/Pagination/Pagination.component';
-import { IDataPipeService } from './../../src/Pipe/IDataPipeService.interface';
+import { IDataPipeService, IDataPipeFunction } from './../../src/Pipe/IDataPipeService.interface';
 
 import { TestObject } from './../helpers/TestObject.class';
 
@@ -102,7 +102,7 @@ describe('TableDirective tests', function () {
 
   it('can update tableState from parent controller', () => {
 
-    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" (ptDisplayData)="displayData"></table>`;
+    var template = `<table [ptTable]="originalData" [(ptTableState)]="tableState" (ptDisplayData)="displayData"></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
     var tableEl = <TableDirective>fix.debugElement.children[0].injector.get(TableDirective);
@@ -116,7 +116,7 @@ describe('TableDirective tests', function () {
 
   it('displayArray is set using result from IDataPipeService', fakeAsync(() => {
 
-    var template = `<table [ptTable]="originalData" [(tableState)]="tableState" [(ptDisplayArray)]="displayData"></table>`;
+    var template = `<table [ptTable]="originalData" [(ptTableState)]="tableState" [(ptDisplayArray)]="displayData"></table>`;
     var fix = createComponentFixture(template, [], TestTableComponent);
 
     tick();
@@ -191,7 +191,7 @@ describe('TableDirective tests', function () {
 
     var template = `
     <div>
-      <table [ptTable]="originalData" [(tableState)]="tableState">
+      <table [ptTable]="originalData" [(ptTableState)]="tableState">
           <tfoot>
               <pt-pagination></pt-pagination>
           </tfoot>
@@ -229,7 +229,7 @@ describe('TableDirective tests', function () {
 
     var template = `
     <div>
-      <table [ptTable]="originalData" [(tableState)]="tableState">
+      <table [ptTable]="originalData" [(ptTableState)]="tableState">
           <tfoot>
               <pt-pagination></pt-pagination>
           </tfoot>
@@ -253,4 +253,59 @@ describe('TableDirective tests', function () {
     expect(hasClass(page2Button.nativeElement, 'active')).toBeTruthy();
   });
 
+  @Component({
+    selector: 'my-test-component',
+    template: "<div></div>"
+  })
+  class TableWithCustomDataPipeFunction {
+    public tableState: CustomTableState = new CustomTableState();
+    public displayArray: Array<TestObject>;
+
+    public pipe(tableDirective: TableDirective, tableState: ITableState, config: IConfiguration): void {
+      setTimeout(function() { 
+          tableDirective.updateDisplayArray([
+              new TestObject(1, "ng2"),
+              new TestObject(1, "power"),
+              new TestObject(1, "table")
+            ], 3);
+        });
+    }
+  }
+
+  it('table will use dataPipe value on directive if set', (done: () => void) => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      declarations: [TableWithCustomDataPipeFunction, TableDirective, TestTableComponent, PaginationComponent],
+      providers: [ConfigurationProvider, DefaultDataPipeService, TestDataPipeService]
+    });
+
+    var template = `
+    <div>
+      <table [ptTable]="" (ptDataPipe)="pipe($event[0], $event[1], $event[2])" [(ptDisplayArray)]="displayArray" [(ptTableState)]="tableState">
+      </table>
+    </div>
+    `;
+    var fix = createComponentFixture(template, [], TableWithCustomDataPipeFunction)
+    var intervalHandle: any; 
+    var start = new Date();
+
+    intervalHandle = setInterval(function() {
+      var now = new Date();
+      if ((now.getTime() - start.getTime()) > 2000) {
+          expect(true).toBeFalsy();
+          done();
+          throw new Error("Timeout passed, displayArray not set.");
+      }
+      if (fix.componentInstance.displayArray 
+        && fix.componentInstance.displayArray.length === 3){
+          clearInterval(intervalHandle);
+          expect(fix.componentInstance.displayArray.length).toBe(3);
+          expect(fix.componentInstance.displayArray[0].name).toBe("ng2");
+          expect(fix.componentInstance.displayArray[1].name).toBe("power");
+          expect(fix.componentInstance.displayArray[2].name).toBe("table");
+          done();
+      }
+    }, 50);
+
+  });
 });
