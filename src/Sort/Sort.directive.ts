@@ -1,7 +1,10 @@
 import { Directive, Input, ElementRef, Renderer, SimpleChange, Inject, Host } from "@angular/core";
 import { TableDirective } from "./../Table/Table.directive";
 import { ITableState } from "./../TableState/ITableState.interface"
+import { IDefaultTableStateSort } from './../TableState/IDefaultTableState.interface';
 import { SortOrder } from "./SortOrder.enum";
+import { ISortState } from './ISortState.interface';
+import { SortState } from './SortState.class'
 
 @Directive({
     selector: "[ptSort]"
@@ -53,7 +56,10 @@ export class SortDirective {
             return;
         }
 
-        if ((!this.table.tableState.sort.predicate || (this.table.tableState.sort.predicate !== this.predicate))
+        var sort = this.getSortState();
+        if (!sort) return;
+
+        if ((!sort.predicate || (sort.predicate !== this.predicate))
             && this.order !== SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
             this.order = SortOrder.NotSet;
@@ -62,14 +68,14 @@ export class SortDirective {
             return;
         }
 
-        if (!this.table.tableState.sort.predicate)
+        if (!sort.predicate)
             return;
 
-        if (this.table.tableState.sort.predicate === this.predicate
-            && this.table.tableState.sort.order !== this.order) {
+        if (sort.predicate === this.predicate
+            && sort.order !== this.order) {
             // since suppressSortChangedHandler was not set, we can safely assume
             // we need to trigger sort.
-            this.order = this.table.tableState.sort.order;
+            this.order = sort.order;
             this.updateSortDisplay();
             this.table.pipe();
             // fix css classes
@@ -80,10 +86,13 @@ export class SortDirective {
     private onTableStateChanged(tableState: ITableState) {
         this.unsubscribeToSortListener();
         this.resolveTableState();
+        var sort = this.getSortState();
 
-        this.removeSortListener = tableState.sort.changed.subscribe(() => {
+        if (sort){
+        this.removeSortListener = sort.changed.subscribe(() => {
             this.resolveTableState();
         });
+        }
     }
 
     private updateSortDisplay() {
@@ -110,6 +119,14 @@ export class SortDirective {
         }
     }
 
+    private getSortState(): ISortState {
+        var tableState = <any>this.table.tableState as IDefaultTableStateSort;
+        if (!tableState || !tableState.sort) {
+            return null;
+        }
+        return tableState.sort;
+    }
+
     private onClicked(ev: MouseEvent) {
         if (this.order === SortOrder.Descending) {
             // manual reset
@@ -121,9 +138,9 @@ export class SortDirective {
 
         this.suppressSortChangedHandler = true;
 
-        var state = this.table.tableState;
-        state.sort.predicate = this.predicate;
-        state.sort.order = this.order;
+        var sort = this.getSortState();
+        sort.predicate = this.predicate;
+        sort.order = this.order;
 
         this.table.pipe();
         this.suppressSortChangedHandler = false;

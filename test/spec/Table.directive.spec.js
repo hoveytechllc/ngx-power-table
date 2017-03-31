@@ -1,9 +1,14 @@
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13,6 +18,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var testing_1 = require("@angular/core/testing");
 var component_factory_1 = require("./component.factory");
@@ -53,14 +59,14 @@ var TestDataPipeService = (function () {
     return TestDataPipeService;
 }());
 TestDataPipeService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    core_1.Injectable()
 ], TestDataPipeService);
 exports.TestDataPipeService = TestDataPipeService;
 describe('TableDirective tests', function () {
     var mockConfigurationProvider = {
         globalConfiguration: {
-            pipeServiceType: TestDataPipeService
+            pipeServiceType: TestDataPipeService,
+            tableStateType: DefaultTableState_class_1.DefaultTableState
         },
         globalConfigurationChanged: new core_1.EventEmitter()
     };
@@ -80,16 +86,16 @@ describe('TableDirective tests', function () {
         var table1 = el.children[0].injector.get(Table_directive_1.TableDirective);
         var table2 = el.children[0].injector.get(Table_directive_1.TableDirective);
         expect(table1).toEqual(table2);
-        table1.tableState.pagination.totalItemCount = 2;
-        table1.tableState.pagination.start = 1;
-        expect(table2.tableState.pagination.start).toBe(1);
+        expect(table2.dataPipe.observers.length).toBe(0);
+        table1.dataPipe.subscribe(function () { });
+        expect(table2.dataPipe.observers.length).toBe(1);
     });
     it('should initialize tableState when created', function () {
         var el = component_factory_1.createComponent('<table ptTable=""></table>');
         var table = el.children[0].injector.get(Table_directive_1.TableDirective);
         var tableState = table.tableState;
         expect(tableState).toBeDefined();
-        expect(tableState.pagination.start).toBe(0);
+        expect(tableState instanceof DefaultTableState_class_1.DefaultTableState).toBeTruthy();
     });
     it('originalArray is populated from parentComponent', function () {
         var el = component_factory_1.createComponentFixture('<table [ptTable]="originalData"></table>', [], TestTableComponent);
@@ -137,7 +143,7 @@ describe('TableDirective tests', function () {
     var CustomTableState = (function (_super) {
         __extends(CustomTableState, _super);
         function CustomTableState() {
-            var _this = _super.apply(this, arguments) || this;
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.customProperty = "custom table state";
             return _this;
         }
@@ -214,14 +220,18 @@ describe('TableDirective tests', function () {
     var TableWithCustomDataPipeFunction = (function () {
         function TableWithCustomDataPipeFunction() {
             this.tableState = new CustomTableState();
+            this.pipeCount = 0;
         }
-        TableWithCustomDataPipeFunction.prototype.pipe = function (tableDirective, tableState, config) {
+        TableWithCustomDataPipeFunction.prototype.pipe = function (tableState, config) {
+            var self = this;
+            this.pipeCount++;
             setTimeout(function () {
-                tableDirective.updateDisplayArray([
+                tableState.pagination.totalItemCount = 3;
+                self.displayArray = [
                     new TestObject_class_1.TestObject(1, "ng2"),
                     new TestObject_class_1.TestObject(1, "power"),
                     new TestObject_class_1.TestObject(1, "table")
-                ], 3);
+                ];
             });
         };
         return TableWithCustomDataPipeFunction;
@@ -230,8 +240,7 @@ describe('TableDirective tests', function () {
         core_1.Component({
             selector: 'my-test-component',
             template: "<div></div>"
-        }),
-        __metadata("design:paramtypes", [])
+        })
     ], TableWithCustomDataPipeFunction);
     it('table will use dataPipe value on directive if set', function (done) {
         testing_1.TestBed.resetTestingModule();
@@ -239,13 +248,15 @@ describe('TableDirective tests', function () {
             declarations: [TableWithCustomDataPipeFunction, Table_directive_1.TableDirective, TestTableComponent, Pagination_component_1.PaginationComponent],
             providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
         });
-        var template = "\n    <div>\n      <table [ptTable]=\"\" (ptDataPipe)=\"pipe($event[0], $event[1], $event[2])\" [(ptDisplayArray)]=\"displayArray\" [(ptTableState)]=\"tableState\">\n      </table>\n    </div>\n    ";
+        var template = "\n    <div>\n      <table [ptTable]=\"\" (ptDataPipe)=\"pipe($event[0], $event[1])\" [(ptDisplayArray)]=\"displayArray\" [(ptTableState)]=\"tableState\">\n      </table>\n    </div>\n    ";
         var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomDataPipeFunction);
         var intervalHandle;
         var start = new Date();
         intervalHandle = setInterval(function () {
+            fix.detectChanges();
             var now = new Date();
             if ((now.getTime() - start.getTime()) > 2000) {
+                clearInterval(intervalHandle);
                 expect(true).toBeFalsy();
                 done();
                 throw new Error("Timeout passed, displayArray not set.");
@@ -261,5 +272,16 @@ describe('TableDirective tests', function () {
             }
         }, 50);
     });
+    it('table will use dataPipe only once when view first initialized', testing_1.fakeAsync(function () {
+        testing_1.TestBed.resetTestingModule();
+        testing_1.TestBed.configureTestingModule({
+            declarations: [TableWithCustomDataPipeFunction, Table_directive_1.TableDirective, TestTableComponent, Pagination_component_1.PaginationComponent],
+            providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
+        });
+        var template = "\n    <div>\n      <table ptTable=\"\" (ptDataPipe)=\"pipe($event[0], $event[1])\" [(ptDisplayArray)]=\"displayArray\" [(ptTableState)]=\"tableState\">\n      </table>\n    </div>\n    ";
+        var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+        testing_1.tick();
+        expect(fix.componentInstance.pipeCount).toBe(1);
+    }));
 });
 //# sourceMappingURL=Table.directive.spec.js.map

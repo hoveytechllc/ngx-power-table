@@ -8,6 +8,8 @@ export declare class DefaultConfiguration implements IConfiguration {
     descendingCssClass: string;
     private _pipeServiceType;
     pipeServiceType: any;
+    private _tableStateType;
+    tableStateType: any;
     static create(): DefaultConfiguration;
     copy(): DefaultConfiguration;
 }

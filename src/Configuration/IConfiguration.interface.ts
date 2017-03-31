@@ -6,4 +6,5 @@ export interface IConfiguration {
      ascendingCssClass : string;
      descendingCssClass: string;
      pipeServiceType : any;
+     tableStateType: any;
 }

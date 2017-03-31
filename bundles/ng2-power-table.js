@@ -47,18 +47,20 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
                 // this directive is causing the callback   
                 return;
             }
-            if ((!this.table.tableState.sort.predicate || this.table.tableState.sort.predicate !== this.predicate) && this.order !== SortOrder_enum_1.SortOrder.NotSet) {
+            var sort = this.getSortState();
+            if (!sort) return;
+            if ((!sort.predicate || sort.predicate !== this.predicate) && this.order !== SortOrder_enum_1.SortOrder.NotSet) {
                 // tableState has no predicate set, everything should be clear
                 this.order = SortOrder_enum_1.SortOrder.NotSet;
                 this.updateSortDisplay();
                 // fix css classes
                 return;
             }
-            if (!this.table.tableState.sort.predicate) return;
-            if (this.table.tableState.sort.predicate === this.predicate && this.table.tableState.sort.order !== this.order) {
+            if (!sort.predicate) return;
+            if (sort.predicate === this.predicate && sort.order !== this.order) {
                 // since suppressSortChangedHandler was not set, we can safely assume
                 // we need to trigger sort.
-                this.order = this.table.tableState.sort.order;
+                this.order = sort.order;
                 this.updateSortDisplay();
                 this.table.pipe();
                 // fix css classes
@@ -69,9 +71,12 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
             var _this = this;
             this.unsubscribeToSortListener();
             this.resolveTableState();
-            this.removeSortListener = tableState.sort.changed.subscribe(function () {
-                _this.resolveTableState();
-            });
+            var sort = this.getSortState();
+            if (sort) {
+                this.removeSortListener = sort.changed.subscribe(function () {
+                    _this.resolveTableState();
+                });
+            }
         };
         SortDirective.prototype.updateSortDisplay = function () {
             var config = this.table.getConfiguration();
@@ -92,6 +97,13 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
                 this.renderer.setElementClass(this.element.nativeElement, value, add);
             }
         };
+        SortDirective.prototype.getSortState = function () {
+            var tableState = this.table.tableState;
+            if (!tableState || !tableState.sort) {
+                return null;
+            }
+            return tableState.sort;
+        };
         SortDirective.prototype.onClicked = function (ev) {
             if (this.order === SortOrder_enum_1.SortOrder.Descending) {
                 // manual reset
@@ -101,9 +113,9 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
             }
             this.updateSortDisplay();
             this.suppressSortChangedHandler = true;
-            var state = this.table.tableState;
-            state.sort.predicate = this.predicate;
-            state.sort.order = this.order;
+            var sort = this.getSortState();
+            sort.predicate = this.predicate;
+            sort.order = this.order;
             this.table.pipe();
             this.suppressSortChangedHandler = false;
         };
@@ -116,7 +128,7 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
     exports.SortDirective = SortDirective;
     
 });
-System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/core", "ng2-power-table/src/TableState/DefaultTableState.class", "ng2-power-table/src/Configuration/ConfigurationProvider.class"], true, function ($__require, exports, module) {
+System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/core", "ng2-power-table/src/Configuration/ConfigurationProvider.class"], true, function ($__require, exports, module) {
     "use strict";
 
     var global = this || self,
@@ -132,7 +144,6 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1 = $__require("@angular/core");
-    var DefaultTableState_class_1 = $__require("ng2-power-table/src/TableState/DefaultTableState.class");
     var ConfigurationProvider_class_1 = $__require("ng2-power-table/src/Configuration/ConfigurationProvider.class");
     var TableDirective = function () {
         function TableDirective(changeDetectorRef, injector, configurationProvider) {
@@ -140,6 +151,7 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             this.changeDetectorRef = changeDetectorRef;
             this.injector = injector;
             this.configurationProvider = configurationProvider;
+            this.tableInitialized = false;
             this.displayArrayChange = new core_1.EventEmitter();
             /*
                 Event for custom data-pipe implemented by component.
@@ -148,6 +160,7 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             */
             this.dataPipe = new core_1.EventEmitter();
             this.tableStateChange = new core_1.EventEmitter();
+            console.log('Table: constructor()');
             this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe(function (config) {
                 _this.currentConfiguration = null;
                 _this.pipe();
@@ -157,15 +170,18 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             if (this.removeConfigListener && this.removeConfigListener.unsubscribe) this.removeConfigListener.unsubscribe();
         };
         TableDirective.prototype.ngOnInit = function () {
+            console.log('Table: ngOnInit()');
             if (this.tableState) {
                 this.tableStateChange.emit(this.tableState);
             }
             this.getTableState();
-            if (this.dataPipe.observers.length > 0) {
+            if (!this.tableInitialized) {
                 this.pipe();
+                this.tableInitialized = true;
             }
         };
         TableDirective.prototype.ngOnChanges = function (changes) {
+            console.log('Table: Changes: ' + changes);
             var callPipe = false;
             if (changes['tableState'] && this.tableState) {
                 this.tableStateChange.emit(this.tableState);
@@ -181,13 +197,14 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
                 this.currentConfiguration = null;
                 callPipe = true;
             }
-            if (callPipe) {
+            if (this.tableInitialized && callPipe) {
                 this.pipe();
             }
         };
         TableDirective.prototype.getTableState = function () {
             if (!this.tableState) {
-                this.tableState = new DefaultTableState_class_1.DefaultTableState();
+                var config = this.getConfiguration();
+                this.tableState = new config.tableStateType();
                 this.tableStateChange.emit(this.tableState);
                 this.changeDetectorRef.detectChanges();
             }
@@ -202,18 +219,18 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             }
             return this.currentConfiguration;
         };
-        TableDirective.prototype.updateDisplayArray = function (results, totalItemCount) {
-            this.tableState.pagination.totalItemCount = totalItemCount;
-            this.displayArray = results;
-            this.displayArrayChange.emit(this.displayArray);
-        };
+        // public updateDisplayArray(results: Array<any>, totalItemCount: number): void {
+        //     this.tableState.pagination.totalItemCount = totalItemCount;
+        //     this.displayArray = results;
+        //     this.displayArrayChange.emit(this.displayArray);
+        // }
         TableDirective.prototype.pipe = function () {
             var _this = this;
             var state = this.getTableState();
             var config = this.getConfiguration();
-            var pipeResult;
+            console.log('Table: pipe()');
             if (this.dataPipe.observers.length > 0) {
-                this.dataPipe.emit([this, state, config]);
+                this.dataPipe.emit([state, config]);
                 return;
             }
             if (!this.dataPipeService) this.dataPipeService = this.injector.get(config.pipeServiceType);
@@ -284,8 +301,8 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
             var start = 1;
             var end;
             var i;
-            if (!this.table.tableState || !this.table.tableState.pagination) return;
-            var pagination = this.table.tableState.pagination;
+            var pagination = this.getPaginationState();
+            if (!pagination) return;
             this.numPages = Math.max(1, Math.ceil(pagination.totalItemCount / pagination.pageSize));
             this.currentPage = Math.floor(pagination.start / pagination.pageSize) + 1;
             start = Math.max(start, this.currentPage - Math.abs(Math.floor(this.displayedPagesCount / 2)));
@@ -313,20 +330,27 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
         };
         PaginationComponent.prototype.selectPage = function (page) {
             if (page > 0 && page <= this.numPages) {
-                var pageSize = this.table.tableState.pagination.pageSize;
+                var pageSize = this.getPaginationState().pageSize;
                 this.triggerPaging((page - 1) * pageSize);
             }
         };
         PaginationComponent.prototype.triggerPaging = function (start) {
-            this.table.tableState.pagination.start = start;
-            this.table.pipe();
+            this.getPaginationState().start = start;
+        };
+        PaginationComponent.prototype.getPaginationState = function () {
+            var tableState = this.table.tableState;
+            if (!tableState || !tableState.pagination) {
+                return null;
+            }
+            return tableState.pagination;
         };
         PaginationComponent.prototype.onTableStateChanged = function (tableState) {
             var _this = this;
             this.unsubscribeToPagination();
             this.rebuildPagination();
-            if (tableState && tableState.pagination && tableState.pagination.changed) {
-                this.removePaginationListener = tableState.pagination.changed.subscribe(function () {
+            var pagination = this.getPaginationState();
+            if (pagination && pagination.changed) {
+                this.removePaginationListener = pagination.changed.subscribe(function () {
                     _this.rebuildPagination();
                 });
             }
@@ -393,130 +417,7 @@ System.registerDynamic("ng2-power-table/src/Configuration/ConfigurationProvider.
     exports.ConfigurationProvider = ConfigurationProvider;
     
 });
-System.registerDynamic("ng2-power-table/src/TableState/DefaultTableState.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
-    "use strict";
-
-    var global = this || self,
-        GLOBAL = global;
-    var core_1 = $__require("@angular/core");
-    var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
-    var DefaultTableStateSearch = function () {
-        function DefaultTableStateSearch() {}
-        return DefaultTableStateSearch;
-    }();
-    exports.DefaultTableStateSearch = DefaultTableStateSearch;
-    var DefaultTableStatePagination = function () {
-        function DefaultTableStatePagination() {
-            this.changed = new core_1.EventEmitter();
-            this.start = 0;
-            this.pageSize = 10;
-            this.totalItemCount = 0;
-        }
-        Object.defineProperty(DefaultTableStatePagination.prototype, "start", {
-            get: function () {
-                return this._start;
-            },
-            set: function (value) {
-                var original = this._start;
-                this._start = value;
-                this.boundsCheck();
-                if (original !== this._start) this.changed.emit();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DefaultTableStatePagination.prototype, "pageSize", {
-            get: function () {
-                return this._pageSize;
-            },
-            set: function (value) {
-                var original = this._pageSize;
-                this._pageSize = value;
-                if (original !== this._pageSize) this.changed.emit();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DefaultTableStatePagination.prototype, "totalItemCount", {
-            get: function () {
-                return this._totalItemCount;
-            },
-            set: function (value) {
-                var original = this._totalItemCount;
-                this._totalItemCount = value;
-                this.boundsCheck();
-                if (original !== this._totalItemCount) this.changed.emit();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        DefaultTableStatePagination.prototype.boundsCheck = function () {
-            if (this._start >= this._totalItemCount) {
-                var numPages = Math.max(1, Math.ceil(this._totalItemCount / this._pageSize));
-                this._start = (numPages - 1) * this._pageSize;
-            }
-        };
-        return DefaultTableStatePagination;
-    }();
-    exports.DefaultTableStatePagination = DefaultTableStatePagination;
-    var DefaultTableStateSort = function () {
-        function DefaultTableStateSort() {
-            this.changed = new core_1.EventEmitter();
-            this._order = SortOrder_enum_1.SortOrder.NotSet;
-            this._predicate = null;
-        }
-        Object.defineProperty(DefaultTableStateSort.prototype, "order", {
-            get: function () {
-                return this._order;
-            },
-            set: function (order) {
-                var original = this._order;
-                this._order = order;
-                if (original !== this._order) this.changed.emit();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DefaultTableStateSort.prototype, "predicate", {
-            get: function () {
-                return this._predicate;
-            },
-            set: function (predicate) {
-                var original = this._predicate;
-                this._predicate = predicate;
-                if (original !== this._predicate) this.changed.emit();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DefaultTableStateSort;
-    }();
-    exports.DefaultTableStateSort = DefaultTableStateSort;
-    var DefaultTableState = function () {
-        function DefaultTableState() {
-            this.sort = new DefaultTableStateSort();
-            this.pagination = new DefaultTableStatePagination();
-            this.search = new DefaultTableStateSearch();
-        }
-        return DefaultTableState;
-    }();
-    exports.DefaultTableState = DefaultTableState;
-    
-});
-System.registerDynamic("ng2-power-table/src/Sort/SortOrder.enum", [], true, function ($__require, exports, module) {
-    "use strict";
-
-    var global = this || self,
-        GLOBAL = global;
-    (function (SortOrder) {
-        SortOrder[SortOrder["NotSet"] = 0] = "NotSet";
-        SortOrder[SortOrder["Ascending"] = 1] = "Ascending";
-        SortOrder[SortOrder["Descending"] = 2] = "Descending";
-    })(exports.SortOrder || (exports.SortOrder = {}));
-    var SortOrder = exports.SortOrder;
-    
-});
-System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
+System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum", "ng2-power-table/src/Pagination/PaginationState.class", "ng2-power-table/src/Sort/SortState.class"], true, function ($__require, exports, module) {
     "use strict";
 
     var global = this || self,
@@ -533,6 +434,8 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
     };
     var core_1 = $__require("@angular/core");
     var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
+    var PaginationState_class_1 = $__require("ng2-power-table/src/Pagination/PaginationState.class");
+    var SortState_class_1 = $__require("ng2-power-table/src/Sort/SortState.class");
     var DefaultDataPipeService = function () {
         function DefaultDataPipeService() {}
         DefaultDataPipeService.prototype.pipe = function (data, tableState, configuration) {
@@ -546,16 +449,19 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
             return Promise.resolve(resultArray);
         };
         DefaultDataPipeService.prototype.sort = function (data, tableState, configuration) {
-            if (!tableState.sort || !tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet) return data;
+            var tableStateAny = tableState;
+            if (!tableStateAny.sort || !(tableStateAny.sort instanceof SortState_class_1.SortState)) return data;
+            var sort = tableStateAny.sort;
+            if (sort.order === SortOrder_enum_1.SortOrder.NotSet) return data;
             return data.sort(function (a, b) {
                 // TODO: Implement configuration setting to help with aggresive minification by consumer
-                var aValue = a[tableState.sort.predicate];
-                var bValue = b[tableState.sort.predicate];
+                var aValue = a[sort.predicate];
+                var bValue = b[sort.predicate];
                 // null or undefined values should be first
                 if (!aValue) return 1;
                 var filter = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
                 // Descending order only if items not equal, and descending selected.
-                if (tableState.sort.order === SortOrder_enum_1.SortOrder.Descending && filter !== 0) {
+                if (sort.order === SortOrder_enum_1.SortOrder.Descending && filter !== 0) {
                     filter = filter * -1;
                 }
                 ;
@@ -567,9 +473,11 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
             return data;
         };
         DefaultDataPipeService.prototype.page = function (data, tableState, configuration) {
-            if (!tableState.pagination || !tableState.pagination.pageSize) return data;
-            tableState.pagination.totalItemCount = data.length;
-            return data.slice(tableState.pagination.start, tableState.pagination.start + tableState.pagination.pageSize);
+            var tableStateAny = tableState;
+            if (!tableStateAny.pagination || !(tableStateAny.pagination instanceof PaginationState_class_1.PaginationState)) return data;
+            var pagination = tableStateAny.pagination;
+            pagination.totalItemCount = data.length;
+            return data.slice(pagination.start, pagination.start + pagination.pageSize);
         };
         return DefaultDataPipeService;
     }();
@@ -577,13 +485,195 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
     exports.DefaultDataPipeService = DefaultDataPipeService;
     
 });
-System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.class", ["@angular/core", "ng2-power-table/src/Pipe/DefaultDataPipeService.class"], true, function ($__require, exports, module) {
+System.registerDynamic("ng2-power-table/src/Pagination/PaginationState.class", ["@angular/core"], true, function ($__require, exports, module) {
+    "use strict";
+
+    var global = this || self,
+        GLOBAL = global;
+    var core_1 = $__require("@angular/core");
+    var PaginationState = function () {
+        function PaginationState() {
+            this.changed = new core_1.EventEmitter();
+            this.start = 0;
+            this.pageSize = 10;
+            this.totalItemCount = 0;
+        }
+        Object.defineProperty(PaginationState.prototype, "start", {
+            get: function () {
+                return this._start;
+            },
+            set: function (value) {
+                var original = this._start;
+                this._start = value;
+                this.boundsCheck();
+                if (original !== this._start) this.changed.emit();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PaginationState.prototype, "pageSize", {
+            get: function () {
+                return this._pageSize;
+            },
+            set: function (value) {
+                var original = this._pageSize;
+                this._pageSize = value;
+                if (original !== this._pageSize) this.changed.emit();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PaginationState.prototype, "totalItemCount", {
+            get: function () {
+                return this._totalItemCount;
+            },
+            set: function (value) {
+                var original = this._totalItemCount;
+                this._totalItemCount = value;
+                this.boundsCheck();
+                if (original !== this._totalItemCount) this.changed.emit();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PaginationState.prototype.boundsCheck = function () {
+            if (this._start >= this._totalItemCount) {
+                var numPages = Math.max(1, Math.ceil(this._totalItemCount / this._pageSize));
+                this._start = (numPages - 1) * this._pageSize;
+            }
+        };
+        return PaginationState;
+    }();
+    exports.PaginationState = PaginationState;
+    
+});
+System.registerDynamic("ng2-power-table/src/Sort/SortOrder.enum", [], true, function ($__require, exports, module) {
+    "use strict";
+
+    var global = this || self,
+        GLOBAL = global;
+    (function (SortOrder) {
+        SortOrder[SortOrder["NotSet"] = 0] = "NotSet";
+        SortOrder[SortOrder["Ascending"] = 1] = "Ascending";
+        SortOrder[SortOrder["Descending"] = 2] = "Descending";
+    })(exports.SortOrder || (exports.SortOrder = {}));
+    var SortOrder = exports.SortOrder;
+    
+});
+System.registerDynamic("ng2-power-table/src/Sort/SortState.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
+    "use strict";
+
+    var global = this || self,
+        GLOBAL = global;
+    var core_1 = $__require("@angular/core");
+    var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
+    var SortState = function () {
+        function SortState() {
+            this.changed = new core_1.EventEmitter();
+            this._order = SortOrder_enum_1.SortOrder.NotSet;
+            this._predicate = null;
+        }
+        Object.defineProperty(SortState.prototype, "order", {
+            get: function () {
+                return this._order;
+            },
+            set: function (order) {
+                var original = this._order;
+                this._order = order;
+                if (original !== this._order) this.changed.emit();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SortState.prototype, "predicate", {
+            get: function () {
+                return this._predicate;
+            },
+            set: function (predicate) {
+                var original = this._predicate;
+                this._predicate = predicate;
+                if (original !== this._predicate) this.changed.emit();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return SortState;
+    }();
+    exports.SortState = SortState;
+    
+});
+System.registerDynamic("ng2-power-table/src/TableState/DefaultTableState.class", ["@angular/core", "ng2-power-table/src/Pagination/PaginationState.class", "ng2-power-table/src/Sort/SortState.class"], true, function ($__require, exports, module) {
+    "use strict";
+
+    var global = this || self,
+        GLOBAL = global;
+    var core_1 = $__require("@angular/core");
+    var PaginationState_class_1 = $__require("ng2-power-table/src/Pagination/PaginationState.class");
+    var SortState_class_1 = $__require("ng2-power-table/src/Sort/SortState.class");
+    var DefaultTableState = function () {
+        function DefaultTableState() {
+            this.changed = new core_1.EventEmitter();
+            this.sort = new SortState_class_1.SortState();
+            this.pagination = new PaginationState_class_1.PaginationState();
+        }
+        DefaultTableState.prototype.updateWithoutEmitting = function (action) {
+            DefaultTableState.PreventEmitting = true;
+            action();
+            DefaultTableState.PreventEmitting = false;
+        };
+        DefaultTableState.prototype.tryEmit = function () {
+            if (DefaultTableState.PreventEmitting) return;
+            this.changed.emit();
+        };
+        Object.defineProperty(DefaultTableState.prototype, "sort", {
+            get: function () {
+                return this._sort;
+            },
+            set: function (order) {
+                var _this = this;
+                var original = this._sort;
+                this._sort = order;
+                if (original !== this._sort) {
+                    this._sort.changed.subscribe(function () {
+                        _this.tryEmit();
+                    });
+                    this.tryEmit();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DefaultTableState.prototype, "pagination", {
+            get: function () {
+                return this._pagination;
+            },
+            set: function (order) {
+                var _this = this;
+                var original = this._pagination;
+                this._pagination = order;
+                if (original !== this._pagination) {
+                    this._pagination.changed.subscribe(function () {
+                        _this.tryEmit();
+                    });
+                    this.tryEmit();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DefaultTableState;
+    }();
+    exports.DefaultTableState = DefaultTableState;
+    
+});
+System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.class", ["@angular/core", "ng2-power-table/src/Pipe/DefaultDataPipeService.class", "ng2-power-table/src/TableState/DefaultTableState.class"], true, function ($__require, exports, module) {
     "use strict";
 
     var global = this || self,
         GLOBAL = global;
     var core_1 = $__require("@angular/core");
     var DefaultDataPipeService_class_1 = $__require("ng2-power-table/src/Pipe/DefaultDataPipeService.class");
+    var DefaultTableState_class_1 = $__require("ng2-power-table/src/TableState/DefaultTableState.class");
     var DefaultConfiguration = function () {
         function DefaultConfiguration() {
             this.changed = new core_1.EventEmitter();
@@ -624,11 +714,24 @@ System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.c
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(DefaultConfiguration.prototype, "tableStateType", {
+            get: function () {
+                return this._tableStateType;
+            },
+            set: function (t) {
+                var original = this._tableStateType;
+                this._tableStateType = t;
+                if (original !== this._tableStateType) this.changed.emit();
+            },
+            enumerable: true,
+            configurable: true
+        });
         DefaultConfiguration.create = function () {
             var config = new DefaultConfiguration();
             config.ascendingCssClass = 'pt-sort-asc';
             config.descendingCssClass = 'pt-sort-desc';
             config.pipeServiceType = DefaultDataPipeService_class_1.DefaultDataPipeService;
+            config.tableStateType = DefaultTableState_class_1.DefaultTableState;
             return config;
         };
         DefaultConfiguration.prototype.copy = function () {
@@ -636,6 +739,7 @@ System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.c
             config.ascendingCssClass = this.ascendingCssClass;
             config.descendingCssClass = this.descendingCssClass;
             config.pipeServiceType = this.pipeServiceType;
+            config.tableStateType = this.tableStateType;
             return config;
         };
         return DefaultConfiguration;
@@ -643,7 +747,7 @@ System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.c
     exports.DefaultConfiguration = DefaultConfiguration;
     
 });
-System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@angular/common", "ng2-power-table/src/Table/Table.directive", "ng2-power-table/src/Sort/Sort.directive", "ng2-power-table/src/Pipe/DefaultDataPipeService.class", "ng2-power-table/src/Pagination/Pagination.component", "ng2-power-table/src/Configuration/ConfigurationProvider.class", "ng2-power-table/src/Sort/SortOrder.enum", "ng2-power-table/src/TableState/DefaultTableState.class", "ng2-power-table/src/Configuration/DefaultConfiguration.class"], true, function ($__require, exports, module) {
+System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@angular/common", "ng2-power-table/src/Table/Table.directive", "ng2-power-table/src/Sort/Sort.directive", "ng2-power-table/src/Pipe/DefaultDataPipeService.class", "ng2-power-table/src/Pagination/Pagination.component", "ng2-power-table/src/Configuration/ConfigurationProvider.class", "ng2-power-table/src/Sort/SortOrder.enum", "ng2-power-table/src/Sort/SortState.class", "ng2-power-table/src/TableState/DefaultTableState.class", "ng2-power-table/src/Pagination/PaginationState.class", "ng2-power-table/src/Configuration/DefaultConfiguration.class"], true, function ($__require, exports, module) {
     "use strict";
 
     var global = this || self,
@@ -673,15 +777,16 @@ System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@an
     exports.SortOrder = SortOrder_enum_1.SortOrder;
     var Sort_directive_2 = $__require("ng2-power-table/src/Sort/Sort.directive");
     exports.SortDirective = Sort_directive_2.SortDirective;
+    var SortState_class_1 = $__require("ng2-power-table/src/Sort/SortState.class");
+    exports.SortState = SortState_class_1.SortState;
     var DefaultTableState_class_1 = $__require("ng2-power-table/src/TableState/DefaultTableState.class");
     exports.DefaultTableState = DefaultTableState_class_1.DefaultTableState;
-    exports.DefaultTableStatePagination = DefaultTableState_class_1.DefaultTableStatePagination;
-    exports.DefaultTableStateSearch = DefaultTableState_class_1.DefaultTableStateSearch;
-    exports.DefaultTableStateSort = DefaultTableState_class_1.DefaultTableStateSort;
     var DefaultDataPipeService_class_2 = $__require("ng2-power-table/src/Pipe/DefaultDataPipeService.class");
     exports.DefaultDataPipeService = DefaultDataPipeService_class_2.DefaultDataPipeService;
     var Pagination_component_2 = $__require("ng2-power-table/src/Pagination/Pagination.component");
     exports.PaginationComponent = Pagination_component_2.PaginationComponent;
+    var PaginationState_class_1 = $__require("ng2-power-table/src/Pagination/PaginationState.class");
+    exports.PaginationState = PaginationState_class_1.PaginationState;
     var ConfigurationProvider_class_2 = $__require("ng2-power-table/src/Configuration/ConfigurationProvider.class");
     exports.ConfigurationProvider = ConfigurationProvider_class_2.ConfigurationProvider;
     var DefaultConfiguration_class_1 = $__require("ng2-power-table/src/Configuration/DefaultConfiguration.class");

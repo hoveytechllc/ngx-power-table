@@ -4,19 +4,15 @@ import { TestComp, createComponent, createComponentFixture } from './component.f
 
 import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
+import { DefaultTableState } from './../../src/TableState/DefaultTableState.class';
 import { SortDirective } from "./../../src/Sort/Sort.directive";
 import { ITableState } from './../../src/TableState/ITableState.interface';
+import { IDefaultTableState } from '../../src/TableState/IDefaultTableState.interface';
 
 describe('SortDirective tests', function () {
   var tableDirectiveSub = {
     tableStateChange: new EventEmitter<ITableState>(),
-    tableState: {
-      sort: {
-        predicate: '',
-        order: SortOrder.NotSet,
-        changed: new EventEmitter<void>()
-      }
-    },
+    tableState:  new DefaultTableState(),
     pipe: function () {
 
     },
@@ -98,8 +94,8 @@ describe('SortDirective tests', function () {
     sort2.order = SortOrder.Ascending;
     sort3.order = SortOrder.Ascending;
 
-    sort1.table.tableState.sort.predicate = 'col2';
-    sort1.table.tableState.sort.order = SortOrder.Descending;
+    (<IDefaultTableState>sort1.table.tableState).sort.predicate = 'col2';
+     (<IDefaultTableState>sort1.table.tableState).sort.order = SortOrder.Descending;
     sort1.table.tableStateChange.emit(<ITableState>sort1.table.tableState);
 
     expect(sort1.order).toBe(SortOrder.NotSet);

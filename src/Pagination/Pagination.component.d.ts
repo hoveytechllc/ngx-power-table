@@ -21,5 +21,6 @@ export declare class PaginationComponent {
     goToLastPage(): void;
     selectPage(page: number): void;
     private triggerPaging(start);
+    private getPaginationState();
     private onTableStateChanged(tableState);
 }

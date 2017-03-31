@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Table_directive_1 = require("./../Table/Table.directive");
 var SortOrder_enum_1 = require("./SortOrder.enum");
@@ -45,7 +46,10 @@ var SortDirective = (function () {
             // this directive is causing the callback   
             return;
         }
-        if ((!this.table.tableState.sort.predicate || (this.table.tableState.sort.predicate !== this.predicate))
+        var sort = this.getSortState();
+        if (!sort)
+            return;
+        if ((!sort.predicate || (sort.predicate !== this.predicate))
             && this.order !== SortOrder_enum_1.SortOrder.NotSet) {
             // tableState has no predicate set, everything should be clear
             this.order = SortOrder_enum_1.SortOrder.NotSet;
@@ -53,13 +57,13 @@ var SortDirective = (function () {
             // fix css classes
             return;
         }
-        if (!this.table.tableState.sort.predicate)
+        if (!sort.predicate)
             return;
-        if (this.table.tableState.sort.predicate === this.predicate
-            && this.table.tableState.sort.order !== this.order) {
+        if (sort.predicate === this.predicate
+            && sort.order !== this.order) {
             // since suppressSortChangedHandler was not set, we can safely assume
             // we need to trigger sort.
-            this.order = this.table.tableState.sort.order;
+            this.order = sort.order;
             this.updateSortDisplay();
             this.table.pipe();
             // fix css classes
@@ -70,9 +74,12 @@ var SortDirective = (function () {
         var _this = this;
         this.unsubscribeToSortListener();
         this.resolveTableState();
-        this.removeSortListener = tableState.sort.changed.subscribe(function () {
-            _this.resolveTableState();
-        });
+        var sort = this.getSortState();
+        if (sort) {
+            this.removeSortListener = sort.changed.subscribe(function () {
+                _this.resolveTableState();
+            });
+        }
     };
     SortDirective.prototype.updateSortDisplay = function () {
         var config = this.table.getConfiguration();
@@ -94,6 +101,13 @@ var SortDirective = (function () {
             this.renderer.setElementClass(this.element.nativeElement, value, add);
         }
     };
+    SortDirective.prototype.getSortState = function () {
+        var tableState = this.table.tableState;
+        if (!tableState || !tableState.sort) {
+            return null;
+        }
+        return tableState.sort;
+    };
     SortDirective.prototype.onClicked = function (ev) {
         if (this.order === SortOrder_enum_1.SortOrder.Descending) {
             // manual reset
@@ -104,9 +118,9 @@ var SortDirective = (function () {
         }
         this.updateSortDisplay();
         this.suppressSortChangedHandler = true;
-        var state = this.table.tableState;
-        state.sort.predicate = this.predicate;
-        state.sort.order = this.order;
+        var sort = this.getSortState();
+        sort.predicate = this.predicate;
+        sort.order = this.order;
         this.table.pipe();
         this.suppressSortChangedHandler = false;
     };

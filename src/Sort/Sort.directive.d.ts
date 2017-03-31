@@ -21,5 +21,6 @@ export declare class SortDirective {
     private onTableStateChanged(tableState);
     private updateSortDisplay();
     private setElementClass(classValue, add);
+    private getSortState();
     private onClicked(ev);
 }

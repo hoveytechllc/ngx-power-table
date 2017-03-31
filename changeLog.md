@@ -1,3 +1,8 @@
+## version 0.4.0
+
+- Significant refactoring of ITableState. Includes simplifying base interface to only include change tracking.
+- Fixes to Table directive that caused pipe to be called multiple times during initialization.
+
 ## version 0.3.0
 
 - Added event binding `ptDataPipe` in order to support component handling server side pagination

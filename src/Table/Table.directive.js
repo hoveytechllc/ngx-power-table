@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");
 var ConfigurationProvider_class_1 = require("./../Configuration/ConfigurationProvider.class");
 var TableDirective = (function () {
     function TableDirective(changeDetectorRef, injector, configurationProvider) {
@@ -17,6 +17,7 @@ var TableDirective = (function () {
         this.changeDetectorRef = changeDetectorRef;
         this.injector = injector;
         this.configurationProvider = configurationProvider;
+        this.tableInitialized = false;
         this.displayArrayChange = new core_1.EventEmitter();
         /*
             Event for custom data-pipe implemented by component.
@@ -25,6 +26,7 @@ var TableDirective = (function () {
         */
         this.dataPipe = new core_1.EventEmitter();
         this.tableStateChange = new core_1.EventEmitter();
+        console.log('Table: constructor()');
         this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe(function (config) {
             _this.currentConfiguration = null;
             _this.pipe();
@@ -35,15 +37,18 @@ var TableDirective = (function () {
             this.removeConfigListener.unsubscribe();
     };
     TableDirective.prototype.ngOnInit = function () {
+        console.log('Table: ngOnInit()');
         if (this.tableState) {
             this.tableStateChange.emit(this.tableState);
         }
         this.getTableState();
-        if (this.dataPipe.observers.length > 0) {
+        if (!this.tableInitialized) {
             this.pipe();
+            this.tableInitialized = true;
         }
     };
     TableDirective.prototype.ngOnChanges = function (changes) {
+        console.log('Table: Changes: ' + changes);
         var callPipe = false;
         if (changes['tableState'] && this.tableState) {
             this.tableStateChange.emit(this.tableState);
@@ -59,13 +64,14 @@ var TableDirective = (function () {
             this.currentConfiguration = null;
             callPipe = true;
         }
-        if (callPipe) {
+        if (this.tableInitialized && callPipe) {
             this.pipe();
         }
     };
     TableDirective.prototype.getTableState = function () {
         if (!this.tableState) {
-            this.tableState = new DefaultTableState_class_1.DefaultTableState();
+            var config = this.getConfiguration();
+            this.tableState = new config.tableStateType();
             this.tableStateChange.emit(this.tableState);
             this.changeDetectorRef.detectChanges();
         }
@@ -82,18 +88,18 @@ var TableDirective = (function () {
         }
         return this.currentConfiguration;
     };
-    TableDirective.prototype.updateDisplayArray = function (results, totalItemCount) {
-        this.tableState.pagination.totalItemCount = totalItemCount;
-        this.displayArray = results;
-        this.displayArrayChange.emit(this.displayArray);
-    };
+    // public updateDisplayArray(results: Array<any>, totalItemCount: number): void {
+    //     this.tableState.pagination.totalItemCount = totalItemCount;
+    //     this.displayArray = results;
+    //     this.displayArrayChange.emit(this.displayArray);
+    // }
     TableDirective.prototype.pipe = function () {
         var _this = this;
         var state = this.getTableState();
         var config = this.getConfiguration();
-        var pipeResult;
+        console.log('Table: pipe()');
         if (this.dataPipe.observers.length > 0) {
-            this.dataPipe.emit([this, state, config]);
+            this.dataPipe.emit([state, config]);
             return;
         }
         if (!this.dataPipeService)

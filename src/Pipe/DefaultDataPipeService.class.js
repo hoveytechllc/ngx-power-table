@@ -5,11 +5,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var SortOrder_enum_1 = require("./../Sort/SortOrder.enum");
+var PaginationState_class_1 = require("./../Pagination/PaginationState.class");
+var SortState_class_1 = require("./../Sort/SortState.class");
 var DefaultDataPipeService = (function () {
     function DefaultDataPipeService() {
     }
@@ -24,18 +24,22 @@ var DefaultDataPipeService = (function () {
         return Promise.resolve(resultArray);
     };
     DefaultDataPipeService.prototype.sort = function (data, tableState, configuration) {
-        if (!tableState.sort || !tableState.sort.predicate || tableState.sort.order === SortOrder_enum_1.SortOrder.NotSet)
+        var tableStateAny = tableState;
+        if (!tableStateAny.sort || !(tableStateAny.sort instanceof SortState_class_1.SortState))
+            return data;
+        var sort = tableStateAny.sort;
+        if (sort.order === SortOrder_enum_1.SortOrder.NotSet)
             return data;
         return data.sort(function (a, b) {
             // TODO: Implement configuration setting to help with aggresive minification by consumer
-            var aValue = a[tableState.sort.predicate];
-            var bValue = b[tableState.sort.predicate];
+            var aValue = a[sort.predicate];
+            var bValue = b[sort.predicate];
             // null or undefined values should be first
             if (!aValue)
                 return 1;
             var filter = aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
             // Descending order only if items not equal, and descending selected.
-            if (tableState.sort.order === SortOrder_enum_1.SortOrder.Descending
+            if (sort.order === SortOrder_enum_1.SortOrder.Descending
                 && filter !== 0) {
                 filter = filter * -1;
             }
@@ -48,16 +52,17 @@ var DefaultDataPipeService = (function () {
         return data;
     };
     DefaultDataPipeService.prototype.page = function (data, tableState, configuration) {
-        if (!tableState.pagination || !tableState.pagination.pageSize)
+        var tableStateAny = tableState;
+        if (!tableStateAny.pagination || !(tableStateAny.pagination instanceof PaginationState_class_1.PaginationState))
             return data;
-        tableState.pagination.totalItemCount = data.length;
-        return data.slice(tableState.pagination.start, tableState.pagination.start + tableState.pagination.pageSize);
+        var pagination = tableStateAny.pagination;
+        pagination.totalItemCount = data.length;
+        return data.slice(pagination.start, pagination.start + pagination.pageSize);
     };
     return DefaultDataPipeService;
 }());
 DefaultDataPipeService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    core_1.Injectable()
 ], DefaultDataPipeService);
 exports.DefaultDataPipeService = DefaultDataPipeService;
 //# sourceMappingURL=DefaultDataPipeService.class.js.map

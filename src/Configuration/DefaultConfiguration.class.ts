@@ -2,6 +2,7 @@ import { EventEmitter } from "@angular/core";
 
 import { DefaultDataPipeService } from "./../Pipe/DefaultDataPipeService.class";
 import { IConfiguration } from "./IConfiguration.interface";
+import { DefaultTableState } from './../TableState/DefaultTableState.class';
 
 export class DefaultConfiguration implements IConfiguration {
     public changed: EventEmitter<void> = new EventEmitter<void>();
@@ -42,12 +43,25 @@ export class DefaultConfiguration implements IConfiguration {
             this.changed.emit();
     }
 
+    private _tableStateType: any;
+    get tableStateType(): any {
+        return this._tableStateType;
+    }
+    set tableStateType(t: any) {
+        var original = this._tableStateType;
+        this._tableStateType = t;
+
+        if (original !== this._tableStateType) 
+            this.changed.emit();
+    }
+
     public static create(): DefaultConfiguration{
         var config = new DefaultConfiguration();
 
         config.ascendingCssClass = 'pt-sort-asc'
         config.descendingCssClass = 'pt-sort-desc'
         config.pipeServiceType = DefaultDataPipeService;
+        config.tableStateType = DefaultTableState;
 
         return config; 
     } 
@@ -58,6 +72,7 @@ export class DefaultConfiguration implements IConfiguration {
         config.ascendingCssClass = this.ascendingCssClass;
         config.descendingCssClass = this.descendingCssClass
         config.pipeServiceType = this.pipeServiceType;
+        config.tableStateType = this.tableStateType;
 
         return config; 
     }

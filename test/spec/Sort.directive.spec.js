@@ -1,20 +1,16 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var testing_1 = require("@angular/core/testing");
 var component_factory_1 = require("./component.factory");
 var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
+var DefaultTableState_class_1 = require("./../../src/TableState/DefaultTableState.class");
 var Sort_directive_1 = require("./../../src/Sort/Sort.directive");
 describe('SortDirective tests', function () {
     var tableDirectiveSub = {
         tableStateChange: new core_1.EventEmitter(),
-        tableState: {
-            sort: {
-                predicate: '',
-                order: SortOrder_enum_1.SortOrder.NotSet,
-                changed: new core_1.EventEmitter()
-            }
-        },
+        tableState: new DefaultTableState_class_1.DefaultTableState(),
         pipe: function () {
         },
         getConfiguration: function () {

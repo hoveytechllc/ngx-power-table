@@ -9,6 +9,7 @@ export declare class TableDirective {
     private dataPipeService;
     private currentConfiguration;
     private removeConfigListener;
+    private tableInitialized;
     originalArray: Array<any>;
     displayArray: Array<any>;
     displayArrayChange: EventEmitter<Array<any>>;
@@ -22,6 +23,5 @@ export declare class TableDirective {
     ngOnChanges(changes: SimpleChanges): void;
     private getTableState();
     getConfiguration(): IConfiguration;
-    updateDisplayArray(results: Array<any>, totalItemCount: number): void;
     pipe(): void;
 }

@@ -5,6 +5,7 @@ import { TestComp, createComponent, createComponentFixture } from './component.f
 
 import { TableDirective } from "./../../src/Table/Table.directive";
 import { ITableState } from './../../src/TableState/ITableState.interface';
+import { IDefaultTableState } from './../../src/TableState/IDefaultTableState.interface';
 import { DefaultTableState } from './../../src/TableState/DefaultTableState.class';
 import { ConfigurationProvider } from './../../src/Configuration/ConfigurationProvider.class';
 import { IConfiguration } from './../../src/Configuration/IConfiguration.interface';
@@ -53,7 +54,8 @@ describe('TableDirective tests', function () {
 
   var mockConfigurationProvider = {
     globalConfiguration: {
-      pipeServiceType: TestDataPipeService
+      pipeServiceType: TestDataPipeService,
+      tableStateType: DefaultTableState
     },
     globalConfigurationChanged: new EventEmitter<IConfiguration>()
   }
@@ -78,19 +80,19 @@ describe('TableDirective tests', function () {
     var table1 = <TableDirective>el.children[0].injector.get(TableDirective);
     var table2 = <TableDirective>el.children[0].injector.get(TableDirective);
     expect(table1).toEqual(table2);
-    table1.tableState.pagination.totalItemCount = 2;
-    table1.tableState.pagination.start = 1;
-    expect(table2.tableState.pagination.start).toBe(1);
+    expect(table2.dataPipe.observers.length).toBe(0);
+
+    table1.dataPipe.subscribe(() => { });
+    expect(table2.dataPipe.observers.length).toBe(1);
   });
 
   it('should initialize tableState when created', () => {
-
     var el = createComponent('<table ptTable=""></table>');
 
     var table = <TableDirective>el.children[0].injector.get(TableDirective);
-    var tableState = table.tableState;
+    var tableState = <IDefaultTableState>table.tableState;
     expect(tableState).toBeDefined();
-    expect(tableState.pagination.start).toBe(0);
+    expect(tableState instanceof DefaultTableState).toBeTruthy();
   });
 
   it('originalArray is populated from parentComponent', () => {
@@ -260,15 +262,20 @@ describe('TableDirective tests', function () {
   class TableWithCustomDataPipeFunction {
     public tableState: CustomTableState = new CustomTableState();
     public displayArray: Array<TestObject>;
+    public pipeCount: number = 0;
 
-    public pipe(tableDirective: TableDirective, tableState: ITableState, config: IConfiguration): void {
-      setTimeout(function() { 
-          tableDirective.updateDisplayArray([
-              new TestObject(1, "ng2"),
-              new TestObject(1, "power"),
-              new TestObject(1, "table")
-            ], 3);
-        });
+    public pipe(tableState: IDefaultTableState, config: IConfiguration): void {
+      var self = this;
+      this.pipeCount++;
+
+      setTimeout(function () {
+        tableState.pagination.totalItemCount = 3;
+        self.displayArray = [
+          new TestObject(1, "ng2"),
+          new TestObject(1, "power"),
+          new TestObject(1, "table")
+        ];
+      });
     }
   }
 
@@ -281,31 +288,52 @@ describe('TableDirective tests', function () {
 
     var template = `
     <div>
-      <table [ptTable]="" (ptDataPipe)="pipe($event[0], $event[1], $event[2])" [(ptDisplayArray)]="displayArray" [(ptTableState)]="tableState">
+      <table [ptTable]="" (ptDataPipe)="pipe($event[0], $event[1])" [(ptDisplayArray)]="displayArray" [(ptTableState)]="tableState">
       </table>
     </div>
     `;
     var fix = createComponentFixture(template, [], TableWithCustomDataPipeFunction)
-    var intervalHandle: any; 
+    var intervalHandle: any;
     var start = new Date();
 
-    intervalHandle = setInterval(function() {
+    intervalHandle = setInterval(function () {
+      fix.detectChanges();
       var now = new Date();
       if ((now.getTime() - start.getTime()) > 2000) {
-          expect(true).toBeFalsy();
-          done();
-          throw new Error("Timeout passed, displayArray not set.");
+        clearInterval(intervalHandle);
+        expect(true).toBeFalsy();
+        done();
+        throw new Error("Timeout passed, displayArray not set.");
       }
-      if (fix.componentInstance.displayArray 
-        && fix.componentInstance.displayArray.length === 3){
-          clearInterval(intervalHandle);
-          expect(fix.componentInstance.displayArray.length).toBe(3);
-          expect(fix.componentInstance.displayArray[0].name).toBe("ng2");
-          expect(fix.componentInstance.displayArray[1].name).toBe("power");
-          expect(fix.componentInstance.displayArray[2].name).toBe("table");
-          done();
+      if (fix.componentInstance.displayArray
+        && fix.componentInstance.displayArray.length === 3) {
+        clearInterval(intervalHandle);
+        expect(fix.componentInstance.displayArray.length).toBe(3);
+        expect(fix.componentInstance.displayArray[0].name).toBe("ng2");
+        expect(fix.componentInstance.displayArray[1].name).toBe("power");
+        expect(fix.componentInstance.displayArray[2].name).toBe("table");
+        done();
       }
     }, 50);
 
   });
+
+  it('table will use dataPipe only once when view first initialized', fakeAsync(() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      declarations: [TableWithCustomDataPipeFunction, TableDirective, TestTableComponent, PaginationComponent],
+      providers: [ConfigurationProvider, DefaultDataPipeService, TestDataPipeService]
+    });
+
+    var template = `
+    <div>
+      <table ptTable="" (ptDataPipe)="pipe($event[0], $event[1])" [(ptDisplayArray)]="displayArray" [(ptTableState)]="tableState">
+      </table>
+    </div>
+    `;
+    var fix = createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+
+    tick();
+    expect(fix.componentInstance.pipeCount).toBe(1);
+  }));
 });

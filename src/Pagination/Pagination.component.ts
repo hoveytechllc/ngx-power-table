@@ -2,6 +2,9 @@ import { Component, OnInit, Host } from '@angular/core';
 
 import { TableDirective } from './../Table/Table.directive';
 import { ITableState } from './../TableState/ITableState.interface';
+import { IDefaultTableStatePagination } from './../TableState/IDefaultTableState.interface';
+import { IPaginationState } from './IPaginationState.interface';
+import { PaginationState } from './PaginationState.class';
 
 var paginationTemplate = `
 <div class="btn-group" role="group">
@@ -51,7 +54,7 @@ export class PaginationComponent {
         this.removeTableStateListener = this.table.tableStateChange.subscribe((tableState: ITableState) => {
             this.onTableStateChanged(tableState);
         });
-        
+
     }
 
     ngOnInit() {
@@ -72,10 +75,10 @@ export class PaginationComponent {
         var end: number;
         var i: number;
 
-        if (!this.table.tableState || !this.table.tableState.pagination) return;
+        var pagination = this.getPaginationState();
 
-        var pagination = this.table.tableState.pagination;
-        
+        if (!pagination) return;
+
         this.numPages = Math.max(1, Math.ceil(pagination.totalItemCount / pagination.pageSize));
 
         this.currentPage = Math.floor(pagination.start / pagination.pageSize) + 1;
@@ -114,22 +117,30 @@ export class PaginationComponent {
 
     public selectPage(page: number): void {
         if (page > 0 && page <= this.numPages) {
-            var pageSize = this.table.tableState.pagination.pageSize;
+            var pageSize = this.getPaginationState().pageSize;
             this.triggerPaging((page - 1) * pageSize);
         }
     }
 
     private triggerPaging(start: number) {
-        this.table.tableState.pagination.start = start;
-        this.table.pipe();
+        this.getPaginationState().start = start;
+    }
+
+    private getPaginationState(): IPaginationState {
+        var tableState = <any>this.table.tableState as IDefaultTableStatePagination;
+        if (!tableState || !tableState.pagination) {
+            return null;
+        }
+        return tableState.pagination;
     }
 
     private onTableStateChanged(tableState: ITableState) {
         this.unsubscribeToPagination();
         this.rebuildPagination();
+        var pagination = this.getPaginationState();
 
-        if (tableState && tableState.pagination && tableState.pagination.changed) {
-            this.removePaginationListener = tableState.pagination.changed.subscribe(() => {
+        if (pagination && pagination.changed) {
+            this.removePaginationListener = pagination.changed.subscribe(() => {
                 this.rebuildPagination();
             });
         }

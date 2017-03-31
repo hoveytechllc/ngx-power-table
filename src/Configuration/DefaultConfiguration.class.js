@@ -1,6 +1,8 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var DefaultDataPipeService_class_1 = require("./../Pipe/DefaultDataPipeService.class");
+var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");
 var DefaultConfiguration = (function () {
     function DefaultConfiguration() {
         this.changed = new core_1.EventEmitter();
@@ -44,11 +46,25 @@ var DefaultConfiguration = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(DefaultConfiguration.prototype, "tableStateType", {
+        get: function () {
+            return this._tableStateType;
+        },
+        set: function (t) {
+            var original = this._tableStateType;
+            this._tableStateType = t;
+            if (original !== this._tableStateType)
+                this.changed.emit();
+        },
+        enumerable: true,
+        configurable: true
+    });
     DefaultConfiguration.create = function () {
         var config = new DefaultConfiguration();
         config.ascendingCssClass = 'pt-sort-asc';
         config.descendingCssClass = 'pt-sort-desc';
         config.pipeServiceType = DefaultDataPipeService_class_1.DefaultDataPipeService;
+        config.tableStateType = DefaultTableState_class_1.DefaultTableState;
         return config;
     };
     DefaultConfiguration.prototype.copy = function () {
@@ -56,6 +72,7 @@ var DefaultConfiguration = (function () {
         config.ascendingCssClass = this.ascendingCssClass;
         config.descendingCssClass = this.descendingCssClass;
         config.pipeServiceType = this.pipeServiceType;
+        config.tableStateType = this.tableStateType;
         return config;
     };
     return DefaultConfiguration;

@@ -8,10 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var testing_1 = require("@angular/core/testing");
 var component_factory_1 = require("./component.factory");
 var Table_directive_1 = require("./../../src/Table/Table.directive");
+var DefaultTableState_class_1 = require("../../src/TableState/DefaultTableState.class");
 var ConfigurationProvider_class_1 = require("./../../src/Configuration/ConfigurationProvider.class");
 var DefaultDataPipeService_class_1 = require("./../../src/Pipe/DefaultDataPipeService.class");
 var Pagination_component_1 = require("./../../src/Pagination/Pagination.component");
@@ -19,13 +21,7 @@ var TestObject_class_1 = require("./../helpers/TestObject.class");
 describe('Pagination.component tests', function () {
     var tableDirectiveSub = {
         tableStateChange: new core_1.EventEmitter(),
-        tableState: {
-            pagination: {
-                start: 0,
-                pageSize: 0,
-                totalItemCount: 0
-            }
-        },
+        tableState: new DefaultTableState_class_1.DefaultTableState,
         pipe: function () {
         },
         getConfiguration: function () {
@@ -70,10 +66,6 @@ describe('Pagination.component tests', function () {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
-        var pipeCalled = false;
-        tableDirectiveSub.pipe = function () {
-            pipeCalled = true;
-        };
         var template = '<div><pt-pagination></pt-pagination></div>';
         component_factory_1.SetupComponentFixture(template, providers);
         configureModule().then(function () {
@@ -82,7 +74,6 @@ describe('Pagination.component tests', function () {
             var paginationComponent = paginationEl.injector.get(Pagination_component_1.PaginationComponent);
             var buttonArray = paginationEl.children[0].children;
             buttonArray[0].nativeElement.click();
-            expect(pipeCalled).toBeTruthy();
             expect(paginationComponent.table.tableState.pagination.start).toBe(0);
             done();
         });
@@ -209,10 +200,6 @@ describe('Pagination.component tests', function () {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
-        var pipeCalled = false;
-        tableDirectiveSub.pipe = function () {
-            pipeCalled = true;
-        };
         var template = '<div><pt-pagination></pt-pagination></div>';
         component_factory_1.SetupComponentFixture(template, providers);
         configureModule().then(function () {
@@ -221,7 +208,6 @@ describe('Pagination.component tests', function () {
             var paginationComponent = paginationEl.injector.get(Pagination_component_1.PaginationComponent);
             var buttonArray = paginationEl.children[0].children;
             buttonArray[buttonArray.length - 1].nativeElement.click();
-            expect(pipeCalled).toBeTruthy();
             expect(paginationComponent.table.tableState.pagination.start).toBe(30);
             done();
         });

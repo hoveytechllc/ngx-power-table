@@ -4,6 +4,8 @@ import { TestComp, createComponent, createComponentFixture, SetupComponentFixtur
 
 import { SortOrder } from "./../../src/Sort/SortOrder.enum";
 import { TableDirective } from "./../../src/Table/Table.directive";
+import { IDefaultTableState } from '../../src/TableState/IDefaultTableState.interface';
+import { DefaultTableState }from '../../src/TableState/DefaultTableState.class';
 import { SortDirective } from "./../../src/Sort/Sort.directive";
 import { ITableState } from './../../src/TableState/ITableState.interface';
 import { ConfigurationProvider } from './../../src/Configuration/ConfigurationProvider.class';
@@ -15,13 +17,7 @@ import { TestObject } from './../helpers/TestObject.class';
 describe('Pagination.component tests', function () {
     var tableDirectiveSub = {
         tableStateChange: new EventEmitter<ITableState>(),
-        tableState: {
-            pagination: {
-                start: 0,
-                pageSize: 0,
-                totalItemCount: 0
-            }
-        },
+        tableState: new DefaultTableState,
         pipe: function () {
 
         },
@@ -51,7 +47,7 @@ describe('Pagination.component tests', function () {
         }).compileComponents();
     }
 
-    it('should create buttons for page count', (done) => {
+    it('should create buttons for page count', (done: () => void) => {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 0;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
@@ -75,15 +71,10 @@ describe('Pagination.component tests', function () {
         })
     });
 
-    it('does call pipe with start 0, if "first" button clicked', (done) => {
+    it('does call pipe with start 0, if "first" button clicked', (done: () => void) => {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
-
-        var pipeCalled: boolean = false;
-        tableDirectiveSub.pipe = () => {
-            pipeCalled = true;
-        };
 
         var template = '<div><pt-pagination></pt-pagination></div>';
         SetupComponentFixture(template, providers);
@@ -98,13 +89,12 @@ describe('Pagination.component tests', function () {
 
             buttonArray[0].nativeElement.click();
 
-            expect(pipeCalled).toBeTruthy();
-            expect(paginationComponent.table.tableState.pagination.start).toBe(0);
+            expect((<IDefaultTableState>paginationComponent.table.tableState).pagination.start).toBe(0);
             done();
         });
     });
 
-    it('does disable prev & first buttons if on page 1', (done) => {
+    it('does disable prev & first buttons if on page 1', (done: () => void) => {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 30;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
@@ -137,7 +127,7 @@ describe('Pagination.component tests', function () {
         });
     });
 
-    it('does disable prev & first buttons if on page 1', (done) => {
+    it('does disable prev & first buttons if on page 1', (done: () => void) => {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 0;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
@@ -170,7 +160,7 @@ describe('Pagination.component tests', function () {
         });
     });
 
-    it('does apply "active" cssClass for page button', (done) => {
+    it('does apply "active" cssClass for page button', (done: () => void) => {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 0;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
@@ -252,14 +242,14 @@ describe('Pagination.component tests', function () {
             fix.detectChanges();
             expect(tFootElem.children.length).toBe(1);
 
-            fix.componentInstance.tableState.pagination.start = 10;
+            (<IDefaultTableState>fix.componentInstance.tableState).pagination.start = 10;
             fix.detectChanges();
 
             var buttonArray = tFootElem.children[0].children[0].children;
             expect(hasClass(buttonArray[2].nativeElement, 'active')).toBeFalsy();
             expect(hasClass(buttonArray[3].nativeElement, 'active')).toBeTruthy();
             
-            fix.componentInstance.tableState.pagination.start = 11;
+            (<IDefaultTableState>fix.componentInstance.tableState).pagination.start = 11;
             fix.detectChanges();
             expect(hasClass(buttonArray[2].nativeElement, 'active')).toBeFalsy();
             expect(hasClass(buttonArray[3].nativeElement, 'active')).toBeTruthy();
@@ -268,15 +258,10 @@ describe('Pagination.component tests', function () {
         });
     });
 
-    it('does call pipe with start for last page, if "last" button clicked', (done) => {
+    it('does call pipe with start for last page, if "last" button clicked', (done: () => void) => {
         tableDirectiveSub.tableState.pagination.totalItemCount = 40;
         tableDirectiveSub.tableState.pagination.start = 10;
         tableDirectiveSub.tableState.pagination.pageSize = 10;
-
-        var pipeCalled: boolean = false;
-        tableDirectiveSub.pipe = () => {
-            pipeCalled = true;
-        };
 
         var template = '<div><pt-pagination></pt-pagination></div>';
         SetupComponentFixture(template, providers);
@@ -291,8 +276,7 @@ describe('Pagination.component tests', function () {
 
             buttonArray[buttonArray.length - 1].nativeElement.click();
 
-            expect(pipeCalled).toBeTruthy();
-            expect(paginationComponent.table.tableState.pagination.start).toBe(30);
+            expect((<IDefaultTableState>paginationComponent.table.tableState).pagination.start).toBe(30);
             done();
         });
     });

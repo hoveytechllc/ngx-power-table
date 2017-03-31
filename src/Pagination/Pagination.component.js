@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var Table_directive_1 = require("./../Table/Table.directive");
 var paginationTemplate = "\n<div class=\"btn-group\" role=\"group\">\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage === 1\"\n    [ngClass]=\"{ 'disabled' : currentPage === 1}\"\n     (click)=\"goToFirstPage()\"><i class=\"fa fa-angle-double-left\"></i></button>\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==1\"\n    [ngClass]=\"{ 'disabled' : currentPage === 1}\" \n    (click)=\"goToPreviousPage()\"><i class=\"fa fa-angle-left\"></i></button>\n\n  <button *ngFor=\"let page of pages\" type=\"button\" class=\"btn btn-default\" \n    [ngClass]=\"{ 'active' : page === currentPage}\"\n    (click)=\"selectPage(page)\">\n    {{page}}\n  </button>\n\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==numPages\" \n    [ngClass]=\"{ 'disabled' : currentPage === numPages}\"\n    (click)=\"goToNextPage()\"><i class=\"fa fa-angle-right\"></i></button>\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==numPages\" \n    [ngClass]=\"{ 'disabled' : currentPage === numPages}\"\n    (click)=\"goToLastPage()\"><i class=\"fa fa-angle-double-right\"></i></button>\n</div>";
@@ -40,9 +41,9 @@ var PaginationComponent = (function () {
         var start = 1;
         var end;
         var i;
-        if (!this.table.tableState || !this.table.tableState.pagination)
+        var pagination = this.getPaginationState();
+        if (!pagination)
             return;
-        var pagination = this.table.tableState.pagination;
         this.numPages = Math.max(1, Math.ceil(pagination.totalItemCount / pagination.pageSize));
         this.currentPage = Math.floor(pagination.start / pagination.pageSize) + 1;
         start = Math.max(start, this.currentPage - Math.abs(Math.floor(this.displayedPagesCount / 2)));
@@ -70,20 +71,27 @@ var PaginationComponent = (function () {
     };
     PaginationComponent.prototype.selectPage = function (page) {
         if (page > 0 && page <= this.numPages) {
-            var pageSize = this.table.tableState.pagination.pageSize;
+            var pageSize = this.getPaginationState().pageSize;
             this.triggerPaging((page - 1) * pageSize);
         }
     };
     PaginationComponent.prototype.triggerPaging = function (start) {
-        this.table.tableState.pagination.start = start;
-        this.table.pipe();
+        this.getPaginationState().start = start;
+    };
+    PaginationComponent.prototype.getPaginationState = function () {
+        var tableState = this.table.tableState;
+        if (!tableState || !tableState.pagination) {
+            return null;
+        }
+        return tableState.pagination;
     };
     PaginationComponent.prototype.onTableStateChanged = function (tableState) {
         var _this = this;
         this.unsubscribeToPagination();
         this.rebuildPagination();
-        if (tableState && tableState.pagination && tableState.pagination.changed) {
-            this.removePaginationListener = tableState.pagination.changed.subscribe(function () {
+        var pagination = this.getPaginationState();
+        if (pagination && pagination.changed) {
+            this.removePaginationListener = pagination.changed.subscribe(function () {
                 _this.rebuildPagination();
             });
         }

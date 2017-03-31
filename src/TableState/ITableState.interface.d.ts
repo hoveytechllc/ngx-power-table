@@ -1,20 +1,12 @@
 import { EventEmitter } from "@angular/core";
-import { SortOrder } from './../Sort/SortOrder.enum';
-export interface ITableStateSearch {
-}
-export interface ITableStatePagination {
-    start: number;
-    pageSize: number;
-    totalItemCount: number;
-    changed: EventEmitter<void>;
-}
-export interface ITableStateSort {
-    predicate: string;
-    order: SortOrder;
-    changed: EventEmitter<void>;
-}
+/**
+ * Base interface to contain objects
+ * and properties to track table state.
+ */
 export interface ITableState {
-    sort: ITableStateSort;
-    search: ITableStateSearch;
-    pagination: ITableStatePagination;
+    /** If any properties are changed this eventEmitter should be triggered.
+     * The ptTable directive will subscribe to this event and it emitted
+     * it will refresh the table results.
+     */
+    changed: EventEmitter<void>;
 }

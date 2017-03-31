@@ -1,30 +1,15 @@
 import { EventEmitter } from "@angular/core";
-import { ITableState, ITableStatePagination, ITableStateSearch, ITableStateSort } from "./ITableState.interface";
-import { SortOrder } from './../Sort/SortOrder.enum';
-export declare class DefaultTableStateSearch implements ITableStateSearch {
-}
-export declare class DefaultTableStatePagination implements ITableStatePagination {
+import { IDefaultTableState } from "./IDefaultTableState.interface";
+import { IPaginationState } from './../Pagination/IPaginationState.interface';
+import { ISortState } from './../Sort/ISortState.interface';
+export declare class DefaultTableState implements IDefaultTableState {
+    private static PreventEmitting;
     changed: EventEmitter<void>;
-    private _start;
-    start: number;
-    private _pageSize;
-    pageSize: number;
-    private _totalItemCount;
-    totalItemCount: number;
-    boundsCheck(): void;
-    constructor();
-}
-export declare class DefaultTableStateSort implements ITableStateSort {
-    changed: EventEmitter<void>;
-    private _order;
-    order: SortOrder;
-    private _predicate;
-    predicate: string;
-    constructor();
-}
-export declare class DefaultTableState implements ITableState {
-    sort: DefaultTableStateSort;
-    pagination: DefaultTableStatePagination;
-    search: DefaultTableStateSearch;
+    updateWithoutEmitting(action: () => void): void;
+    private tryEmit();
+    private _sort;
+    sort: ISortState;
+    private _pagination;
+    pagination: IPaginationState;
     constructor();
 }
