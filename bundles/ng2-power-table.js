@@ -152,6 +152,7 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             this.injector = injector;
             this.configurationProvider = configurationProvider;
             this.tableInitialized = false;
+            this.subscribedToTableState = false;
             this.displayArrayChange = new core_1.EventEmitter();
             /*
                 Event for custom data-pipe implemented by component.
@@ -181,10 +182,14 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             }
         };
         TableDirective.prototype.ngOnChanges = function (changes) {
+            var _this = this;
             console.log('Table: Changes: ' + changes);
             var callPipe = false;
             if (changes['tableState'] && this.tableState) {
                 this.tableStateChange.emit(this.tableState);
+                this.tableState.changed.subscribe(function () {
+                    _this.pipe();
+                });
             }
             if (changes['dataPipe']) {
                 callPipe = true;
@@ -219,11 +224,6 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             }
             return this.currentConfiguration;
         };
-        // public updateDisplayArray(results: Array<any>, totalItemCount: number): void {
-        //     this.tableState.pagination.totalItemCount = totalItemCount;
-        //     this.displayArray = results;
-        //     this.displayArrayChange.emit(this.displayArray);
-        // }
         TableDirective.prototype.pipe = function () {
             var _this = this;
             var state = this.getTableState();

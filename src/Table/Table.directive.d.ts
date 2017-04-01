@@ -10,6 +10,7 @@ export declare class TableDirective {
     private currentConfiguration;
     private removeConfigListener;
     private tableInitialized;
+    private subscribedToTableState;
     originalArray: Array<any>;
     displayArray: Array<any>;
     displayArrayChange: EventEmitter<Array<any>>;

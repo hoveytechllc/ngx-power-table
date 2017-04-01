@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var testing_1 = require("@angular/core/testing");
 var ConfigurationProvider_class_1 = require("./../../src/Configuration/ConfigurationProvider.class");
 var DefaultConfiguration_class_1 = require("./../../src/Configuration/DefaultConfiguration.class");

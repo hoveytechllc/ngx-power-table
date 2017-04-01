@@ -1,6 +1,6 @@
 {
   "name": "ng2-power-table",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Angular2 table components",
   "scripts": {
     "release": "ntsc && gulp build && npm publish",
@@ -14,7 +14,7 @@
   },
   "author": "David Hovey",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "@angular/common": "2.0.0",
     "@angular/compiler": "2.0.0",
     "@angular/core": "2.0.0",
@@ -30,9 +30,7 @@
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.27",
     "traceur": "0.0.111",
-    "zone.js": "^0.6.23"
-  },
-  "devDependencies": {
+    "zone.js": "^0.6.23",
     "canonical-path": "0.0.2",
     "concurrently": "^2.2.0",
     "gulp": "^3.9.1",

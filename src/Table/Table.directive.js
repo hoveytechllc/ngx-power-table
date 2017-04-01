@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ConfigurationProvider_class_1 = require("./../Configuration/ConfigurationProvider.class");
 var TableDirective = (function () {
@@ -18,6 +17,7 @@ var TableDirective = (function () {
         this.injector = injector;
         this.configurationProvider = configurationProvider;
         this.tableInitialized = false;
+        this.subscribedToTableState = false;
         this.displayArrayChange = new core_1.EventEmitter();
         /*
             Event for custom data-pipe implemented by component.
@@ -48,10 +48,14 @@ var TableDirective = (function () {
         }
     };
     TableDirective.prototype.ngOnChanges = function (changes) {
+        var _this = this;
         console.log('Table: Changes: ' + changes);
         var callPipe = false;
         if (changes['tableState'] && this.tableState) {
             this.tableStateChange.emit(this.tableState);
+            this.tableState.changed.subscribe(function () {
+                _this.pipe();
+            });
         }
         if (changes['dataPipe']) {
             callPipe = true;
@@ -88,11 +92,6 @@ var TableDirective = (function () {
         }
         return this.currentConfiguration;
     };
-    // public updateDisplayArray(results: Array<any>, totalItemCount: number): void {
-    //     this.tableState.pagination.totalItemCount = totalItemCount;
-    //     this.displayArray = results;
-    //     this.displayArrayChange.emit(this.displayArray);
-    // }
     TableDirective.prototype.pipe = function () {
         var _this = this;
         var state = this.getTableState();

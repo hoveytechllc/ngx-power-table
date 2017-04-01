@@ -1,1 +1,1 @@
-{"version":3,"file":"TestObject.class.js","sourceRoot":"","sources":["TestObject.class.ts"],"names":[],"mappings":";;AACA;IAEE,oBAAmB,EAAU,EAAS,IAAY;QAA/B,OAAE,GAAF,EAAE,CAAQ;QAAS,SAAI,GAAJ,IAAI,CAAQ;IAElD,CAAC;IACH,iBAAC;AAAD,CAAC,AALD,IAKC;AALY,gCAAU"}
+{"version":3,"file":"TestObject.class.js","sourceRoot":"","sources":["TestObject.class.ts"],"names":[],"mappings":";AACA;IAEE,oBAAmB,EAAU,EAAS,IAAY;QAA/B,OAAE,GAAF,EAAE,CAAQ;QAAS,SAAI,GAAJ,IAAI,CAAQ;IAElD,CAAC;IACH,iBAAC;AAAD,CAAC,AALD,IAKC;AALD,gCAKC"}

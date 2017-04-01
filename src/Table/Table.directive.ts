@@ -15,6 +15,7 @@ export class TableDirective {
     private currentConfiguration: IConfiguration;
     private removeConfigListener: any;
     private tableInitialized: boolean = false;
+    private subscribedToTableState: boolean = false;
 
     /*
         one-way binding, consumer provides originalArray
@@ -89,6 +90,9 @@ export class TableDirective {
 
         if (changes['tableState'] && this.tableState) {
             this.tableStateChange.emit(this.tableState);
+            this.tableState.changed.subscribe(() => {
+                this.pipe();
+            });
         }
         if (changes['dataPipe']) {
             callPipe = true;
@@ -110,7 +114,6 @@ export class TableDirective {
     private getTableState() {
         if (!this.tableState) {
             var config = this.getConfiguration();
-
             this.tableState = new config.tableStateType();
             this.tableStateChange.emit(this.tableState);
             this.changeDetectorRef.detectChanges();
@@ -130,13 +133,6 @@ export class TableDirective {
 
         return this.currentConfiguration;
     }
-
-    // public updateDisplayArray(results: Array<any>, totalItemCount: number): void {
-    //     this.tableState.pagination.totalItemCount = totalItemCount;
-
-    //     this.displayArray = results;
-    //     this.displayArrayChange.emit(this.displayArray);
-    // }
 
     public pipe() {
         var state = this.getTableState();

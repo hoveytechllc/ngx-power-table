@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var DefaultDataPipeService_class_1 = require("./../Pipe/DefaultDataPipeService.class");
 var DefaultTableState_class_1 = require("./../TableState/DefaultTableState.class");

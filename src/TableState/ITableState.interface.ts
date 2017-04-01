@@ -10,4 +10,6 @@ export interface ITableState {
      * it will refresh the table results.
      */
     changed: EventEmitter<void>;
+
+    updateWithoutEmitting(action: () => void): void;
 }

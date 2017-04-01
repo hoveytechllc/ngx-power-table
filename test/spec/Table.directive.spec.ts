@@ -269,12 +269,14 @@ describe('TableDirective tests', function () {
       this.pipeCount++;
 
       setTimeout(function () {
-        tableState.pagination.totalItemCount = 3;
-        self.displayArray = [
-          new TestObject(1, "ng2"),
-          new TestObject(1, "power"),
-          new TestObject(1, "table")
-        ];
+        tableState.updateWithoutEmitting(() => {
+          tableState.pagination.totalItemCount = 3;
+          self.displayArray = [
+            new TestObject(1, "ng2"),
+            new TestObject(1, "power"),
+            new TestObject(1, "table")
+          ];
+        });
       });
     }
   }
@@ -335,5 +337,27 @@ describe('TableDirective tests', function () {
 
     tick();
     expect(fix.componentInstance.pipeCount).toBe(1);
+  }));
+
+  it('table will subscribe to changed EventEmitter on tableState and tigger pipe()', fakeAsync(() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      declarations: [TableWithCustomDataPipeFunction, TableDirective, TestTableComponent, PaginationComponent],
+      providers: [ConfigurationProvider, DefaultDataPipeService, TestDataPipeService]
+    });
+
+    var template = `
+    <div>
+      <table ptTable="" (ptDataPipe)="pipe($event[0], $event[1])" [(ptDisplayArray)]="displayArray" [(ptTableState)]="tableState">
+      </table>
+    </div>
+    `;
+    var fix = createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+
+    tick();
+    expect(fix.componentInstance.pipeCount).toBe(1);
+    fix.componentInstance.tableState.changed.emit();
+    tick();
+    expect(fix.componentInstance.pipeCount).toBe(2);
   }));
 });

@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
 var DefaultTableState_class_1 = require("./../../src/TableState/DefaultTableState.class");
 describe('DefaultTableState', function () {
