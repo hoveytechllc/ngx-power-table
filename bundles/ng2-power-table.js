@@ -161,7 +161,6 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             */
             this.dataPipe = new core_1.EventEmitter();
             this.tableStateChange = new core_1.EventEmitter();
-            console.log('Table: constructor()');
             this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe(function (config) {
                 _this.currentConfiguration = null;
                 _this.pipe();
@@ -171,7 +170,6 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             if (this.removeConfigListener && this.removeConfigListener.unsubscribe) this.removeConfigListener.unsubscribe();
         };
         TableDirective.prototype.ngOnInit = function () {
-            console.log('Table: ngOnInit()');
             if (this.tableState) {
                 this.tableStateChange.emit(this.tableState);
             }
@@ -182,14 +180,9 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             }
         };
         TableDirective.prototype.ngOnChanges = function (changes) {
-            var _this = this;
-            console.log('Table: Changes: ' + changes);
             var callPipe = false;
             if (changes['tableState'] && this.tableState) {
-                this.tableStateChange.emit(this.tableState);
-                this.tableState.changed.subscribe(function () {
-                    _this.pipe();
-                });
+                this.subscribeToTableStateChanges();
             }
             if (changes['dataPipe']) {
                 callPipe = true;
@@ -210,10 +203,20 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             if (!this.tableState) {
                 var config = this.getConfiguration();
                 this.tableState = new config.tableStateType();
-                this.tableStateChange.emit(this.tableState);
+                this.subscribeToTableStateChanges();
                 this.changeDetectorRef.detectChanges();
             }
             return this.tableState;
+        };
+        TableDirective.prototype.subscribeToTableStateChanges = function () {
+            var _this = this;
+            if (this.tableStateSubscription) {
+                this.tableStateSubscription.unsubscribe();
+            }
+            this.tableStateChange.emit(this.tableState);
+            this.tableStateSubscription = this.tableState.changed.subscribe(function () {
+                _this.pipe();
+            });
         };
         TableDirective.prototype.getConfiguration = function () {
             if (this.currentConfiguration) return this.currentConfiguration;
@@ -228,7 +231,6 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
             var _this = this;
             var state = this.getTableState();
             var config = this.getConfiguration();
-            console.log('Table: pipe()');
             if (this.dataPipe.observers.length > 0) {
                 this.dataPipe.emit([state, config]);
                 return;

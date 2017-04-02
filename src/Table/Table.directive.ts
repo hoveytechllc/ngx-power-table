@@ -1,4 +1,5 @@
 import { Directive, EventEmitter, Output, Input, SimpleChanges, OnChanges, ChangeDetectorRef, DoCheck, Injector } from "@angular/core";
+import { Subscription } from 'rxjs/Rx';
 
 import { ITableState } from "./../TableState/ITableState.interface";
 import { DefaultTableState } from "./../TableState/DefaultTableState.class";
@@ -16,6 +17,7 @@ export class TableDirective {
     private removeConfigListener: any;
     private tableInitialized: boolean = false;
     private subscribedToTableState: boolean = false;
+    private tableStateSubscription: Subscription;
 
     /*
         one-way binding, consumer provides originalArray
@@ -56,7 +58,6 @@ export class TableDirective {
     constructor(private changeDetectorRef: ChangeDetectorRef,
         private injector: Injector,
         private configurationProvider: ConfigurationProvider) {
-        console.log('Table: constructor()');
 
         this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe((config: IConfiguration) => {
             this.currentConfiguration = null;
@@ -70,14 +71,12 @@ export class TableDirective {
     }
 
     ngOnInit() {
-        console.log('Table: ngOnInit()');
-
         if (this.tableState) {
             this.tableStateChange.emit(this.tableState);
         }
 
         this.getTableState();
-
+        
         if (!this.tableInitialized) {
             this.pipe();
             this.tableInitialized = true;
@@ -85,14 +84,10 @@ export class TableDirective {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('Table: Changes: ' + changes);
         var callPipe: boolean = false;
 
         if (changes['tableState'] && this.tableState) {
-            this.tableStateChange.emit(this.tableState);
-            this.tableState.changed.subscribe(() => {
-                this.pipe();
-            });
+            this.subscribeToTableStateChanges();
         }
         if (changes['dataPipe']) {
             callPipe = true;
@@ -115,10 +110,21 @@ export class TableDirective {
         if (!this.tableState) {
             var config = this.getConfiguration();
             this.tableState = new config.tableStateType();
-            this.tableStateChange.emit(this.tableState);
+            this.subscribeToTableStateChanges();
             this.changeDetectorRef.detectChanges();
         }
         return this.tableState;
+    }
+
+    private subscribeToTableStateChanges() {
+        if (this.tableStateSubscription){
+            this.tableStateSubscription.unsubscribe();
+        }
+
+        this.tableStateChange.emit(this.tableState);
+        this.tableStateSubscription = this.tableState.changed.subscribe(() => {
+            this.pipe();
+        });
     }
 
     public getConfiguration(): IConfiguration {
@@ -137,8 +143,6 @@ export class TableDirective {
     public pipe() {
         var state = this.getTableState();
         var config = this.getConfiguration();
-
-        console.log('Table: pipe()');
 
         if (this.dataPipe.observers.length > 0) {
             this.dataPipe.emit([state, config]);

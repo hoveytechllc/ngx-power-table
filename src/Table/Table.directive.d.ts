@@ -11,6 +11,7 @@ export declare class TableDirective {
     private removeConfigListener;
     private tableInitialized;
     private subscribedToTableState;
+    private tableStateSubscription;
     originalArray: Array<any>;
     displayArray: Array<any>;
     displayArrayChange: EventEmitter<Array<any>>;
@@ -23,6 +24,7 @@ export declare class TableDirective {
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     private getTableState();
+    private subscribeToTableStateChanges();
     getConfiguration(): IConfiguration;
     pipe(): void;
 }

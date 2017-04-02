@@ -295,5 +295,34 @@ describe('TableDirective tests', function () {
         testing_1.tick();
         expect(fix.componentInstance.pipeCount).toBe(2);
     }));
+    it('table will call ptDataPipe EventEmitter even when ptTableState is not bound to table', testing_1.fakeAsync(function () {
+        testing_1.TestBed.resetTestingModule();
+        testing_1.TestBed.configureTestingModule({
+            declarations: [TableWithCustomDataPipeFunction, Table_directive_1.TableDirective, TestTableComponent, Pagination_component_1.PaginationComponent],
+            providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
+        });
+        var template = "\n    <div>\n      <table ptTable=\"\" (ptDataPipe)=\"pipe($event[0], $event[1])\">\n      </table>\n    </div>\n    ";
+        var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+        var table = fix.debugElement.children[0].children[0].injector.get(Table_directive_1.TableDirective);
+        testing_1.tick();
+        expect(fix.componentInstance.pipeCount).toBe(1);
+        expect(table.tableState.changed.observers.length).toBe(1);
+        table.tableState.changed.emit();
+        testing_1.tick();
+        expect(fix.componentInstance.pipeCount).toBe(2);
+    }));
+    it('table will observe tableState manually set by component', testing_1.fakeAsync(function () {
+        testing_1.TestBed.resetTestingModule();
+        testing_1.TestBed.configureTestingModule({
+            declarations: [TableWithCustomDataPipeFunction, Table_directive_1.TableDirective, TestTableComponent, Pagination_component_1.PaginationComponent],
+            providers: [ConfigurationProvider_class_1.ConfigurationProvider, DefaultDataPipeService_class_1.DefaultDataPipeService, TestDataPipeService]
+        });
+        var template = "\n    <div>\n      <table ptTable=\"\" [(ptTableState)]=\"tableState\">\n      </table>\n    </div>\n    ";
+        var fix = component_factory_1.createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+        fix.componentInstance.tableState = new CustomTableState();
+        expect(fix.componentInstance.tableState.changed.observers.length).toBe(0);
+        fix.detectChanges();
+        expect(fix.componentInstance.tableState.changed.observers.length).toBe(1);
+    }));
 });
 //# sourceMappingURL=Table.directive.spec.js.map

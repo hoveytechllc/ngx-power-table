@@ -1,3 +1,8 @@
+## version 0.4.1
+
+- Fixed bug that occured when tableState was not bound to component and using custom dataPipe on component.
+- Removed console logging code used for testing.
+
 ## version 0.4.0
 
 - Significant refactoring of ITableState. Includes simplifying base interface to only include change tracking.

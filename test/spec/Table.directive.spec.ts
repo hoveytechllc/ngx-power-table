@@ -360,4 +360,48 @@ describe('TableDirective tests', function () {
     tick();
     expect(fix.componentInstance.pipeCount).toBe(2);
   }));
+
+  it('table will call ptDataPipe EventEmitter even when ptTableState is not bound to table', fakeAsync(() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      declarations: [TableWithCustomDataPipeFunction, TableDirective, TestTableComponent, PaginationComponent],
+      providers: [ConfigurationProvider, DefaultDataPipeService, TestDataPipeService]
+    });
+
+    var template = `
+    <div>
+      <table ptTable="" (ptDataPipe)="pipe($event[0], $event[1])">
+      </table>
+    </div>
+    `;
+    var fix = createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+    var table = <TableDirective>fix.debugElement.children[0].children[0].injector.get(TableDirective);
+    tick();
+    expect(fix.componentInstance.pipeCount).toBe(1);
+    expect(table.tableState.changed.observers.length).toBe(1);
+    table.tableState.changed.emit();
+    tick();
+    expect(fix.componentInstance.pipeCount).toBe(2);
+  }));
+
+  it('table will observe tableState manually set by component', fakeAsync(() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      declarations: [TableWithCustomDataPipeFunction, TableDirective, TestTableComponent, PaginationComponent],
+      providers: [ConfigurationProvider, DefaultDataPipeService, TestDataPipeService]
+    });
+
+    var template = `
+    <div>
+      <table ptTable="" [(ptTableState)]="tableState">
+      </table>
+    </div>
+    `;
+    var fix = createComponentFixture(template, [], TableWithCustomDataPipeFunction);
+
+    fix.componentInstance.tableState = new CustomTableState();
+    expect(fix.componentInstance.tableState.changed.observers.length).toBe(0);
+    fix.detectChanges();
+    expect(fix.componentInstance.tableState.changed.observers.length).toBe(1);
+  }));
 });

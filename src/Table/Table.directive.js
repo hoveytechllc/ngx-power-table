@@ -26,7 +26,6 @@ var TableDirective = (function () {
         */
         this.dataPipe = new core_1.EventEmitter();
         this.tableStateChange = new core_1.EventEmitter();
-        console.log('Table: constructor()');
         this.removeConfigListener = this.configurationProvider.globalConfigurationChanged.subscribe(function (config) {
             _this.currentConfiguration = null;
             _this.pipe();
@@ -37,7 +36,6 @@ var TableDirective = (function () {
             this.removeConfigListener.unsubscribe();
     };
     TableDirective.prototype.ngOnInit = function () {
-        console.log('Table: ngOnInit()');
         if (this.tableState) {
             this.tableStateChange.emit(this.tableState);
         }
@@ -48,14 +46,9 @@ var TableDirective = (function () {
         }
     };
     TableDirective.prototype.ngOnChanges = function (changes) {
-        var _this = this;
-        console.log('Table: Changes: ' + changes);
         var callPipe = false;
         if (changes['tableState'] && this.tableState) {
-            this.tableStateChange.emit(this.tableState);
-            this.tableState.changed.subscribe(function () {
-                _this.pipe();
-            });
+            this.subscribeToTableStateChanges();
         }
         if (changes['dataPipe']) {
             callPipe = true;
@@ -76,10 +69,20 @@ var TableDirective = (function () {
         if (!this.tableState) {
             var config = this.getConfiguration();
             this.tableState = new config.tableStateType();
-            this.tableStateChange.emit(this.tableState);
+            this.subscribeToTableStateChanges();
             this.changeDetectorRef.detectChanges();
         }
         return this.tableState;
+    };
+    TableDirective.prototype.subscribeToTableStateChanges = function () {
+        var _this = this;
+        if (this.tableStateSubscription) {
+            this.tableStateSubscription.unsubscribe();
+        }
+        this.tableStateChange.emit(this.tableState);
+        this.tableStateSubscription = this.tableState.changed.subscribe(function () {
+            _this.pipe();
+        });
     };
     TableDirective.prototype.getConfiguration = function () {
         if (this.currentConfiguration)
@@ -96,7 +99,6 @@ var TableDirective = (function () {
         var _this = this;
         var state = this.getTableState();
         var config = this.getConfiguration();
-        console.log('Table: pipe()');
         if (this.dataPipe.observers.length > 0) {
             this.dataPipe.emit([state, config]);
             return;
