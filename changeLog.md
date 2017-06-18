@@ -1,3 +1,7 @@
+## version 0.4.3
+
+- Removed dependency on typings.
+
 ## version 0.4.1
 
 - Fixed bug that occured when tableState was not bound to component and using custom dataPipe on component.

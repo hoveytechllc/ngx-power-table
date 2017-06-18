@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var PaginationState_class_1 = require("./../Pagination/PaginationState.class");
 var SortState_class_1 = require("./../Sort/SortState.class");

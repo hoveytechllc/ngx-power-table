@@ -1,12 +1,11 @@
 {
   "name": "ng2-power-table",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Angular2 table components",
   "scripts": {
-    "release": "ntsc && gulp build && npm publish",
-    "test": "ntsc && concurrently \"ntsc -w\" \"karma start karma.conf.js\"",
-    "test-travis": "ntsc && ./node_modules/.bin/karma start --browsers Firefox --single-run",
-    "postinstall": "typings install"
+    "release": "tsc && gulp build && npm publish",
+    "test": "tsc && concurrently \"tsc -w\" \"karma start karma.conf.js\"",
+    "test-travis": "tsc && ./node_modules/.bin/karma start --browsers Firefox --single-run"
   },
   "repository": {
     "type": "git",
@@ -24,6 +23,9 @@
     "@angular/platform-browser-dynamic": "2.0.0",
     "@angular/router": "3.0.0",
     "@angular/upgrade": "2.0.0",
+    "@types/node": "7.0.0",
+    "@types/jasmine": "2.5.52",
+    "@types/sinon": "2.3.1",
     "angular2-in-memory-web-api": "0.0.20",
     "core-js": "^2.4.1",
     "reflect-metadata": "^0.1.3",
@@ -54,7 +56,6 @@
     "rimraf": "^2.5.2",
     "systemjs-builder": "^0.15.32",
     "tslint": "^3.7.4",
-    "typescript": "^2.0.2",
-    "typings": "^1.0.4"
+    "typescript": "^2.0.2"
   }
 }

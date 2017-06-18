@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var DefaultDataPipeService_class_1 = require("./../../src/Pipe/DefaultDataPipeService.class");
 var SortOrder_enum_1 = require("./../../src/Sort/SortOrder.enum");
 var DefaultTableState_class_1 = require("./../../src/TableState/DefaultTableState.class");

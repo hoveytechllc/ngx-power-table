@@ -13,6 +13,7 @@ System.registerDynamic("ng2-power-table/src/Sort/Sort.directive", ["@angular/cor
     var __metadata = this && this.__metadata || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var Table_directive_1 = $__require("ng2-power-table/src/Table/Table.directive");
     var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
@@ -143,6 +144,7 @@ System.registerDynamic("ng2-power-table/src/Table/Table.directive", ["@angular/c
     var __metadata = this && this.__metadata || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var ConfigurationProvider_class_1 = $__require("ng2-power-table/src/Configuration/ConfigurationProvider.class");
     var TableDirective = function () {
@@ -273,6 +275,7 @@ System.registerDynamic("ng2-power-table/src/Pagination/Pagination.component", ["
     var __metadata = this && this.__metadata || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var Table_directive_1 = $__require("ng2-power-table/src/Table/Table.directive");
     var paginationTemplate = "\n<div class=\"btn-group\" role=\"group\">\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage === 1\"\n    [ngClass]=\"{ 'disabled' : currentPage === 1}\"\n     (click)=\"goToFirstPage()\"><i class=\"fa fa-angle-double-left\"></i></button>\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==1\"\n    [ngClass]=\"{ 'disabled' : currentPage === 1}\" \n    (click)=\"goToPreviousPage()\"><i class=\"fa fa-angle-left\"></i></button>\n\n  <button *ngFor=\"let page of pages\" type=\"button\" class=\"btn btn-default\" \n    [ngClass]=\"{ 'active' : page === currentPage}\"\n    (click)=\"selectPage(page)\">\n    {{page}}\n  </button>\n\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==numPages\" \n    [ngClass]=\"{ 'disabled' : currentPage === numPages}\"\n    (click)=\"goToNextPage()\"><i class=\"fa fa-angle-right\"></i></button>\n  <button type=\"button\" class=\"btn btn-default\" [disabled]=\"currentPage==numPages\" \n    [ngClass]=\"{ 'disabled' : currentPage === numPages}\"\n    (click)=\"goToLastPage()\"><i class=\"fa fa-angle-double-right\"></i></button>\n</div>";
@@ -378,9 +381,7 @@ System.registerDynamic("ng2-power-table/src/Configuration/ConfigurationProvider.
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
-    var __metadata = this && this.__metadata || function (k, v) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var DefaultConfiguration_class_1 = $__require("ng2-power-table/src/Configuration/DefaultConfiguration.class");
     var ConfigurationProvider = function () {
@@ -415,7 +416,7 @@ System.registerDynamic("ng2-power-table/src/Configuration/ConfigurationProvider.
         };
         return ConfigurationProvider;
     }();
-    ConfigurationProvider = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], ConfigurationProvider);
+    ConfigurationProvider = __decorate([core_1.Injectable()], ConfigurationProvider);
     exports.ConfigurationProvider = ConfigurationProvider;
     
 });
@@ -431,9 +432,7 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
-    var __metadata = this && this.__metadata || function (k, v) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
     var PaginationState_class_1 = $__require("ng2-power-table/src/Pagination/PaginationState.class");
@@ -483,7 +482,7 @@ System.registerDynamic("ng2-power-table/src/Pipe/DefaultDataPipeService.class", 
         };
         return DefaultDataPipeService;
     }();
-    DefaultDataPipeService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], DefaultDataPipeService);
+    DefaultDataPipeService = __decorate([core_1.Injectable()], DefaultDataPipeService);
     exports.DefaultDataPipeService = DefaultDataPipeService;
     
 });
@@ -492,6 +491,7 @@ System.registerDynamic("ng2-power-table/src/Pagination/PaginationState.class", [
 
     var global = this || self,
         GLOBAL = global;
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var PaginationState = function () {
         function PaginationState() {
@@ -554,12 +554,13 @@ System.registerDynamic("ng2-power-table/src/Sort/SortOrder.enum", [], true, func
 
     var global = this || self,
         GLOBAL = global;
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var SortOrder;
     (function (SortOrder) {
         SortOrder[SortOrder["NotSet"] = 0] = "NotSet";
         SortOrder[SortOrder["Ascending"] = 1] = "Ascending";
         SortOrder[SortOrder["Descending"] = 2] = "Descending";
-    })(exports.SortOrder || (exports.SortOrder = {}));
-    var SortOrder = exports.SortOrder;
+    })(SortOrder = exports.SortOrder || (exports.SortOrder = {}));
     
 });
 System.registerDynamic("ng2-power-table/src/Sort/SortState.class", ["@angular/core", "ng2-power-table/src/Sort/SortOrder.enum"], true, function ($__require, exports, module) {
@@ -567,6 +568,7 @@ System.registerDynamic("ng2-power-table/src/Sort/SortState.class", ["@angular/co
 
     var global = this || self,
         GLOBAL = global;
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var SortOrder_enum_1 = $__require("ng2-power-table/src/Sort/SortOrder.enum");
     var SortState = function () {
@@ -609,6 +611,7 @@ System.registerDynamic("ng2-power-table/src/TableState/DefaultTableState.class",
 
     var global = this || self,
         GLOBAL = global;
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var PaginationState_class_1 = $__require("ng2-power-table/src/Pagination/PaginationState.class");
     var SortState_class_1 = $__require("ng2-power-table/src/Sort/SortState.class");
@@ -673,6 +676,7 @@ System.registerDynamic("ng2-power-table/src/Configuration/DefaultConfiguration.c
 
     var global = this || self,
         GLOBAL = global;
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var DefaultDataPipeService_class_1 = $__require("ng2-power-table/src/Pipe/DefaultDataPipeService.class");
     var DefaultTableState_class_1 = $__require("ng2-power-table/src/TableState/DefaultTableState.class");
@@ -761,9 +765,7 @@ System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@an
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
-    var __metadata = this && this.__metadata || function (k, v) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
+    Object.defineProperty(exports, "__esModule", { value: true });
     var core_1 = $__require("@angular/core");
     var common_1 = $__require("@angular/common");
     // import components / directives for the module
@@ -803,7 +805,7 @@ System.registerDynamic("ng2-power-table/ng2-power-table", ["@angular/core", "@an
         declarations: [declarations],
         imports: [common_1.CommonModule],
         providers: [DefaultDataPipeService_class_1.DefaultDataPipeService, ConfigurationProvider_class_1.ConfigurationProvider]
-    }), __metadata("design:paramtypes", [])], PowerTableModule);
+    })], PowerTableModule);
     exports.PowerTableModule = PowerTableModule;
     
 });
