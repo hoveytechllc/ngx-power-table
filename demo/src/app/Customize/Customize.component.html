@@ -1,0 +1,37 @@
+<div class="row">
+	<div class="col-sm-12">
+		<h2 class="page-header">Configuration</h2>
+
+		<h3>1. Create configuration object that implements <code>IConfiguration</code>.</h3>
+		<span>You can use <code>DefaultConfiguration.create()</code> per below. This implementation triggers change event on IConfiguration when any properties
+		</span>
+		
+		<br />
+
+		<h3>2. Bind your configuration object to property <code>ptConfiguration</code> on the <code>ptTable</code> directive.</h3>
+		<span>Each <code>ptTable</code> can have its own configuration. </span>
+
+		<div class="alert alert-info">
+			<i class="fa fa-info-circle"></i>
+			You can also configure the global default configuration by injecting <code>ConfigurationProvider</code>, 
+			then setting value to <code>globalConfiguration</code> static property.
+        </div>
+		<br />
+
+		<tabset>
+			<tab heading="Display">
+				<div style="padding: 15px;">
+					<customize-example></customize-example>
+				</div>
+			</tab>
+
+			<tab heading="Html">
+				<code-example content-url="app/Customize/CustomizeExample.component.html" lang="lang-html"></code-example>
+			</tab>
+
+			<tab heading="Typescript">
+				<code-example content-url="app/Customize/CustomizeExample.component.ts" lang="lang-ts"></code-example>
+			</tab>
+		</tabset>
+	</div>
+</div>

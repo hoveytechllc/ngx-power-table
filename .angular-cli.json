@@ -1,0 +1,104 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "ng2-power-table"
+  },
+  "apps": [
+    {
+      "root": "demo/src",
+      "outDir": "demo/dist/browser",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "app"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "../../src/test.ts",
+      "tsconfig": "tsconfig.json",
+      "testTsconfig": "../../src/tsconfig.spec.json",
+      "prefix": "",
+      "mobile": false,
+      "serviceWorker": false,
+      "styles": [
+        "assets/bootstrap/dist/css/bootstrap.css",
+        "assets/sb-admin-2.css",
+        "assets/font-awesome/css/font-awesome.css",
+        "assets/pretty-print/prettify.css",
+        "../../src/ng2-power-table.css",
+        "styles.scss"
+      ],
+      "scripts": [
+        "assets/pretty-print/prettify.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    },
+    {
+      "platform" : "server",
+      "root": "demo/src",
+      "outDir": "demo/dist/server",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.server.ts",
+      "test": "../../scripts/test.ts",
+      "tsconfig": "tsconfig.server.json",
+      "testTsconfig": "../../src/tsconfig.spec.json",
+      "prefix": "",
+      "mobile": false,
+      "serviceWorker": false,
+      "styles": [
+        "assets/bootstrap/dist/css/bootstrap.css",
+        "assets/sb-admin-2.css",
+        "styles.css"
+      ],
+      "scripts": [],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts",
+        "server": "environments/environment.server.ts"
+      }
+    }
+  ],
+  "addons": [],
+  "packages": [],
+  "e2e": {
+    "protractor": {
+      "config": "protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "../tslint.json"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    },
+    "spec": {
+      "class": false,
+      "component": true,
+      "directive": true,
+      "module": false,
+      "pipe": true,
+      "service": true
+    }
+  }
+}

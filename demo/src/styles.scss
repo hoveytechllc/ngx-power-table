@@ -1,0 +1,13 @@
+.linenums li {
+    list-style-type: decimal;
+}
+
+.loading-frame{
+    z-index: 9000;
+    background-color: darkgray;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}

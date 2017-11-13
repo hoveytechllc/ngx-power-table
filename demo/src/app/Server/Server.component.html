@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="col-sm-12">
+		<h2 class="page-header">Server</h2>
+
+		<h3>1. Implement <code>IDataPipeService</code> and make it <code>@Injectable</code></h3>
+		<span>The <code>pipe()</code> method can ignore <code>data: Array&lt;any&gt;</code> as it is mainly relevant for client-side paging.
+		The parameter <code>tableState: ITableState</code> has values <code>ITableState.pagination.start</code> and <code>ITableState.pagination.pageSize</code>
+		that should be used for retrieving paginated data from the server.
+		</span>
+
+		<div class="alert alert-info">
+			<i class="fa fa-info-circle"></i>
+			The value <code>ITableState.pagination.totalItemCount</code> should be kept up-to-date.
+			This can either be done by the pipe (e.g. count is constantly growing) or the parent component
+			(e.g. count only changes due to user interaction with filter settings).
+        </div>
+		<br />
+
+		<h3>2. Bind an <code>IConfiguration</code> to the table which refers to the custom <code>IDataPipeService</code></h3>
+		<span>
+			The parent component can use <code>DefaultConfiguration.create()</code> to get a fully functional configuration then set <code>IConfiguration.pipeServiceType</code> to the custom pipe.
+		</span>
+		<br />
+
+		<tabset>
+			<tab heading="Display">
+				<div style="padding: 15px;">
+					<server-example></server-example>
+				</div>
+			</tab>
+
+			<tab heading="Html">
+				<code-example content-url="app/Server/ServerExample.component.html" lang="lang-html"></code-example>
+			</tab>
+
+			<tab heading="Typescript">
+				<code-example content-url="app/Server/ServerExample.component.ts" lang="lang-ts"></code-example>
+			</tab>
+		</tabset>
+	</div>
+</div>

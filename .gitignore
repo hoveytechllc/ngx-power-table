@@ -14,5 +14,5 @@ _test-output
 coverage
 test/.output
 
-# Typescript
-typings
+.tmp
+dist

@@ -75,12 +75,15 @@ export class TableDirective {
             this.tableStateChange.emit(this.tableState);
         }
 
-        this.getTableState();
-        
-        if (!this.tableInitialized) {
-            this.pipe();
-            this.tableInitialized = true;
-        }
+        setTimeout(() => {
+            this.getTableState();
+
+            if (!this.tableInitialized) {
+                this.pipe();
+                this.tableInitialized = true;
+            }
+        });
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -109,15 +112,15 @@ export class TableDirective {
     private getTableState() {
         if (!this.tableState) {
             var config = this.getConfiguration();
+
             this.tableState = new config.tableStateType();
             this.subscribeToTableStateChanges();
-            this.changeDetectorRef.detectChanges();
         }
         return this.tableState;
     }
 
     private subscribeToTableStateChanges() {
-        if (this.tableStateSubscription){
+        if (this.tableStateSubscription) {
             this.tableStateSubscription.unsubscribe();
         }
 
@@ -154,9 +157,11 @@ export class TableDirective {
 
         this.dataPipeService.pipe(this.originalArray, state, config)
             .then((array: Array<any>) => {
-                this.displayArray = array;
-                this.displayArrayChange.emit(this.displayArray);
-                this.changeDetectorRef.detectChanges();
+                setTimeout(() => {
+
+                    this.displayArray = array;
+                    this.displayArrayChange.emit(this.displayArray);
+                });
             });
     };
 }

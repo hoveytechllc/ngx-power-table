@@ -1,3 +1,7 @@
+## version 0.5.0
+
+- Integrating @angular/cli & npm-modules by valorsoftware
+
 ## version 0.4.3
 
 - Removed dependency on typings.

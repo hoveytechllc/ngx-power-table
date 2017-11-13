@@ -1,0 +1,26 @@
+
+
+.pt-sort-asc-custom,.pt-sort-desc-custom {
+    background-color: seagreen;
+}
+
+.pt-sort-asc-custom:after {
+    Font-Family: 'FontAwesome';
+    content: "\f077";
+    color: yellowgreen;
+    padding: 0px 8px;
+    font-size: 16px;
+}
+
+.pt-sort-desc-custom:after {
+    Font-Family: 'FontAwesome';
+    content: "\f078";
+    color: yellowgreen;
+    padding: 0px 8px;
+    font-size: 16px;
+}
+
+[ptSort]:hover {
+    cursor: pointer;
+    background-color: springgreen;
+}
