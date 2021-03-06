@@ -1,5 +1,5 @@
 {
-  "name": "ngx-power-table",
+  "name": "@hoveytech/ngx-power-table",
   "version": "0.5.0",
   "peerDependencies": {
     "@angular/common": "^11.0.0",

@@ -1,5 +1,5 @@
 variables:
-  majorMinorVersion: "0.5"
+  majorMinorVersion: "0.6"
   buildVersion: "$[counter(variables['majorMinor'], 0)]"
 
 jobs:
