@@ -8,9 +8,9 @@ jobs:
     vmImage: ubuntu-latest
   steps:
 
-  - bash: |
-      npm version $(majorMinorVersion).$(buildVersion) --allow-same-version
-    workingDirectory: ngx-power-table
+  # - bash: |
+  #     npm version $(majorMinorVersion).$(buildVersion) --allow-same-version
+  #   workingDirectory: ngx-power-table
 
   - task: npmAuthenticate@0
     inputs:
@@ -18,9 +18,16 @@ jobs:
       customEndpoint: npm-hoveytech
       
   - bash: |
-      npm install
-      npm run build-prod
-
-      npm whoami
       
-      --npm publish dist/ngx-power-table --access public
+      npm whoami
+
+ 
+    workingDirectory: ngx-power-table
+  # - bash: |
+  #     npm install
+  #     npm run build-prod
+
+  #     npm adduser 
+  #     npm whoami
+
+  #     --npm publish dist/ngx-power-table --access public
