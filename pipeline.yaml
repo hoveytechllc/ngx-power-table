@@ -16,3 +16,8 @@ jobs:
       npm install
       npm run build-prod
 
+  - task: Npm@1
+    inputs:
+      command: publish
+      publishEndpoint: npm-hoveytech
+      workingDir: dist/ngx-power-table
