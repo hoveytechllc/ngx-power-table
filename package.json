@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "build-prod": "ng build --prod"
+    "build.prod": "ng build --prod && cp -r ./ngx-power-table/src/assets ./dist/ngx-power-table/assets"
   },
   "private": true,
   "dependencies": {
