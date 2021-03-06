@@ -1,0 +1,18 @@
+variables:
+  majorMinorVersion: "0.5"
+  buildVersion: "$[counter(variables['majorMinor'], 0)]"
+
+jobs:
+- job: publish
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+
+  - bash: |
+      npm version $(majorMinorVersion).$(buildVersion)
+    workingDirectory: ngx-power-table
+
+  - bash: |
+      npm install
+      ng build --prod
+
