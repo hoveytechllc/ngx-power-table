@@ -6,7 +6,7 @@ import { IPaginationState } from './../Pagination/IPaginationState.interface';
 import { ISortState } from './../Sort/ISortState.interface';
 
 export class DefaultTableState implements IDefaultTableState {
-    private static PreventEmitting: boolean;
+    private static PreventEmitting: boolean = false;
 
     public changed: EventEmitter<void> = new EventEmitter<void>();
 

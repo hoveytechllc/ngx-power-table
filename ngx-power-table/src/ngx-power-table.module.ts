@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { ConfigurationProvider } from './Configuration/ConfigurationProvider.class';
 import { PaginationComponent } from './Pagination/Pagination.component';
 import { DefaultDataPipeService } from './Pipe/DefaultDataPipeService.class';
@@ -19,11 +18,7 @@ import { TableDirective } from './Table/Table.directive';
     PaginationComponent
   ],
   imports: [
-    CommonModule,
-    BrowserModule
-  ],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+    CommonModule
   ],
   providers: [
     DefaultDataPipeService,

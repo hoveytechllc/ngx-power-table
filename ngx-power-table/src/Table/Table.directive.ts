@@ -46,7 +46,7 @@ export class TableDirective {
         two-way binding for ITableState
     */
     @Input('ptTableState')
-    public tableState: ITableState | null;
+    public tableState: ITableState;
     @Output('ptTableStateChange')
     tableStateChange: EventEmitter<ITableState> = new EventEmitter<ITableState>();
 
