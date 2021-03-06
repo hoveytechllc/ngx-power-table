@@ -16,7 +16,7 @@ Documentation: [http://ngx-power-table.hoveytech.com](http://ngx-power-table.hov
 
 using Node Package Manager:
 
-`npm install @hoveytech/ng-power-table`
+`npm install @hoveytech/ngx-power-table`
 
 ## 2. Import module
 

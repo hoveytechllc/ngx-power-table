@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": ".",
+  "projects": {
+    "ngx-power-table": {
+      "projectType": "library",
+      "root": "ngx-power-table",
+      "sourceRoot": "ngx-power-table/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "ngx-power-table/tsconfig.lib.json",
+            "project": "ngx-power-table/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "ngx-power-table/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "ngx-power-table/src/test.ts",
+            "tsConfig": "ngx-power-table/tsconfig.spec.json",
+            "karmaConfig": "ngx-power-table/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "ngx-power-table/tsconfig.lib.json",
+              "ngx-power-table/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-power-table"
+}

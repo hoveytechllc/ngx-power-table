@@ -1,0 +1,18 @@
+# node
+node_modules
+npm-debug.log.*
+
+# bower
+bower_components
+
+# misc
+.DS_Store
+.vscode
+
+# Test output files
+_test-output
+coverage
+test/.output
+
+# Typescript
+typings
