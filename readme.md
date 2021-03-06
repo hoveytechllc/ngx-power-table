@@ -1,4 +1,4 @@
-[![Build Status](https://hoveytech.visualstudio.com/ngx-power-table/_apis/build/status/hoveytechllc.ngx-power-table?branchName=master)](https://hoveytech.visualstudio.com/ngx-power-table/_build/latest?definitionId=21&branchName=master)
+[![Build Status](https://dev.azure.com/hoveytech/ngx-power-table/_apis/build/status/hoveytechllc.ngx-power-table?branchName=master)](https://dev.azure.com/hoveytech/ngx-power-table/_build/latest?definitionId=21&branchName=master)
 
 > NOTE: Documentation below is for version 0.5.0 which is under development. See branch `release/v0.4.x` for previous documentation
 
