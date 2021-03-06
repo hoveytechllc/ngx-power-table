@@ -14,5 +14,5 @@ jobs:
 
   - bash: |
       npm install
-      ng build --prod
+      npm run build-prod
 
