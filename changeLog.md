@@ -1,3 +1,7 @@
+## version 0.5.0
+
+- Upgrading support for Angular 11
+
 ## version 0.4.3
 
 - Removed dependency on typings.

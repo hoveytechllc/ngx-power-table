@@ -1,35 +1,38 @@
 [![Build Status](https://travis-ci.org/hoveytech/ng2-power-table.svg?branch=master)](https://travis-ci.org/hoveytech/ng2-power-table)
 
-# Ng2PowerTable
+> NOTE: Documentation below is for version 0.5.0 which is under development. See branch `release/v0.4.x` for previous documentation
 
-Ng2PowerTable is table module for Angular 2. It is designed to be modular and easily customizable. Other table modules require Controllers to provide information for which columns are visible and even providing their respective templates. I believe the view, and the view only, should be responsible for how the table is rendered.
+# ng-power-table
+
+NgxPowerTable is table module for Angular. It is designed to be modular and easily customizable. Other table modules require Controllers to provide information for which columns are visible and even providing their respective templates. I believe the view, and the view only, should be responsible for how the table is rendered.
 
 If you've used [Smart Table](https://github.com/lorenzofox3/Smart-Table) for Angular 1.x, you'll find some similarities to Ng2PowerTable.
 
-Documentation: [http://ng2-power-table.hoveytech.com](http://ng2-power-table.hoveytech.com)
+Documentation: [http://ngx-power-table.hoveytech.com](http://ngx-power-table.hoveytech.com)
 
 # Installation
 
-## 1. Install Ng2PowerTable
+## 1. Install ng-power-table
 
 using Node Package Manager:
 
-`npm install ng2-power-table`
+`npm install @hoveytech/ng-power-table`
 
-## 2. Modify SystemJS bootloader to load Ng2PowerTable ([see documentation](http://ng2-power-table.hoveytech.com))
+## 2. Import module
 
-```javascript
-(function (global) {
-    var config = {
-        map: {
-            'ng2-power-table': 'node_modules/ng2-power-table',
-        },
-        packages: {
-            "ng2-power-table": { main: "index.js", defaultExtension: "js" },
-        }
-    };
-    System.config(config);
-})(this);
+```typescript
+import { NgModule } from '@angular/core';
+import { PowerTableModule } from '@hoveytech/ngx-power-table';
+
+@NgModule({
+	imports: [
+        ...,
+		PowerTableModule,
+	]
+})
+export class AppModule{
+
+}
 ```
 
 # Usage
@@ -88,7 +91,7 @@ Collaborators welcome.
 
 Power Table module is under MIT license:
 
-> Copyright (C) 2016 Hovey Tech LLC.
+> Copyright (C) 2021 Hovey Tech LLC.
 >
 > Permission is hereby granted, free of charge, to any person
 > obtaining a copy of this software and associated documentation files
