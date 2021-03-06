@@ -19,7 +19,7 @@ jobs:
       
   - bash: |
       npm install
-      npm run build-prod
+      npm run build.prod
     displayName: "build"      
 
   - bash: |
