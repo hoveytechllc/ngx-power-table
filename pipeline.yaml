@@ -19,6 +19,5 @@ jobs:
   - task: Npm@1
     inputs:
       command: custom
-      customCommand: publish --access public
+      customCommand: publish dist/ngx-power-table --access public
       publishEndpoint: npm-hoveytech
-      workingDir: dist/ngx-power-table
