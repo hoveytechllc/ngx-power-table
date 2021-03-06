@@ -12,12 +12,12 @@ jobs:
       npm version $(majorMinorVersion).$(buildVersion) --allow-same-version
     workingDirectory: ngx-power-table
 
+  - task: npmAuthenticate@0
+    inputs:
+      customEndpoint: npm-hoveytech
+      
   - bash: |
       npm install
       npm run build-prod
 
-  - task: Npm@1
-    inputs:
-      command: custom
-      customCommand: publish dist/ngx-power-table --access public
-      publishEndpoint: npm-hoveytech
+      npm publish dist/ngx-power-table --access public
