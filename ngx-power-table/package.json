@@ -1,10 +1,9 @@
 {
   "name": "ngx-power-table",
-  "version": "0.5.100",
+  "version": "0.5.0",
   "peerDependencies": {
     "@angular/common": "^11.0.0",
-    "@angular/core": "^11.0.0",
-    "@angular/platform-browser": "^11.0.0"
+    "@angular/core": "^11.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
