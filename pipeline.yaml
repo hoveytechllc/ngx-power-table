@@ -21,4 +21,6 @@ jobs:
       npm install
       npm run build-prod
 
-      npm publish dist/ngx-power-table --access public
+      npm whoami
+      
+      --npm publish dist/ngx-power-table --access public
