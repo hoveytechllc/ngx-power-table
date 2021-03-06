@@ -9,7 +9,7 @@ jobs:
   steps:
 
   - bash: |
-      npm version $(majorMinorVersion).$(buildVersion)
+      npm version $(majorMinorVersion).$(buildVersion) --allow-same-version
     workingDirectory: ngx-power-table
 
   - bash: |
